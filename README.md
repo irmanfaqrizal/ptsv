@@ -9,7 +9,7 @@ PTSV is a tool to compute discrete Timed Probabilistic Transition Systems (TPTSs
 - The tool executes bash scripts inside to run other tools below.
 - The network of timed automata is specified using the language described by the [IF toolset](https://gricad-gitlab.univ-grenoble-alpes.fr/verimag/if/if-toolset). It is required to install the toolset because PTSV uses it to generate discrete Timed Labeled Transition Systems (TLTSs).
 - The [CADP Toolbox](https://cadp.inria.fr/) also needs to be installed for applying reduction on the TLTSs (and later for verification purposes).
-- It is also recommended to install graphviz for visualization (PTSV uses it to generate transition system PDF files).
+- It is also recommended to install [graphviz](https://graphviz.org/download/) for visualization (PTSV uses it to generate transition system PDF files).
 
 ## Running PTSV
 
