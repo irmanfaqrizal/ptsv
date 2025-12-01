@@ -1,0 +1,35 @@
+digraph BCG {
+size = "7, 10.5";
+center = TRUE;
+node [shape = circle];
+0 [peripheries = 2];
+0 -> 15 [label = "Time !10"];
+1 -> 15 [label = "Time !4"];
+2 -> 1 [label = "A_START"];
+3 -> 15 [label = "Time !5"];
+4 -> 2 [label = "Time !1"];
+4 -> 3 [label = "A_START"];
+5 -> 12 [label = "Time !4"];
+6 -> 5 [label = "A_START"];
+7 -> 12 [label = "Time !5"];
+8 -> 6 [label = "Time !1"];
+8 -> 7 [label = "A_START"];
+9 -> 18 [label = "Time !4"];
+10 -> 9 [label = "A_START"];
+11 -> 18 [label = "Time !5"];
+12 -> 10 [label = "Time !1"];
+12 -> 11 [label = "A_START"];
+13 -> 19 [label = "Time !1"];
+13 -> 7 [label = "B_START"];
+14 -> 4 [label = "Time !4"];
+15 -> 13 [label = "A_START"];
+15 -> 20 [label = "Time !1"];
+15 -> 8 [label = "B_START"];
+16 -> 14 [label = "A_START"];
+17 -> 4 [label = "Time !5"];
+18 -> 16 [label = "Time !1"];
+18 -> 17 [label = "A_START"];
+19 -> 5 [label = "B_START"];
+20 -> 19 [label = "A_START"];
+20 -> 6 [label = "B_START"];
+}
