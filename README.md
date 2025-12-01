@@ -37,3 +37,4 @@ cd experiments
 cd ptsv-app
 mvn clean package
 `````
+- The JAR file will appear in [ptsv-app/target](ptsv-app/target) as ptsv.jar.
