@@ -179,6 +179,7 @@ public class App {
             printAllEvents(allEvents, taName);
             startAssignProbs(taLTS, allEvents, mapEventPos);
             writePTS(taLTS, taName, header);
+            bashCreatePDF(taName + "-pts");
             taLTSs.add(taLTS);
             mapEventPosList.add(mapEventPos);
         }
