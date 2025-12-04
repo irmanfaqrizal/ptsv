@@ -137,28 +137,77 @@ public class App {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        if (args.length == 0) {
-            System.out.println("Missing IF model name!");
-            return;
-        } else if (args.length > 0) {
-            String ifModel = "";
-            if (args[0].split("\\.").length > 0) {
-                ifModel = args[0].split("\\.")[0];
-            } else {
-                ifModel = args[0];
-            }
-            bashCompileLTS(ifModel, "global");
-            modLTS(ifModel);
-            bashReduceLTS(ifModel, "global");
-            if (args.length == 1) {
-                System.out.println("\n>>>>>>>>> Computing TPTS of " + args[0] + " according to uniform distribution\n");
-                ArrayList <String> taNames = new ArrayList<String>();
-                bashIndividualLTSs(ifModel, taNames);
-                computePTSbyDistribution(ifModel + "-min", taNames);
-            } else if (args.length >= 2) {
-                System.out.println("\n>>>>>>>>> Computing TPTS of " + args[0] + " according to traces in folder " + args[1]);
-                computePTSbyTraces(ifModel + "-min", args[1]);
-            }
+        tests();
+        
+        // if (args.length == 0) {
+        //     System.out.println("Missing IF model name!");
+        //     return;
+        // } else if (args.length > 0) {
+        //     String ifModel = "";
+        //     if (args[0].split("\\.").length > 0) {
+        //         ifModel = args[0].split("\\.")[0];
+        //     } else {
+        //         ifModel = args[0];
+        //     }
+        //     bashCompileLTS(ifModel, "global");
+        //     modLTS(ifModel);
+        //     bashReduceLTS(ifModel, "global");
+        //     if (args.length == 1) {
+        //         System.out.println("\n>>>>>>>>> Computing TPTS of " + args[0] + " according to uniform distribution\n");
+        //         ArrayList <String> taNames = new ArrayList<String>();
+        //         bashIndividualLTSs(ifModel, taNames);
+        //         computePTSbyDistribution(ifModel + "-min", taNames);
+        //     } else if (args.length >= 2) {
+        //         System.out.println("\n>>>>>>>>> Computing TPTS of " + args[0] + " according to traces in folder " + args[1]);
+        //         computePTSbyTraces(ifModel + "-min", args[1]);
+        //     }
+        // }
+    }
+
+    public static void tests() {
+        // first case
+        // String solverEq = "{a*d+b==1/2,"+
+        // "c*i+c*h*j+a*e*j==1/2,"+
+        // "a*d==b,"+
+        // "c*i==c*h*j+a*e*j,"+
+        // "a+b*f==1/2,"+
+        // "c*h+c*i*k+b*g*k==1/2,"+
+        // "a==b*f,"+
+        // "c*h==c*i*k+b*g*k,"+
+        // "a+b+c==1,"+
+        // "d+e==1,"+
+        // "f+g==1,"+
+        // "h+i==1,"+
+        // "j==1,"+
+        // "k==1}";
+        // String solverVars = "{a, b, c, d, e, f, g, h, i, j, k}";
+
+        // second case
+        // String solverEq = "{b*d1+b*e1*d2==1/2, a1==1/2, b*e1+b*d1*e2+a1*c*e2==1/2,"
+        // + "f*g1*a1*c+f*g1*b*d1==1/2, b*d1==b*e1*d2, b*e1==e2*b*d1+e2*a1*c,"
+        // + "a1+b==1, c==1, d1+e1==1, f+e2==1, d2==1, g1==1}";
+        // String solverVars = "{a1, b, c, d1, e1, f, e2, d2, g1}";
+
+        String solverEq = "{x1+x3*x5==2/3, x5==2/3, x2+x3*x6==1/3, x6==1/3, x3+x1*x4+x2*x4==1, x4==1, x4*x7==1, x7==1, x5*x7+x6*x7==1, x1+x2+x3==1, x5+x6==1}";
+        String solverVars = "{x1, x2, x3, x4, x5, x6, x7}";
+
+        solveEqsPrint(solverEq, solverVars);
+    }
+    public static void solveEqsPrint (String solverEqs, String solverVars) {
+        try {
+            ExprEvaluator util = new ExprEvaluator();
+            IExpr result = util.eval("Solve(" + solverEqs + ", " + solverVars + ")");
+            System.out.println(result.toString());
+        } catch (SyntaxError e) {
+            System.out.println(e.getMessage());
+        } catch (MathException me) {
+            System.out.println(me.getMessage());
+        } catch (final Exception ex) {
+            System.out.println(ex.getMessage());
+        } catch (final StackOverflowError soe) {
+            System.out.println(soe.getMessage());
+        } catch (final OutOfMemoryError oome) {
+            System.out.println(oome.getMessage());
         }
     }
 
