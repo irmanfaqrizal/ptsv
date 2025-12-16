@@ -449,7 +449,7 @@ void if_A_instance::_jitter_3_dispatch(IfMessage* message) {
 
 void if_A_instance::_jitter_3_1_fire(IfMessage* X) {
   IfTime::Constraint constraints[] = 
-    {{m_var.x,0,2*((int) 1)+1},{0,0,0}};
+    {{m_var.x,0,2*((int) 2)+1},{0,0,0}};
   
   
   if (! ITERATOR->guard(constraints,DELAYABLE))
@@ -467,7 +467,7 @@ void if_A_instance::_jitter_3_1_fire(IfMessage* X) {
 }
 inline void if_A_instance::_jitter_3_1a_fire() {
 
-  ITERATOR->trace(IfEvent::INFORMAL, m_pid, "A_START", m_pid, (IfObject*)"A_START");
+  ITERATOR->trace(IfEvent::INFORMAL, m_pid, "A", m_pid, (IfObject*)"A");
 }
 inline void if_A_instance::_jitter_3_1b_fire() {
 
@@ -492,7 +492,7 @@ void if_A_instance::_wait_4_dispatch(IfMessage* message) {
 
 void if_A_instance::_wait_4_1_fire(IfMessage* X) {
   IfTime::Constraint constraints[] = 
-    {{m_var.x,0,2*((int) 5)+1},{0,m_var.x,-2*(5)+1},{0,0,0}};
+    {{m_var.x,0,2*((int) 4)+1},{0,m_var.x,-2*(4)+1},{0,0,0}};
   
   
   if (! ITERATOR->guard(constraints,EAGER))
