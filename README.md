@@ -9,20 +9,20 @@ PTSV is a tool to compute discrete Timed Probabilistic Transition Systems (TPTSs
 - The tool executes bash scripts inside to run other tools below.
 - The network of timed automata is specified using the language described by the [IF toolset](https://gricad-gitlab.univ-grenoble-alpes.fr/verimag/if/if-toolset). It is required to install the toolset because PTSV uses it to generate discrete Timed Labeled Transition Systems (TLTSs).
 - The [CADP Toolbox](https://cadp.inria.fr/) also needs to be installed for applying reduction on the TLTSs (and later for verification purposes).
-- It is also recommended to install [graphviz](https://graphviz.org/download/) for visualization (PTSV uses it to generate transition system PDF files).
+- [graphviz](https://graphviz.org/download/) for visualization (PTSV uses it to generate transition system PDF files).
 
 ## Running PTSV
 
-- A JAR file is provided in the [experiments](experiments) folder.
+- A JAR file is provided in the [experiments/example](experiments/example/) folder.
 - The command to run it is as follows:
 `````
-cd experiments
+cd experiments/example
 java -cp ptsv.jar com.ptsv.app.App <IF model> <traces folder>
 `````
-- In the folder,  [experiments.sh](experiments/experiments.sh) can be executed to run PTSV using the example model [simple.if](experiments/simple.if) and the set of [traces](experiments/traces).
+- In the folder,  [test.sh](experiments/example/test.sh) can be executed to run PTSV using the example model [simple.if](experiments/example/simple.if) and the set of [traces](experiments/example/traces).
 `````
-cd experiments
-./experiments.sh
+cd experiments/example
+./test.sh
 `````
 - In this example, the main outputs are as follows:
 	- [simple-min-pts.pdf](experiments/simple-min-pts.pdf) shows the TPTS of simple.if according to uniform distribution.
