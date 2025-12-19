@@ -1,0 +1,44 @@
+Local LTSs:
+LTS 1
+(0, Time !10, 2)
+(1, Time !2, 2)
+(2, A, 4)
+(2, Time !1, 3)
+(3, A, 1)
+(4, Time !3, 2)
+LTS 2
+(0, Time !10, 2)
+(1, Time !2, 2)
+(2, Time !1, 3)
+(2, B, 4)
+(3, B, 1)
+(4, Time !3, 2)
+
+Mapping between states:
+Global state: 0
+LTS 1: {0}
+LTS 2: {0}
+Global state: 1
+LTS 1: {4}
+LTS 2: {2}
+Global state: 2
+LTS 1: {1, 4}
+LTS 2: {1, 4}
+Global state: 3
+LTS 1: {2}
+LTS 2: {2}
+Global state: 4
+LTS 1: {3}
+LTS 2: {1, 4}
+Global state: 5
+LTS 1: {1, 4}
+LTS 2: {3}
+Global state: 6
+LTS 1: {4}
+LTS 2: {4}
+Global state: 7
+LTS 1: {3}
+LTS 2: {3}
+Global state: 8
+LTS 1: {2}
+LTS 2: {4}
