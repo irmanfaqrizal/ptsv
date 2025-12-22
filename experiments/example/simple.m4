@@ -44,7 +44,7 @@ code(action,first_2,1,b,
 code(dispatch,jitter_3,top_0,
 	(,1))
 
-code(fire,jitter_3,1,DELAYABLE,,,(constraint(m_var.x,0,2*((int) 1)+1),{0,0,0}),
+code(fire,jitter_3,1,DELAYABLE,,,(constraint(m_var.x,0,2*((int) 2)+1),{0,0,0}),
 	,((a)),b,,,15)
 code(action,jitter_3,1,a,
 	informal,"A")
@@ -55,7 +55,7 @@ code(action,jitter_3,1,b,
 code(dispatch,wait_4,top_0,
 	(,1))
 
-code(fire,wait_4,1,EAGER,,,(constraint(m_var.x,0,2*((int) 5)+1),constraint(0,m_var.x,-2*(5)+1),{0,0,0}),
+code(fire,wait_4,1,EAGER,,,(constraint(m_var.x,0,2*((int) 3)+1),constraint(0,m_var.x,-2*(3)+1),{0,0,0}),
 	,((a)),b,,,20)
 code(action,wait_4,1,a,
 	set,m_var.x,0)
@@ -118,7 +118,7 @@ code(action,first_2,1,b,
 code(dispatch,jitter_3,top_0,
 	(,1))
 
-code(fire,jitter_3,1,DELAYABLE,,,(constraint(m_var.x,0,2*((int) 1)+1),{0,0,0}),
+code(fire,jitter_3,1,DELAYABLE,,,(constraint(m_var.x,0,2*((int) 2)+1),{0,0,0}),
 	,((a)),b,,,38)
 code(action,jitter_3,1,a,
 	informal,"B")
@@ -129,7 +129,7 @@ code(action,jitter_3,1,b,
 code(dispatch,wait_4,top_0,
 	(,1))
 
-code(fire,wait_4,1,EAGER,,,(constraint(m_var.x,0,2*((int) 20)+1),constraint(0,m_var.x,-2*(20)+1),{0,0,0}),
+code(fire,wait_4,1,EAGER,,,(constraint(m_var.x,0,2*((int) 4)+1),constraint(0,m_var.x,-2*(4)+1),{0,0,0}),
 	,((a)),b,,,43)
 code(action,wait_4,1,a,
 	set,m_var.x,0)
