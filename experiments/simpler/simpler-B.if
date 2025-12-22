@@ -1,0 +1,17 @@
+system simpler;
+process B(1);
+    var x clock;
+    state start #start ;
+        set x := 0;
+        nextstate wait;
+    endstate;
+    state wait;
+        when x = 3;
+            nextstate first;
+    endstate;
+    state first;
+        informal "B";
+        nextstate start;
+    endstate;
+endprocess;
+endsystem;
