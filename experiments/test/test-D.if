@@ -1,0 +1,15 @@
+system simple;
+process D(1);
+    var x clock;
+    state start #start ;
+        set x := 0;
+        nextstate first;
+    endstate;
+    state first;
+        when x = 10;
+            informal "D";
+            set x:= 0;
+            nextstate start;
+    endstate;
+endprocess;
+endsystem;
