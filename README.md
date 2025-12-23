@@ -25,8 +25,8 @@ cd experiments/example
 ./test.sh
 `````
 - In this example, the main outputs are as follows:
-	- [simple-min-pts.pdf](experiments/simple-min-pts.pdf) shows the TPTS of simple.if according to uniform distribution.
-	- [simple-min-traces-pts.pdf](experiments/simple-min-traces-pts.pdf) shows the TPTS of simple.if computed using the set of [traces](experiments/traces).
+	- [simple-min-pts.pdf](experiments/simple-min-pts.pdf) shows the TPTS of [simple.if](experiments/example/simple.if) according to uniform distribution.
+	- [simple-min-traces-pts.pdf](experiments/simple-min-traces-pts.pdf) shows the TPTS of [simple.if](experiments/example/simple.if) computed using the set of [traces](experiments/traces).
 
 ## Building from source
 

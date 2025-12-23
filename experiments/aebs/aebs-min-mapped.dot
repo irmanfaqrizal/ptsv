@@ -1,0 +1,37 @@
+digraph BCG {
+size = "7, 10.5";
+center = TRUE;
+node [shape = circle];
+0 [peripheries = 2];
+0 -> 21 [label = "a1_Time !5"];
+1 -> 15 [label = "a2_Time !2"];
+2 -> 1 [label = "a3_Finish"];
+3 -> 15 [label = "a4_Time !3"];
+4 -> 14 [label = "a6_Finish"];
+4 -> 13 [label = "a5_Time !1"];
+5 -> 3 [label = "a8_Finish"];
+5 -> 2 [label = "a7_Time !1"];
+6 -> 22 [label = "a9_Time !4"];
+7 -> 19 [label = "b2_Time !1"];
+7 -> 20 [label = "b1_Read"];
+8 -> 15 [label = "b3_Time !5"];
+9 -> 4 [label = "b5_Time !1"];
+9 -> 6 [label = "b4_Finish"];
+10 -> 9 [label = "b6_Time !1"];
+11 -> 20 [label = "b7_Start"];
+12 -> 22 [label = "b8_Time !2"];
+13 -> 12 [label = "b9_Finish"];
+14 -> 22 [label = "c1_Time !3"];
+15 -> 10 [label = "c2_Start"];
+16 -> 5 [label = "c4_Time !1"];
+16 -> 17 [label = "c3_Finish"];
+17 -> 15 [label = "c5_Time !4"];
+18 -> 17 [label = "c6_Read"];
+19 -> 18 [label = "c8_Finish"];
+19 -> 16 [label = "c7_Read"];
+20 -> 16 [label = "c9_Time !1"];
+21 -> 8 [label = "d2_Read"];
+21 -> 18 [label = "d1_Time !1"];
+22 -> 11 [label = "d4_Read"];
+22 -> 7 [label = "d3_Start"];
+}

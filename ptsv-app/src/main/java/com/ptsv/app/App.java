@@ -445,13 +445,17 @@ public class App {
         getEventStateEqStart(eqStartStates, eventStatesNets, inLTS, statesInsAll);
         printEqStarts(eqStartStates);
         getTransPossibilities(transPossibilities, eqStartStates, eventStatesNets, inLTS);
-        // printTransNetPossibilities(transPossibilities);
+        printTransNetPossibilities(transPossibilities);
         printDelayTrans(inLTS);
         getTransVarMapping(transVarMapping, inLTS);
         printTransVarMapping(transVarMapping);
         writeMappedLTS(inLTS, transVarMapping, ifModel, header);
         getEquations(equations, equationsUnmap, equationVars, transPossibilities, eventProbTriggerMap,
             eventProbMap, eventProbTimeMap, transVarMapping, inLTS);
+        // Set <String> tmpTest = new HashSet<>();
+        // tmpTest.addAll(equations.get(22));
+        // tmpTest.add("c4 == 2/3");
+        // equations.put(22, tmpTest);
         printEquations(equations, equationVars);
         solveNetEquations(solverResults, equations, equationVars, transVarMapping);
         assignProbsToLTS(inLTS, transVarMapping, solverResults);
