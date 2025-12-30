@@ -1,8 +1,0 @@
-digraph BCG {
-size = "7, 10.5";
-center = TRUE;
-node [shape = circle];
-0 [peripheries = 2];
-0 -> 1 [label = "Time !10; prob 1"];
-1 -> 0 [label = "A; prob 1"];
-}

@@ -13,20 +13,20 @@ PTSV is a tool to compute discrete Timed Probabilistic Transition Systems (TPTSs
 
 ## Running PTSV
 
-- A JAR file is provided in the [experiments/example](experiments/example/) folder.
+- A JAR file is provided in the [experiments/simple](experiments/simple/) folder.
 - The command to run it is as follows:
 `````
-cd experiments/example
+cd experiments/simple
 java -cp ptsv.jar com.ptsv.app.App <IF model> <traces folder>
 `````
-- In the folder,  [test.sh](experiments/example/test.sh) can be executed to run PTSV using the example model [simple.if](experiments/example/simple.if) and the set of [traces](experiments/example/traces).
+- In the folder,  [test.sh](experiments/simple/test.sh) can be executed to run PTSV using the example model [simple.if](experiments/simple/simple.if) and the set of [traces](experiments/simple/traces).
 `````
-cd experiments/example
+cd experiments/simple
 ./test.sh
 `````
 - In this example, the main outputs are as follows:
-	- [simple-min-pts.pdf](experiments/simple-min-pts.pdf) shows the TPTS of [simple.if](experiments/example/simple.if) according to uniform distribution.
-	- [simple-min-traces-pts.pdf](experiments/simple-min-traces-pts.pdf) shows the TPTS of [simple.if](experiments/example/simple.if) computed using the set of [traces](experiments/traces).
+	- [simple-min-pts.pdf](experiments/simple-min-pts.pdf) shows the TPTS of [simple.if](experiments/simple/simple.if) according to uniform distribution.
+	- [simple-min-traces-pts.pdf](experiments/simple-min-traces-pts.pdf) shows the TPTS of [simple.if](experiments/simple/simple.if) computed using the set of [traces](experiments/simple/traces).
 
 ## Building from source
 
