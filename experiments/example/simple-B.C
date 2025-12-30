@@ -449,7 +449,7 @@ void if_B_instance::_jitter_3_dispatch(IfMessage* message) {
 
 void if_B_instance::_jitter_3_1_fire(IfMessage* X) {
   IfTime::Constraint constraints[] = 
-    {{m_var.x,0,2*((int) 2)+1},{0,0,0}};
+    {{m_var.x,0,2*((int) 1)+1},{0,0,0}};
   
   
   if (! ITERATOR->guard(constraints,DELAYABLE))

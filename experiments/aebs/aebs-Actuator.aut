@@ -1,6 +1,6 @@
 des(0,12,10)          
 (0,"<<{Actuator}0 i>> ",1)
-(1,"<<{time}0 t/15>> ",2)
+(1,"<<{time}0 t/4>> ",2)
 (2,"<<{Actuator}0 i>> ",3)
 (3,"<<{Actuator}0 i>> <<{Actuator}0 Write{Actuator}0>> ",4)
 (3,"<<{time}0 t/1>> ",5)

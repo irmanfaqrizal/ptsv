@@ -12,7 +12,7 @@ process B(1);
     endstate;
     state jitter;
         deadline delayable;
-        when x <= 2;
+        when x <= 1;
             informal "B";
             nextstate wait;
     endstate;

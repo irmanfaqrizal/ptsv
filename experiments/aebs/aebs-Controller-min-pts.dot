@@ -10,8 +10,8 @@ node [shape = circle];
 3 -> 2 [label = "Finish; prob 1"];
 4 -> 5 [label = "Time !3; prob 1"];
 5 -> 8 [label = "Start; prob 1"];
-6 -> 1 [label = "Time !1; prob 0.66667"];
 6 -> 7 [label = "Finish; prob 0.33333"];
+6 -> 1 [label = "Time !1; prob 0.66667"];
 7 -> 5 [label = "Time !4; prob 1"];
 8 -> 6 [label = "Time !1; prob 1"];
 }

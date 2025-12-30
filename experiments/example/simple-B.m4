@@ -44,7 +44,7 @@ code(action,first_2,1,b,
 code(dispatch,jitter_3,top_0,
 	(,1))
 
-code(fire,jitter_3,1,DELAYABLE,,,(constraint(m_var.x,0,2*((int) 2)+1),{0,0,0}),
+code(fire,jitter_3,1,DELAYABLE,,,(constraint(m_var.x,0,2*((int) 1)+1),{0,0,0}),
 	,((a)),b,,,15)
 code(action,jitter_3,1,a,
 	informal,"B")

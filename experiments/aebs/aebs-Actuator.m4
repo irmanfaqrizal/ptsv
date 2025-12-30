@@ -33,7 +33,7 @@ code(action,start_1,1,b,
 code(dispatch,first_2,top_0,
 	(,1))
 
-code(fire,first_2,1,EAGER,,,(constraint(m_var.x,0,2*((int) 15)+1),constraint(0,m_var.x,-2*(15)+1),{0,0,0}),
+code(fire,first_2,1,EAGER,,,(constraint(m_var.x,0,2*((int) 4)+1),constraint(0,m_var.x,-2*(4)+1),{0,0,0}),
 	,((a)),b,,,9)
 code(action,first_2,1,a,
 	set,m_var.x,0)

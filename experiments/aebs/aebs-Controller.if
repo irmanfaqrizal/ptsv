@@ -14,7 +14,7 @@ process Controller(1);
     state exec;
         deadline delayable;
         when x >= 1 and x <= 3;
-            informal "Finish";
+            informal "Finish"; 
             nextstate wait;
     endstate;
     state wait;
