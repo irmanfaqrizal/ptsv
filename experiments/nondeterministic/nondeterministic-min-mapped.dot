@@ -1,0 +1,36 @@
+digraph BCG {
+size = "7, 10.5";
+center = TRUE;
+node [shape = circle];
+0 [peripheries = 2];
+0 -> 2 [label = "a3_Time !1"];
+0 -> 0 [label = "a2_two"];
+0 -> 0 [label = "a1_three"];
+1 -> 8 [label = "a5_three"];
+1 -> 6 [label = "a4_two"];
+2 -> 5 [label = "a8_two"];
+2 -> 11 [label = "a7_Time !1"];
+2 -> 8 [label = "a6_three"];
+3 -> 4 [label = "b1_three"];
+3 -> 5 [label = "a9_two"];
+4 -> 0 [label = "b3_two"];
+4 -> 4 [label = "b2_three"];
+5 -> 0 [label = "b6_three"];
+5 -> 10 [label = "b5_Time !1"];
+5 -> 5 [label = "b4_two"];
+6 -> 6 [label = "b8_two"];
+6 -> 0 [label = "b7_three"];
+7 -> 6 [label = "c1_two"];
+7 -> 4 [label = "b9_three"];
+8 -> 8 [label = "c4_three"];
+8 -> 3 [label = "c3_Time !1"];
+8 -> 0 [label = "c2_two"];
+9 -> 1 [label = "c7_Time !1"];
+9 -> 0 [label = "c6_three"];
+9 -> 9 [label = "c5_two"];
+10 -> 7 [label = "d1_Time !1"];
+10 -> 9 [label = "c9_two"];
+10 -> 8 [label = "c8_three"];
+11 -> 4 [label = "d3_three"];
+11 -> 9 [label = "d2_two"];
+}

@@ -13,7 +13,7 @@ process A(1);
     state jitter;
         deadline delayable;
         when x <= 1;
-            informal "A"; [uniform]
+            informal "A"; [custom:1/2,1/2]
             nextstate wait;
     endstate;
     state wait;
@@ -36,11 +36,11 @@ process B(1);
     state jitter;
         deadline delayable;
         when x <= 1;
-            informal "B"; [uniform]
+            informal "B"; [custom:1/2,1/2]
             nextstate wait;
     endstate;
     state wait;
-        when x = 20;
+        when x = 5;
             set x:= 0;
             nextstate jitter;
     endstate;

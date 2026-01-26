@@ -1,0 +1,1560 @@
+[0, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[0, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[1, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[2, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[3, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[4, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[5, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[6, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[7, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[7, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[7, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[7, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[7, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[7, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.192593
+
+TRUE
+------------------
+
+[7, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[7, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[7, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[7, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[7, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[7, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.481482
+
+TRUE
+------------------
+
+[7, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.481482
+
+TRUE
+------------------
+
+[8, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[8, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[8, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[8, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[8, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.0802469
+
+TRUE
+------------------
+
+[8, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.207407
+
+TRUE
+------------------
+
+[8, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[8, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[8, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[8, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[8, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.481482
+
+TRUE
+------------------
+
+[8, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.518512
+
+TRUE
+------------------
+
+[8, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.518519
+
+TRUE
+------------------
+
+[9, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[9, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.0160494
+
+TRUE
+------------------
+
+[9, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[9, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.0641975
+
+TRUE
+------------------
+
+[9, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.0864198
+
+TRUE
+------------------
+
+[9, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[9, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[9, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[9, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.481481
+
+TRUE
+------------------
+
+[9, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.481481
+
+TRUE
+------------------
+
+[9, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.518518
+
+TRUE
+------------------
+
+[9, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[9, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[10, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.112346
+
+TRUE
+------------------
+
+[10, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.017284
+
+TRUE
+------------------
+
+[10, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.0160494
+
+TRUE
+------------------
+
+[10, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.0691358
+
+TRUE
+------------------
+
+[10, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[10, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[10, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.481481
+
+TRUE
+------------------
+
+[10, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.481481
+
+TRUE
+------------------
+
+[10, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.518511
+
+TRUE
+------------------
+
+[10, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.518519
+
+TRUE
+------------------
+
+[10, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[10, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[10, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[11, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.120988
+
+TRUE
+------------------
+
+[11, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[11, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.017284
+
+TRUE
+------------------
+
+[11, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[11, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[11, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[11, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.518518
+
+TRUE
+------------------
+
+[11, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0.518518
+
+TRUE
+------------------
+
+[11, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[11, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[11, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[11, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[11, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[12, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[13, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !1]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !2]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !3]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !4]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !5]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !6]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !7]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !8]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !9]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !10]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !11]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !12]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+
+[14, Read !13]
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/evaluator5.a''
+bcg_open: running ``evaluator5 services-min-execution-rem-pts-template.mcl'' for ``./services-min-execution-rem-pts-indexed.bcg''
+0
+
+TRUE
+------------------
+

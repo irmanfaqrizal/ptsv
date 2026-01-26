@@ -1,0 +1,36 @@
+digraph BCG {
+size = "7, 10.5";
+center = TRUE;
+node [shape = circle];
+0 [peripheries = 2];
+0 -> 15 [label = "Time !10; prob 1"];
+1 -> 2 [label = "Time !1; prob 0.5"];
+1 -> 14 [label = "B; prob 0.5"];
+2 -> 9 [label = "Time !1; prob 0.5"];
+2 -> 10 [label = "B; prob 0.5"];
+3 -> 14 [label = "A; prob 0.5"];
+3 -> 4 [label = "Time !1; prob 0.5"];
+4 -> 8 [label = "Time !1; prob 0.5"];
+4 -> 10 [label = "A; prob 0.5"];
+5 -> 3 [label = "B; prob 0.33333"];
+5 -> 6 [label = "Time !1; prob 0.33333"];
+5 -> 1 [label = "A; prob 0.33333"];
+6 -> 4 [label = "B; prob 0.33333"];
+6 -> 12 [label = "Time !1; prob 0.33333"];
+6 -> 2 [label = "A; prob 0.33333"];
+7 -> 15 [label = "Time !2; prob 1"];
+8 -> 7 [label = "A; prob 1"];
+9 -> 7 [label = "B; prob 1"];
+10 -> 15 [label = "Time !3; prob 1"];
+11 -> 1 [label = "Time !1; prob 0"];
+11 -> 16 [label = "B; prob 1"];
+12 -> 8 [label = "B; prob 0.5"];
+12 -> 9 [label = "A; prob 0.5"];
+13 -> 3 [label = "Time !1; prob 0"];
+13 -> 16 [label = "A; prob 1"];
+14 -> 15 [label = "Time !4; prob 1"];
+15 -> 11 [label = "A; prob 0.75"];
+15 -> 5 [label = "Time !1; prob 0"];
+15 -> 13 [label = "B; prob 0.25"];
+16 -> 15 [label = "Time !5; prob 1"];
+}

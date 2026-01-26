@@ -1,0 +1,95 @@
+PRISM
+=====
+
+Version: 4.9
+Date: Mon Jan 26 16:50:29 CET 2026
+Hostname: ptb-04021020.inria.fr
+Memory limits: cudd=1g, java(heap)=1g
+Command line: prism services-min-execution-rem-pts.nm -ss
+
+Parsing PRISM model file "services-min-execution-rem-pts.nm"...
+
+Type:        DTMC
+Modules:     translated
+Variables:   s
+
+---------------------------------------------------------------------
+
+Computing steady-state probabilities...
+
+Building model (engine:symbolic)...
+
+Computing reachable states...
+
+Reachability (BFS): 17 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.014 seconds.
+
+Type:        DTMC
+States:      44 (1 initial)
+Transitions: 63
+
+Transition matrix: 203 nodes (37 terminal), 63 minterms, vars: 6r/6c
+
+SCCs: 1, BSCCs: 1, non-BSCC states: 14
+BSCC sizes: 1:30
+
+Computing probability of reaching BSCC 1
+
+Prob0: 6 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 44, no = 0, maybe = 0
+
+Probability of reaching BSCC 1: 1.0
+
+Computing steady-state probabilities for BSCC 1
+
+Computing probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=6, nodes=149] [7.0 KB]
+Adding explicit sparse matrices... [levels=6, num=1, compact] [0.4 KB]
+Creating vector for diagonals... [dist=2, compact] [0.1 KB]
+Allocating iteration vectors... [2 x 0.3 KB]
+TOTAL: [8.2 KB]
+
+Starting iterations...
+
+Jacobi: 1181 iterations in 0.01 seconds (average 0.000008, setup 0.00)
+
+Time for steady-state probability computation: 0.008 seconds.
+
+Exporting steady-state probabilities in plain text format below:
+11:(11)=0.07646559959095808
+14:(14)=0.07646552435287249
+16:(16)=0.024072460465313795
+17:(17)=0.052393002189167405
+18:(18)=0.07646544261090049
+19:(19)=0.028603734502779574
+20:(20)=0.023789244536960005
+21:(21)=0.014443479326049882
+22:(22)=0.02860375317509591
+23:(23)=0.0334182462837792
+24:(24)=0.02378924529105374
+25:(25)=0.011045022621036798
+26:(26)=0.008212965538709285
+27:(27)=0.028603776531378303
+28:(28)=0.028603776531387206
+29:(29)=0.017558771129555693
+30:(30)=0.008212973592851986
+31:(31)=0.05069387148694975
+32:(32)=0.0421977309077768
+33:(33)=0.034267955972067624
+34:(34)=0.05947335100274652
+35:(35)=0.007080160833659525
+36:(36)=0.009912225167116482
+37:(37)=0.017275596433399227
+38:(38)=0.052109995799143424
+39:(39)=0.00708016247270847
+40:(40)=0.07646567125904574
+41:(41)=0.0356840097917072
+42:(42)=0.023506133434243185
+43:(43)=0.02350611716958602
+

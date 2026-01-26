@@ -46,7 +46,8 @@ public class App {
         String lbl;
         int time;
         int ctr;
-        double prb;
+        FractionNumber prb;
+        FractionNumber eventDelayProb;
         int dst;
         Map <String, Integer> delayForEvent;
         boolean isDelayTrans;
@@ -55,27 +56,30 @@ public class App {
             this.lbl = lbl;
             this.time = tm;
             this.ctr = 0;
-            this.prb = 1.0;
+            this.prb = new FractionNumber(1, 1);
+            this.eventDelayProb = new FractionNumber(1, 1);
             this.dst = dst;
             this.delayForEvent = new HashMap<String, Integer>();
             this.isDelayTrans = false;
         }
-        public Trans(int src, String lbl, int tm, int dst, double prb) {
+        public Trans(int src, String lbl, int tm, int dst, FractionNumber prb) {
             this.src = src;
             this.lbl = lbl;
             this.time = tm;
             this.ctr = 0;
             this.prb = prb;
+            this.eventDelayProb = new FractionNumber(1, 1);
             this.dst = dst;
             this.delayForEvent = new HashMap<String, Integer>();
             this.isDelayTrans = false;
         }
-        public Trans(int src, String lbl, int tm, int dst, int ctr, double prb) {
+        public Trans(int src, String lbl, int tm, int dst, int ctr, FractionNumber prb) {
             this.src = src;
             this.lbl = lbl;
             this.time = tm;
             this.ctr = ctr;
             this.prb = prb;
+            this.eventDelayProb = new FractionNumber(1, 1);
             this.dst = dst;
             this.delayForEvent = new HashMap<String, Integer>();
             this.isDelayTrans = false;
@@ -84,7 +88,7 @@ public class App {
             ctr++;
         }
         public void prbComp(int ctrState) {
-            prb = (double) ctr / ctrState;
+            prb = new FractionNumber(ctr, ctrState);
         }
         public String printTrans() {
             return "(" + src + ", " + getTimeLabel() + "; prob " + prb + ", " + dst + ")";
@@ -125,27 +129,44 @@ public class App {
     static class FractionNumber {
         int up;
         int down;
-        int intgr;
+        // int intgr;
         public FractionNumber(int up, int down) {
             this.up = up;
             this.down = down;
-            this.intgr = -1;
+            // this.intgr = -1;
         }
-        public FractionNumber(int intgr) {
-            this.up = -1;
-            this.down = -1;
-            this.intgr = intgr;
-        }
+        // public FractionNumber(int intgr) {
+        //     this.up = -1;
+        //     this.down = -1;
+        //     this.intgr = intgr;
+        // }
         public String getFractionString () {
-            if (intgr == -1) {
-                return up+"/"+down;
-            } else {
-                return ""+intgr;
-            }
+            return up+"/"+down;
+            // if (intgr == -1) {
+            //     return up+"/"+down;
+            // } else {
+            //     return ""+intgr;
+            // }
+        }
+        public Double getFloat() {
+            return (double) up/down;
+        }
+
+        public int gcd(int a, int b) {
+            return b == 0 ? a : gcd(b, a % b);
+        }
+
+        public void simplify() {
+            int a  = up;
+            int b = down;
+            int gcd = gcd(a, b);
+            up = a/gcd;
+            down = b/gcd;
         }
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        // testEqs();
         if (args.length == 0) {
             System.out.println("Missing IF model name!");
             return;
@@ -159,9 +180,10 @@ public class App {
                 } else {
                     ifModel = args[1];
                 }
+
                 bashCompileLTS(ifModel, "global");
                 modLTS(ifModel);
-                bashReduceLTS(ifModel, "global");
+                bashReduceLTS(ifModel, "global", "strong");
                 ArrayList <String> taNames = new ArrayList<String>();
                 bashIndividualLTSs(ifModel, taNames);
                 computeMappingOfStates(ifModel + "-min", taNames);
@@ -173,41 +195,128 @@ public class App {
             } else {
                 ifModel = args[0];
             }
+            
             Map <String, String> distribution = new HashMap<String, String>();
-            System.out.println("IF model: " + ifModel);
-            getDistribution(distribution, ifModel);
+            ArrayList <String> chain = new ArrayList<String>();
+            ArrayList <Integer> minMax = new ArrayList<Integer>();
+            
+            System.out.println("\n!!!!---------------- Start analysis of IF model: " + ifModel + "----------------!!!!");
+            String reduction = getModelInfo(distribution, chain, minMax, ifModel);
             printDistribution(distribution);
+            
+            System.out.println("\n<<<<<<<<<< Start generating the global TLTS");
+            long startTime = System.currentTimeMillis();
             bashCompileLTS(ifModel, "global");
             modLTS(ifModel);
-            bashReduceLTS(ifModel, "global");
+            bashReduceLTS(ifModel, "global", reduction);
+            long stopTime = System.currentTimeMillis();
+            long elapsedTime = stopTime - startTime;
+            System.out.println("\n>>>>>>>>>> Finish generating the global TLTS (" + elapsedTime + "ms)");
+            
             if (args.length == 1) {
-                System.out.println("\n>>>>>>>>> Computing TPTS of " + args[0] + " according to uniform distribution\n");
+                System.out.println("\n!!!!!!!! Computing TPTS of " + args[0] + " according to specified distributions\n");
                 ArrayList <String> taNames = new ArrayList<String>();
+                System.out.println("\n<<<<<<<<<< Start generating the local TLTSs");
+                startTime = System.currentTimeMillis();
                 bashIndividualLTSs(ifModel, taNames);
+                stopTime = System.currentTimeMillis();
+                elapsedTime = stopTime - startTime;
+                System.out.println("\n>>>>>>>>>> Finish generating the local TLTSs (" + elapsedTime + "ms)");
                 computePTSbyDistribution(ifModel + "-min", taNames, distribution);
             } else if (args.length >= 2) {
-                System.out.println("\n>>>>>>>>> Computing TPTS of " + args[0] + " according to traces in folder " + args[1]);
+                System.out.println("\n!!!!!!!! Computing TPTS of " + args[0] + " according to traces in folder " + args[1]);
                 computePTSbyTraces(ifModel + "-min", args[1]);
+            }
+
+            if (chain.size() > 0) {
+                System.out.println("\n<<<<<<<<<< Start analysing reaction time probabilities");
+                startTime = System.currentTimeMillis();
+                System.out.print("Specified chain of actions: ");
+                String delim = "";
+                for (String ch : chain) { System.out.print(delim + ch); delim = ", "; }
+                System.out.println("\nSpecified bounds: " + minMax.get(0) + " - " + minMax.get(1));
+                if (args.length >= 2) {
+                    analyzeChain(ifModel + "-min-" + args[1] + "-rem-pts", chain, minMax);
+                } else {
+                    analyzeChain(ifModel + "-min-pts", chain, minMax);
+                }
+                stopTime = System.currentTimeMillis();
+                elapsedTime = stopTime - startTime;
+                System.out.println("\n>>>>>>>>>> Finish analysing reaction time probabilities (" + elapsedTime + "ms)");
             }
         }
     }
 
-    public static void getDistribution (Map <String, String> distribution, String ifModel)
+    public static void testEqs() {
+        // String solverEqs ="{a/b==1/2, a+b==5/8}";
+        // String solverVars = "{a, b}"; 
+
+        String solverEqs = "{" +
+        "b7*c2 + b5*a9*b8 + b7*c1*b8 == 1/2," + 
+        "b7*c2*a3*a5*a7 + b6*b3*a3*a5*a7 == 1/4," +
+        "a9 + b1 == 1," +
+        "b7*c2*a2 + b6*b3*a2 + b7*c1 == 1/4," +
+        "b5 + b6 + b7 == 1," +
+        "b8 == 1," +
+        "a2 + a3 == 1," +
+        "a7 == 1," +
+        "b2 + b3 == 1," +
+        "c1/c2 == 1/2," +
+        "b5/b6 == 1/2," +
+        "b7*c2*a3*a4 + b6*b3*a3*a4 == 1/4," +
+        "b6 + b5*b1 == 1/2," +
+        "a4 + a5 == 1," +
+        "b5 + b6*b2 == 1/4," +
+        // "b5 == 5/24," +
+        "b7 == 3/8," +
+        "c1 + c2 == 1}";
+        String solverVars = "{c1, c2, b1, b2, a2, b3, a3, b5, a4, b6, a5, b7, a7, b8, a9}"; 
+
+        Map <String, FractionNumber> solverResult = new HashMap<String, FractionNumber>();
+        solveEqs(solverEqs, solverVars, solverResult);
+
+        // Set <String> newEqstmp = new HashSet<String>();
+        // newEqstmp.add("b5/b6 == 1/2");
+        // newEqstmp.add("c1/c2 == 1/2");
+        // newEqstmp.add("b5 + b6 == 5/8");
+        // newEqstmp.add("b5 == 5/24");
+        // newEqstmp.add("b6 == 5/12");
+        // newEqstmp.addAll(equations.get(9));
+        // equations.put(9, newEqstmp);
+    }
+
+    public static String getModelInfo (Map <String, String> distribution, ArrayList <String> chain,
+    ArrayList <Integer> minMax, String ifModel)
     throws FileNotFoundException, IOException, InterruptedException {
+        String reduc = "";
         try (BufferedReader br = new BufferedReader(new FileReader(ifModel+".if"))) {
             String line;
             String event;
             String disType;
+            String chainStr[];
+            String minMaxStr[];
             while ((line = br.readLine()) != null) {
-                if (line.contains("[")) {
+                if (line.contains("[") && (line.contains("custom") || line.contains("uniform") || line.contains("binomial"))) {
                     event = StringUtils.substringBetween(line, "\"", "\"");
                     disType = StringUtils.substringBetween(line, "[", "]");
                     distribution.put(event, disType);
+                } else if (line.contains("[") && line.contains("chain")) {
+                    chainStr = StringUtils.substringBetween(line, ":", ";").replace(" ", "").split(",");
+                    minMaxStr = StringUtils.substringBetween(line, ";", "]").replace(" ", "").split("-");
+                    for (String ch : chainStr) {
+                        chain.add(ch);
+                    }
+                    for (String mm : minMaxStr) {
+                        minMax.add(Integer.parseInt(mm));
+                    }
+                } else if (line.contains("[") && line.contains("strong")) {
+                    reduc = "strong";
                 }
             }
             String com = "sed 's/\\[[^]]*\\]//g'" + " " + ifModel + ".if > " + ifModel + "-stripped.if";
             executeCommands(com);
         }
+        return reduc;
     }
     
     public static void computeMappingOfStates (String ifModel, ArrayList <String> taNames) throws FileNotFoundException, IOException, InterruptedException {
@@ -308,30 +417,35 @@ public class App {
         }
     }
 
-    public static void computePTSbyDistribution(String ifModel, ArrayList <String> taNames, Map <String, String> disTypes)
+    public static void computePTSbyDistribution(String ifModel,
+    ArrayList <String> taNames, Map <String, String> disTypes)
     throws FileNotFoundException, IOException, InterruptedException {
+        System.out.println("\n<<<<<<<<<< Start collecting equations");
+        Map <Integer, Set <Trans>> inLTS = new HashMap <Integer, Set <Trans>>();
+        long startTime = System.currentTimeMillis();
         ArrayList <Map <Integer, Set <Trans>>> taLTSs = new ArrayList<Map <Integer, Set <Trans>>>();
         Map <Integer, Set <Trans>> taLTS;
         Map <Integer, Set <Trans>> statesIns;
         Map <String, Set <Integer>> allEvents;
-        Map <String, ArrayList<Double>> eventProbTriggerMap = new HashMap<String, ArrayList<Double>>();
-        Map <String, ArrayList<Double>> eventProbTimeMap = new HashMap<String, ArrayList<Double>>();
-        Map <String, Double> eventProbMap = new HashMap<String, Double>();
+        Map <String, ArrayList<FractionNumber>> eventProbTriggerMap = new HashMap<String, ArrayList<FractionNumber>>();
+        Map <String, ArrayList<FractionNumber>> eventProbTimeMap = new HashMap<String, ArrayList<FractionNumber>>();
+        Map <String, FractionNumber> eventProbMap = new HashMap<String, FractionNumber>();
         for (String taName : taNames) {
             taLTS = new HashMap <Integer, Set <Trans>>();
             statesIns = new HashMap <Integer, Set <Trans>>();
             allEvents = new HashMap <String, Set <Integer>>();
             String header = buildLTS(taLTS, taName, statesIns);
             getAllEvents(allEvents, eventProbMap, taLTS, statesIns);
-            printAllEvents(allEvents, taName);
+            // printAllEvents(allEvents, taName);
             startAssignProbs(taLTS, eventProbTriggerMap, eventProbTimeMap, allEvents, disTypes);
             writePTS(taLTS, taName, header);
             bashCreatePDF(taName + "-pts");
             taLTSs.add(taLTS);
         }
-        printEventProbMap(eventProbTriggerMap, eventProbMap);
-        printEventProbTimeMap(eventProbTimeMap);
-        Map <Integer, Set <Trans>> inLTS = new HashMap <Integer, Set <Trans>>();
+        simplifyMapFracs(eventProbTriggerMap);
+        simplifyMapFracs(eventProbTimeMap);
+        // printEventProbMap(eventProbTriggerMap, eventProbMap);
+        // printEventProbTimeMap(eventProbTimeMap);
         Map <Integer, Set <Trans>> statesInsAll = new HashMap <Integer, Set <Trans>>();
         Map <String, Set <Integer>> eventStates = new HashMap <String, Set <Integer>>();
         Map <String, Map <Integer, Set <Integer>>> eventStatesNets = new HashMap <String, Map <Integer, Set <Integer>>>();
@@ -342,40 +456,260 @@ public class App {
         Map <Integer, Set <String>> equationsUnmap = new HashMap<Integer, Set <String>>();
         Map <Integer, Set <String>> equationVars = new HashMap<Integer, Set <String>>();
         Map <String, FractionNumber> solverResults = new HashMap<String, FractionNumber>();
+        Map <String, String> equationsPy = new HashMap <String, String>();
         String header = buildLTS(inLTS, ifModel, statesInsAll);
         annotateDelayTrans(inLTS);
         getEventStates(eventStates, inLTS);
-        printEventStates(eventStates);
+        // printEventStates(eventStates);
         getEventStatesNets(eventStatesNets, eventStates, inLTS, statesInsAll);
-        printEventStateNets(eventStatesNets);
+        // printEventStateNets(eventStatesNets);
+        getEventDelayProb(eventStatesNets, inLTS, eventProbTriggerMap);
+        // printEventDelayProb(inLTS);
         getEventStateEqStart(eqStartStates, eventStatesNets, inLTS, statesInsAll);
-        printEqStarts(eqStartStates);
+        // printEqStarts(eqStartStates);
         getTransPossibilities(transPossibilities, eqStartStates, inLTS);
-        printTransNetPossibilities(transPossibilities);
-        printDelayTrans(inLTS);
-        getTransVarMapping(transVarMapping, inLTS);
-        printTransVarMapping(transVarMapping);
+        // printTransNetPossibilities(transPossibilities);
+        // printDelayTrans(inLTS);
+        getTransVarMappingPy(transVarMapping, inLTS);
+        // printTransVarMapping(transVarMapping);
         writeMappedLTS(inLTS, transVarMapping, ifModel, header);
-        getEquations(equations, equationsUnmap, equationVars, transPossibilities, eventProbTriggerMap,
+        getEquations(equationsPy, equations, equationsUnmap, equationVars,
+            transPossibilities, eventProbTriggerMap,
             eventProbMap, eventProbTimeMap, transVarMapping, inLTS);
-        // Set <String> tmpTest = new HashSet<>();
-        // tmpTest.addAll(equations.get(22));
-        // tmpTest.add("c4 == 2/3");
-        // equations.put(22, tmpTest);
-        printEquations(equations, equationVars);
-        solveNetEquations(solverResults, equations, equationVars, transVarMapping);
+        // printEquations(equations, equationVars);
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println("\n>>>>>>>>>> Finish collecting equations (" + elapsedTime + "ms)");
+        System.out.println("\n<<<<<<<<<< Start solving with sympy\n");
+        startTime = System.currentTimeMillis();
+        solveEquationsWithSympy(solverResults, ifModel, equationsPy, equationVars);
+        stopTime = System.currentTimeMillis();
+        elapsedTime = stopTime - startTime;
+        System.out.println("\n>>>>>>>>>> Finish solving with sympy (" + elapsedTime + "ms)");
+        // solveNetEquations(solverResults, equations, equationVars, transVarMapping);
+        // printSolverResult(solverResults, transVarMapping);
         assignProbsToLTS(inLTS, transVarMapping, solverResults);
         writePTS(inLTS, ifModel, header);
         bashCreatePDF(ifModel +"-pts");
+        writeDTMC(inLTS, ifModel +"-pts", header);
     }
     
-    public static void getAllEvents (Map <String, Set <Integer>> allEvents, Map <String, Double> eventProbMap,
+    public static void analyzeChain(String modelName, ArrayList <String> chain,
+    ArrayList <Integer> minMax) throws IOException, InterruptedException {
+        Map <String, Double> mapSteady = new HashMap<String, Double>();
+        Map <Integer, Double> timeProbabilities = new HashMap<Integer, Double>();
+        executeCommands("($prism " + modelName + ".nm -ss) > " + modelName + "-steady.txt");
+        System.out.println("Steady-state probabilities (using PRISM): " + modelName + "-steady.txt");
+        String prefix = chain.get(0);
+        int countPrefix  = writeIndexedPTS(modelName, prefix);
+        getMapSteady(mapSteady, modelName, prefix);
+        getVerdicts(modelName, chain, prefix, countPrefix, minMax.get(0), minMax.get(1));
+        getTimeProbabilities(timeProbabilities, modelName, mapSteady, countPrefix);
+        writeTimeProbabilities(timeProbabilities, modelName);
+    }
+
+    public static int writeIndexedPTS(String modelName, String prefix) throws IOException, InterruptedException {
+        String line;
+        ArrayList <String> lines = new ArrayList<String>(); 
+        int idxPref = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(modelName+".aut"))) {
+            while ((line = br.readLine()) != null) {
+                if (line.contains(prefix)) {
+                    idxPref++;
+                    lines.add(line.replace(prefix, prefix + " !" + idxPref));
+                } else {
+                    lines.add(line);
+                }
+            }
+        }
+        try {
+            FileWriter myWriter = new FileWriter(modelName + "-indexed.aut");
+            for (String ln : lines) {
+                myWriter.write(ln + "\n");
+            }
+            myWriter.close();
+            executeCommands("bcg_io " + modelName + "-indexed.aut " + modelName + "-indexed.dot");
+            executeCommands("dot -Tpdf " + modelName + "-indexed.dot > " + modelName + "-indexed.pdf");
+            System.out.println("TPTS (indexed) created: " + modelName + "-indexed.aut");
+        } catch (IOException e) {
+            System.out.println("TPTS (indexed) creation error!");
+            e.printStackTrace();
+        }
+        return idxPref;
+    }
+
+    public static void getMapSteady(Map <String, Double> mapSteadyPrefix,
+    String modelName, String prefix) throws FileNotFoundException, IOException {
+        Map <Integer, Double> mapSteadyState = new HashMap<Integer, Double>();
+        String line;
+        int st;
+        Double stProb;
+        boolean startMapping = false;
+        try (BufferedReader br = new BufferedReader(new FileReader(modelName + "-steady.txt"))) {
+            while ((line = br.readLine()) != null) {
+                if (line.length() > 0) {
+                    if (line.contains("Exporting steady-state")) {
+                        startMapping = true;
+                    } else if (startMapping) {
+                        st = Integer.parseInt(line.split(":")[0]);
+                        stProb = Double.parseDouble(line.split("=")[1]);
+                        mapSteadyState.put(st, stProb);
+                    }
+                }
+            }
+        }
+
+        int stLTS;
+        String indexed;
+        try (BufferedReader br = new BufferedReader(new FileReader(modelName + "-indexed.aut"))) {
+            while ((line = br.readLine()) != null) {
+                if (line.length() > 0) {
+                    if (line.contains(prefix)) {
+                        stLTS = Integer.parseInt(StringUtils.substringBetween(line, "(", ","));
+                        indexed = StringUtils.substringBetween(line, "\"", ";");
+                        if (mapSteadyState.containsKey(stLTS)) {
+                            mapSteadyPrefix.put(indexed, mapSteadyState.get(stLTS));
+                        } else {
+                            mapSteadyPrefix.put(indexed, 0.0);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static void getVerdicts(String modelName, ArrayList <String> chain,
+    String prefix, int numPrefix, int min, int max) throws InterruptedException, IOException {
+        boolean first;
+        int chainCtr;
+        int prefCtr;
+        int lowBoundCtr = min;
+        executeCommands("echo -n \"\" > " + modelName + "\"-verdicts.txt\"");
+        executeCommands("bcg_io " + modelName + "-indexed.aut " + modelName + "-indexed.bcg ");
+        try {
+            while (lowBoundCtr <= max) {
+                System.out.println("Model checking for t = " + lowBoundCtr);
+                prefCtr = 1;
+                while (prefCtr <= numPrefix) {
+                    // System.out.println("Model checking for time: " + lowBoundCtr + ", prefix: " + prefix + " !" + prefCtr);
+                    FileWriter myWriter = new FileWriter(modelName + "-template.mcl");
+                    myWriter.write("prob\n" + //
+                                        "\t(not \"" + prefix + " !" + prefCtr + "\")* . \"" + prefix + " !" + prefCtr + "\" .\n" + //
+                                        "\tloop (time, chain_counter, tmp: Nat := 0) : (res: Nat) in\n");
+                    chainCtr = 0;
+                    first = true;
+                    for (String ch1 : chain) {
+                        if (!ch1.equals(prefix)) {
+                            if (first) {
+                                myWriter.write("\t\tif (chain_counter = " + chainCtr + ") then\n" + //
+                                                    "\t\t\t  ({Time ?tx:Nat}).continue(time + tx, chain_counter, tmp)\n" + //
+                                                    "\t\t\t| ({Read ?st:Nat}).continue(time, chain_counter, tmp + st)\n");
+                                first = false;
+                            } else {
+                                myWriter.write("\t\telsif (chain_counter = " + chainCtr + ") then\n" + //
+                                                    "\t\t\t  ({Time ?tx:Nat}).continue(time + tx, chain_counter, tmp)\n" + //
+                                                    "\t\t\t| ({Read ?st:Nat}).continue(time, chain_counter, tmp + st)\n");
+                            }
+                            for (String ch2 : chain) {
+                                if (!ch2.equals(prefix)) {
+                                    if (ch1.equals(ch2)) {
+                                        myWriter.write("\t\t\t| (\"" + ch2 + "\").continue(time, chain_counter + 1, tmp)\n");
+                                    } else {
+                                        myWriter.write("\t\t\t| (\"" + ch2 + "\").continue(time, chain_counter, tmp)\n");
+                                    }
+                                }
+                            }
+                            chainCtr++;
+                        }
+                    }
+                    myWriter.write("\t\telse exit (time)\n" + //
+                                        "\t\tend if\n" + //
+                                        "\tend loop .\n" + //
+                                        "\tif (res <> " + lowBoundCtr + ") then false end if\n" + //
+                                        "is >= ? 0\n" + //
+                                        "end prob");
+                    myWriter.close();
+                    executeCommands("echo [" + lowBoundCtr + ", " + prefix + " !" + prefCtr +"] >> " + modelName + "-verdicts.txt");
+                    executeCommands("bcg_open " + modelName + "-indexed.bcg evaluator5 "
+                    + modelName + "-template.mcl >> " + modelName + "-verdicts.txt");
+                    executeCommands("echo \"------------------\n\" >> " + modelName + "-verdicts.txt");
+                    prefCtr++;
+                }
+                lowBoundCtr++;
+            }
+        } catch (IOException e) {
+            System.out.println("MCL5 template creation error!");
+            e.printStackTrace();
+        }
+    }
+
+    public static void getTimeProbabilities(Map <Integer, Double> timeProbabilities,
+    String modelName, Map <String, Double> mapSteady, int numPrefix) throws FileNotFoundException, IOException {
+        String line;
+        String prefix;
+        int time = 0;
+        double prob;
+        boolean readProbNext = false;
+        double tmpProbSteady = 0.0;
+        double tmpProbTotal = 0.0;
+        double tmpProbAvg;
+        int ctrPref = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(modelName + "-verdicts.txt"))) {
+            while ((line = br.readLine()) != null) {
+                if (line.length() > 0) {
+                    if (line.contains("[")) {
+                        time = Integer.parseInt(StringUtils.substringBetween(line, "[", ","));
+                        prefix = StringUtils.substringBetween(line, " ", "]");
+                        tmpProbSteady = mapSteady.get(prefix);
+                    } else if (line.contains("running")) {
+                        readProbNext = true;
+                    } else if (readProbNext) {
+                        readProbNext = false;
+                        prob = Double.parseDouble(line);
+                        tmpProbTotal += prob * tmpProbSteady;
+                        ctrPref++;
+                        if (ctrPref == numPrefix) {
+                            tmpProbAvg = tmpProbTotal / numPrefix;
+                            timeProbabilities.put(time, tmpProbAvg);
+                            ctrPref = 0;
+                            tmpProbTotal = 0.0;
+                        }
+                    }
+                }
+            }
+        }
+        Double tmpTotalTimeProbs = 0.0;
+        Double scaledProb;
+        for (int key : timeProbabilities.keySet()) {
+            tmpTotalTimeProbs += timeProbabilities.get(key);
+        }
+        for (int key : timeProbabilities.keySet()) {
+            scaledProb = (timeProbabilities.get(key) / tmpTotalTimeProbs) * 1;
+            timeProbabilities.put(key, scaledProb);
+        }
+    }
+
+    public static void writeTimeProbabilities (Map <Integer, Double> timeProbabilities, String modelName) {
+        try {
+            FileWriter myWriter = new FileWriter(modelName + "-verdicts-final.txt");
+            for (int time : timeProbabilities.keySet()) {
+                myWriter.write(time + ": " + timeProbabilities.get(time) + "\n");
+            }
+            myWriter.close();
+            System.out.println("Analysis results created: " + modelName + "-verdicts-final.txt");
+        } catch (IOException e) {
+            System.out.println("Analysis results creation error!");
+            e.printStackTrace();
+        }
+    }
+
+    public static void getAllEvents (Map <String, Set <Integer>> allEvents, Map <String, FractionNumber> eventProbMap,
     Map <Integer, Set <Trans>> inLTS, Map <Integer, Set <Trans>> statesIns) {
         for (int st : inLTS.keySet()) {
             for (Trans tr : inLTS.get(st)) {
                 if (!tr.lbl.equals("Time") && !allEvents.containsKey(tr.lbl)) {
                     allEvents.put(tr.lbl, new HashSet<Integer>());
-                    eventProbMap.put(tr.lbl, 1.0);
+                    eventProbMap.put(tr.lbl, new FractionNumber(1, 1));
                 }
             }
         }
@@ -383,6 +717,15 @@ public class App {
         for (String event : allEvents.keySet()) {
             startingStates = new HashSet<Integer>();
             getStartingStates(startingStates, event, inLTS, statesIns);
+            if (startingStates.size() == 0) {
+                for (Integer st : inLTS.keySet()) {
+                    for (Trans tr : inLTS.get(st)) {
+                        if (tr.lbl.equals(event)) {
+                            startingStates.add(st);
+                        }
+                    }
+                }
+            }
             allEvents.put(event, startingStates);
         }
     }
@@ -491,6 +834,39 @@ public class App {
             }
             eventStatesNets.put(event, MapStateNet);
         }
+    }
+
+    public static void getEventDelayProb(Map <String, Map <Integer, Set <Integer>>> eventStatesNets,
+    Map <Integer, Set <Trans>> inLTS, Map <String, ArrayList<FractionNumber>> eventProbTriggerMap) {
+        for (String ev : eventStatesNets.keySet()) {
+            // System.out.println("\n> Event: " + ev);
+            for (int start : eventStatesNets.get(ev).keySet()) {
+                // System.out.println(">>> Start: " + start);
+                traverseToAssignEventDelayProb(start, 0, ev, new HashSet<Integer>(), inLTS, eventProbTriggerMap);
+            }
+        }
+    }
+
+    public static void traverseToAssignEventDelayProb(int cState, int cTime, String cEvent, Set <Integer> visited,
+    Map <Integer, Set <Trans>> inLTS, Map <String, ArrayList<FractionNumber>> eventProbTriggerMap) {
+        if (visited.contains(cState)) {
+            return;
+        }
+        visited.add(cState);
+        for (Trans tr : inLTS.get(cState)) {
+            // System.out.println("Traversing " + tr.asKey() + ", cTime: " + cTime);
+            if (tr.lbl.equals(cEvent)) {
+                // System.out.println("Assigning to " + tr.asKey());
+                tr.eventDelayProb = eventProbTriggerMap.get(tr.lbl).get(cTime);
+            } else if (tr.delayForEvent.containsKey(cEvent)) {
+                cTime = cTime + 1;
+                traverseToAssignEventDelayProb(tr.dst, cTime, cEvent, visited, inLTS, eventProbTriggerMap);
+                cTime = cTime - 1;
+            } else {
+                traverseToAssignEventDelayProb(tr.dst, cTime, cEvent, visited, inLTS, eventProbTriggerMap);
+            }
+        }
+        visited.remove(cState);
     }
 
     public static boolean checkNetRoot(int st, Map <Integer, Set <Trans>> statesInsAll, String event) {
@@ -637,17 +1013,17 @@ public class App {
         TransPossibility transPos;
         Set <Integer> visited;
         for (String event : eqStartStates.keySet()) {
-            System.out.println("\n> Event: " + event);
+            // System.out.println("\n> Event: " + event);
             for (int start : eqStartStates.get(event).keySet()) {
-                System.out.println(">>> Start state: " + start);
+                // System.out.println(">>> Start state: " + start);
                 for (Set <Integer> endStates : eqStartStates.get(event).get(start)) {
                     transPaths = new HashMap <Integer, Set <ArrayList <Trans>>>();
                     tmpPath = new ArrayList<Trans>();
-                    System.out.println(">>>>> End states: ");
-                    for (int st : endStates) {
-                        System.out.print(st + " ");
-                    }
-                    System.out.println();
+                    // System.out.println(">>>>> End states: ");
+                    // for (int st : endStates) {
+                    //     System.out.print(st + " ");
+                    // }
+                    // System.out.println();
                     visited = new HashSet<Integer>();
                     traverseStartToEvent(transPaths, tmpPath, start, endStates,
                         visited, event, inLTS, 0);
@@ -721,9 +1097,9 @@ public class App {
                 //     traverseStartToEvent(transPaths, tmpPath, tr.dst, endStates, visitedEndStates, event, inLTS, delay);
                 //     tmpPath.remove(tr);
                 // }
-                System.out.println("Returning at " + tr.asKey());
+                // System.out.println("Returning at " + tr.asKey());
             } else {
-                System.out.println("Traversing " + tr.asKey());
+                // System.out.println("Traversing " + tr.asKey());
                 if (tr.delayForEvent.containsKey(event)) {
                     tr.delayForEvent.put(event, delay);
                     delay++;
@@ -765,10 +1141,25 @@ public class App {
         }
     }
 
-    public static void getEquations(Map <Integer, Set <String>> equations, Map <Integer, Set <String>> equationsUnmap,
+    public static void getTransVarMappingPy(Map <String, String> transVarMapping, Map <Integer, Set <Trans>> inLTS) {
+        char varChar = 'v';
+        int varNum = 1;
+        for (int st : inLTS.keySet()) {
+            for (Trans tr : inLTS.get(st)) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(varChar);
+                sb.append(varNum);
+                transVarMapping.put(tr.asKey(), sb.toString());
+                varNum++;
+            }
+        }
+    }
+
+    public static void getEquations(Map <String, String> equationsPy,
+    Map <Integer, Set <String>> equations, Map <Integer, Set <String>> equationsUnmap,
     Map <Integer, Set <String>> equationVars, Map <Integer, Set <TransPossibility>> transPossibilities,
-    Map <String, ArrayList<Double>> eventProbTriggerMap, Map <String, Double> eventProbMap,
-    Map <String, ArrayList<Double>> eventProbTimeMap,
+    Map <String, ArrayList<FractionNumber>> eventProbTriggerMap, Map <String, FractionNumber> eventProbMap,
+    Map <String, ArrayList<FractionNumber>> eventProbTimeMap,
     Map <String, String> transVarMapping, Map <Integer, Set <Trans>> inLTS) {
         Map <Integer, Set <Integer>> statesInNets = new HashMap<Integer, Set <Integer>>();
         Set <String> tmpEqs;
@@ -782,8 +1173,9 @@ public class App {
         String plus;
         Set <Integer> netStates;
         int checkMinEvents;
-        Double multiForDelayProb;
+        FractionNumber multiForDelayProb;
         String firstTransEvent;
+        Trans firstTrans = new Trans(0, "", 0, 0);
         for (int start : transPossibilities.keySet()) {
             tmpEqs = new HashSet<String>();
             tmpEqsUnmap = new HashSet<String>();
@@ -807,9 +1199,12 @@ public class App {
                         }
                         plus = " + ";
                     }
+                    // System.out.println("Building for state start " + start + ", event: " + tp.event + ", delay: " + delay);
                     if (eventProbTriggerMap.get(tp.event) != null) {
-                        tmpEq += " == " + floatToFraction(eventProbTriggerMap.get(tp.event).get(delay)).getFractionString();
-                        tmpEqUnmap += " == " + floatToFraction(eventProbTriggerMap.get(tp.event).get(delay)).getFractionString();
+                        // System.out.println("Adding to equations");
+                        equationsPy.put(tmpEq, eventProbTriggerMap.get(tp.event).get(delay).getFractionString());
+                        tmpEq += " == " + eventProbTriggerMap.get(tp.event).get(delay).getFractionString();
+                        tmpEqUnmap += " == " + eventProbTriggerMap.get(tp.event).get(delay).getFractionString();
                         tmpEqs.add(tmpEq);
                         tmpEqsUnmap.add(tmpEqUnmap);
                     }
@@ -837,26 +1232,35 @@ public class App {
                         checkMinEvents++;
                         if (firstTransEvent.equals("")) {
                             firstTransEvent = tr.asKey();
+                            firstTrans = tr;
                         }
                     }
                 }
+                equationsPy.put(tmpEq, "1");
                 tmpEq += " == 1";
                 tmpEqs.add(tmpEq);
                 tmpEqUnmap += " == 1";
                 tmpEqsUnmap.add(tmpEqUnmap);
                 if (checkMinEvents > 1) {
                     for (Trans tr : inLTS.get(state)) {
+                        // if (!tr.asKey().equals(firstTransEvent) && !tr.lbl.equals("Time")) {
+                        //     tmpEqs.add(transVarMapping.get(firstTransEvent) + " == " + transVarMapping.get(tr.asKey()));
+                        //     tmpEqsUnmap.add(firstTransEvent + " == " + tr.asKey());
+                        // }
                         if (!tr.asKey().equals(firstTransEvent) && !tr.lbl.equals("Time")) {
-                            tmpEqs.add(transVarMapping.get(firstTransEvent) + " == " + transVarMapping.get(tr.asKey()));
+                            equationsPy.put(transVarMapping.get(firstTransEvent) + "/" + transVarMapping.get(tr.asKey()), fracDiv(firstTrans.eventDelayProb, tr.eventDelayProb).getFractionString());
+                            tmpEqs.add(transVarMapping.get(firstTransEvent) + "/" + transVarMapping.get(tr.asKey())
+                            + " == " + fracDiv(firstTrans.eventDelayProb, tr.eventDelayProb).getFractionString());
                             tmpEqsUnmap.add(firstTransEvent + " == " + tr.asKey());
                         }
                         if (tr.isDelayTrans) {
-                            multiForDelayProb = 1.0;
+                            multiForDelayProb = new FractionNumber(1, 1);
                             for (String event : tr.delayForEvent.keySet()) {
-                                multiForDelayProb *= eventProbTimeMap.get(event).get(tr.delayForEvent.get(event));
+                                multiForDelayProb = fracMultiply(multiForDelayProb, eventProbTimeMap.get(event).get(tr.delayForEvent.get(event)));
                             }
-                            tmpEqs.add(transVarMapping.get(tr.asKey()) + " == " + floatToFraction(multiForDelayProb).getFractionString());
-                            tmpEqsUnmap.add(tr.asKey() + " == " + floatToFraction(multiForDelayProb).getFractionString());
+                            equationsPy.put(transVarMapping.get(tr.asKey()), multiForDelayProb.getFractionString());
+                            tmpEqs.add(transVarMapping.get(tr.asKey()) + " == " + multiForDelayProb.getFractionString());
+                            tmpEqsUnmap.add(tr.asKey() + " == " + multiForDelayProb.getFractionString());
                         }
                     }
                 }
@@ -916,6 +1320,7 @@ public class App {
         eqString += "}";
         varsString += "}";
         System.out.println("All equations: " + eqString);
+        System.out.println("All variables: " + varsString);
         solveEqs(eqString, varsString, solverRes);
     }
 
@@ -981,11 +1386,15 @@ public class App {
         }
         visited.add(cState);
         if (checkStartingState(cState, event, inLTS, statesIns)) {
+            // System.out.println(cState + " YES");
             startingStates.add(cState);
+        } else {
+            // System.out.println(cState + " NO");
         }
         for (Trans tr : inLTS.get(cState)) {
             traverseStartingStates(startingStates, tr.dst, visited, event, inLTS, statesIns);
         }
+        visited.remove(cState);
     }
     
     public static boolean checkStartingState (int state, String event,
@@ -1004,7 +1413,9 @@ public class App {
             }
         }
         for (Trans trOut : inLTS.get(state)) {
-            if (trOut.time == 1) {
+            if (trOut.src == trOut.dst && trOut.lbl.equals(event)) {
+                return true;
+            } else if (trOut.time == 1) {
                 outCheckTime = true;
             } else if (trOut.lbl.equals(event)) {
                 outCheckEvent = true;
@@ -1016,14 +1427,14 @@ public class App {
         return false;
     }
     
-    public static void startAssignProbs (Map<Integer, Set<Trans>> taLTS, Map <String, ArrayList<Double>> eventProbSet,
-    Map <String, ArrayList<Double>> eventProbTimeMap, Map <String, Set <Integer>> allEvents, Map <String, String> disTypes) {
+    public static void startAssignProbs (Map<Integer, Set<Trans>> taLTS, Map <String, ArrayList<FractionNumber>> eventProbSet,
+    Map <String, ArrayList<FractionNumber>> eventProbTimeMap, Map <String, Set <Integer>> allEvents, Map <String, String> disTypes) {
         ArrayList <TransPair> tPs;
-        ArrayList <Double> delayProbs;
+        ArrayList <FractionNumber> delayProbs;
         for (String event : allEvents.keySet()) {
             for (int st : allEvents.get(event)) {
                 tPs = new ArrayList<TransPair>();
-                delayProbs = new ArrayList<Double>();
+                delayProbs = new ArrayList<FractionNumber>();
                 traverseToGetTransPairs(tPs, st, event, taLTS);
                 assignProbs(eventProbTimeMap, tPs, delayProbs, disTypes, event);
                 eventProbSet.put(event, delayProbs);
@@ -1061,15 +1472,19 @@ public class App {
         }
     }
     
-    public static void assignProbs (Map <String, ArrayList<Double>> eventProbTimeMap,
-    ArrayList <TransPair> tPs, ArrayList <Double> delayProbs, Map <String, String> disTypes,
+    public static void assignProbs (Map <String, ArrayList<FractionNumber>> eventProbTimeMap,
+    ArrayList <TransPair> tPs, ArrayList <FractionNumber> delayProbs, Map <String, String> disTypes,
     String event) {
         DecimalFormat df = new DecimalFormat("#.#######");
         df.setRoundingMode(RoundingMode.HALF_UP);
         int range = tPs.size();
-        ArrayList <Double> distProbTransList = new ArrayList<Double>();
-        ArrayList <Double> newTimeProbList;
-        if (disTypes.get(event).equals("binomial")) {
+        ArrayList <FractionNumber> distProbTransList = new ArrayList<FractionNumber>();
+        ArrayList <FractionNumber> newTimeProbList;
+        if (!disTypes.containsKey(event)) {
+            distProbTransList.add(new FractionNumber(1, 1));
+            delayProbs.add(new FractionNumber(1, 1));
+        }
+        else if (disTypes.get(event).equals("binomial")) {
             int n = range;
             double[][] binomial = new double[n+1][];
             binomial[1] = new double[1 + 2];
@@ -1080,43 +1495,67 @@ public class App {
                     binomial[i][k] = 0.5 * (binomial[i-1][k-1] + binomial[i-1][k]);
             }
             for (int k = 1; k < binomial[n].length - 1; k++) {
-                delayProbs.add(binomial[n][k]);
+                delayProbs.add(floatToFraction(binomial[n][k]));
+            }
+            computeDist(distProbTransList, delayProbs);
+        } else if (disTypes.get(event).equals("uniform")) {
+            for (int i = 0; i < range; i++) {
+                delayProbs.add(new FractionNumber(1 , range));
+            }
+            computeDist(distProbTransList, delayProbs);
+        } else if (disTypes.get(event).contains("custom")) {
+            String [] arrCustom = disTypes.get(event).split(":")[1].replace(" ", "").split(",");
+            for (int i = 0; i < range; i++) {
+                delayProbs.add(new FractionNumber(Integer.parseInt(arrCustom[i].split("/")[0]), Integer.parseInt(arrCustom[i].split("/")[1])));
             }
             computeDist(distProbTransList, delayProbs);
         } else {
-            double uniProb = (double) 1 / (range );
-            for (int i = 0; i < range; i++) {
-                delayProbs.add(uniProb);
-            }
-            computeDist(distProbTransList, delayProbs);
+            System.out.println("Unknown distribution!");
+            System.out.println("uniform/binomial/custom");
         }
-        
-        int idxTransPair = 0;
-        for (Double prob : distProbTransList) {
-            prob = Double.parseDouble(df.format(prob));
-            tPs.get(idxTransPair).trEvent.prb = prob;
-            if (tPs.get(idxTransPair).trTime != null){
-                tPs.get(idxTransPair).trTime.prb = 1 - prob;
-                newTimeProbList = new ArrayList<Double>();
-                if (eventProbTimeMap.containsKey(tPs.get(idxTransPair).trEvent.lbl)) {
-                    newTimeProbList.addAll(eventProbTimeMap.get(tPs.get(idxTransPair).trEvent.lbl));
+
+        if (disTypes.containsKey(event)) {
+            int idxTransPair = 0;
+            for (FractionNumber prob : distProbTransList) {
+                tPs.get(idxTransPair).trEvent.prb = prob;
+                if (tPs.get(idxTransPair).trTime != null){
+                    tPs.get(idxTransPair).trTime.prb = fracMin(new FractionNumber(1, 1), prob);
+                    newTimeProbList = new ArrayList<FractionNumber>();
+                    if (eventProbTimeMap.containsKey(tPs.get(idxTransPair).trEvent.lbl)) {
+                        newTimeProbList.addAll(eventProbTimeMap.get(tPs.get(idxTransPair).trEvent.lbl));
+                    }
+                    newTimeProbList.add(tPs.get(idxTransPair).trTime.prb);
+                    eventProbTimeMap.put(tPs.get(idxTransPair).trEvent.lbl, newTimeProbList);
                 }
-                newTimeProbList.add(tPs.get(idxTransPair).trTime.prb);
-                eventProbTimeMap.put(tPs.get(idxTransPair).trEvent.lbl, newTimeProbList);
+                idxTransPair++;
             }
-            idxTransPair++;
         }
     }
     
-    public static void computeDist (ArrayList <Double> dList, ArrayList <Double> distTrans) {
-        ArrayList <Double> tmpDividers = new ArrayList<Double>();
-        for (int i = 0; i < distTrans.size(); i++) {
-            double divider = 1;
-            for (Double t : tmpDividers) {
-                divider = divider * t;
+    // public static void computeDist (ArrayList <Double> dList, ArrayList <Double> distTrans) {
+    //     ArrayList <Double> tmpDividers = new ArrayList<Double>();
+    //     for (int i = 0; i < distTrans.size(); i++) {
+    //         double divider = 1;
+    //         for (Double t : tmpDividers) {
+    //             divider = divider * t;
+    //         }
+    //         dList.add(distTrans.get(i) / divider);
+    //         tmpDividers.add(1 - (distTrans.get(i) / divider));
+    //     }
+    // }
+
+    public static void computeDist (ArrayList <FractionNumber> dList, ArrayList <FractionNumber> distTrans) {
+        ArrayList <FractionNumber> tmpDividers = new ArrayList<FractionNumber>();
+        FractionNumber div;
+        FractionNumber tmpFrac;
+        for (FractionNumber dt : distTrans) {
+            div = new FractionNumber(1, 1);
+            for (FractionNumber t : tmpDividers) {
+                div = fracMultiply(div, t);
             }
-            dList.add(distTrans.get(i) / divider);
-            tmpDividers.add(1 - (distTrans.get(i) / divider));
+            tmpFrac = fracMultiply(dt, fracFlip(div));
+            dList.add(tmpFrac);
+            tmpDividers.add(fracMin(new FractionNumber(1, 1), tmpFrac));
         }
     }
     
@@ -1262,7 +1701,10 @@ public class App {
             ExprEvaluator util = new ExprEvaluator();
             IExpr result = util.eval("Solve(" + solverEqs + ", " + solverVars + ")");
             System.out.println(result.toString());
-            if (result.toString().equals("{}")) {return;}
+            if (result.toString().equals("{{}}") || result.toString().equals("{}")) {
+                System.out.println("No solution");
+                return;
+            }
             String resultStrArr[] = result.toString().replace("{", "").replace("}", "").replace("\n", "").split(",");
             for (String string : resultStrArr) {
                 String var = string.split("->")[0];
@@ -1275,7 +1717,7 @@ public class App {
                     solverResult.put(var, new FractionNumber(up, down));
                 } else {
                     int num = Integer.parseInt(string.split("->")[1]);
-                    solverResult.put(var, new FractionNumber(num));
+                    solverResult.put(var, new FractionNumber(num, 1));
                 }
             }
         } catch (SyntaxError e) {
@@ -1292,16 +1734,20 @@ public class App {
     }
     
     public static void assignProbsToLTS (Map <Integer, Set <Trans>> inLTS, Map <String, String> mapEqVars, Map <String, FractionNumber> solverResults) {
+        int up;
+        int down;
         for (int st : inLTS.keySet()) {
             for (Trans tr : inLTS.get(st)) {
                 if (mapEqVars.get(tr.asKey()) != null) {
                     if (solverResults.get(mapEqVars.get(tr.asKey())) != null){
-                        FractionNumber tmpFrac = solverResults.get(mapEqVars.get(tr.asKey()));
-                        if (tmpFrac.intgr == -1) {
-                            tr.prb = (double) tmpFrac.up / tmpFrac.down;
-                        } else {
-                            tr.prb = tmpFrac.intgr;
-                        }
+                        up = solverResults.get(mapEqVars.get(tr.asKey())).up;
+                        down = solverResults.get(mapEqVars.get(tr.asKey())).down;
+                        tr.prb = new FractionNumber(up, down);
+                        // if (tmpFrac.intgr == -1) {
+                        //     tr.prb = new FractionNumber(tmpFrac.up, tmpFrac.down);
+                        // } else {
+                        //     tr.prb = new FractionNumber(1, 1);
+                        // }
                     }
                 }
             }
@@ -1336,6 +1782,7 @@ public class App {
         bashCreatePDF(ifModel + "-" + tracesName + "-rem" + "-pts");
         writeSteady(mapSteadyOri, ifModel + "-ori");
         writeSteady(mapSteadyRem, ifModel + "-rem");
+        writeDTMC(cutLTSRenum, ifModel + "-" + tracesName + "-rem-pts", propRemMeta);
 
         double roundOff = (double) cutLTS.size() / (double) inLTS.size();
         DecimalFormat df = new DecimalFormat("#.000");
@@ -1385,22 +1832,25 @@ public class App {
         }
 
         int tmpTrCtr = 0;
-        double tmpProb = 0.0;
+        FractionNumber tmpProb;
         for (int state : inLTS.keySet()) {
             tmpTrCtr = 0;
-            tmpProb = 0.0;
+            tmpProb = new FractionNumber(0, 1);
             for (Trans tr : inLTS.get(state)) {
                 tmpTrCtr += tr.ctr;
-                tmpProb += tr.prb;
+                if (tr.prb.down == 0) {
+                    tr.prb.down = 1;
+                }
+                tmpProb = fracPlus(tmpProb, tr.prb);
             }
             if (tmpTrCtr == 0) {
                 for (Trans tr : inLTS.get(state)) {
-                    tr.prb = (double) 1 / inLTS.get(state).size();
+                    tr.prb = new FractionNumber(1, inLTS.get(state).size()) ;
                 }
             }
-            if (tmpProb < 1) {
+            if (fracLess(tmpProb, new FractionNumber(1, 1))) {
                 for (Trans tr : inLTS.get(state)) {
-                    tr.prb = (double) tr.prb / tmpProb;
+                    tr.prb = fracMultiply(tr.prb, fracFlip(tmpProb));
                 }
             }
         }
@@ -1800,7 +2250,7 @@ public class App {
 
     public static void bashCompileLTS(String ifModel, String name) throws IOException, InterruptedException {
         String command = "printf \"\\n" + //
-                        ">>>>>>>>> Compiling " + name + " LTS\\n" + //
+                        "!!!!!!!! Compiling " + name + " TLTS\\n" + //
                         "\\n" + //
                         "\"\n" + //
                         "if2gen " + ifModel + "\"-stripped.if\"\n" + //
@@ -1811,7 +2261,7 @@ public class App {
 
     public static void bashCompileIndvLTS(String ifModel, String name) throws IOException, InterruptedException {
         String command = "printf \"\\n" + //
-                        ">>>>>>>>> Compiling " + name + " LTS\\n" + //
+                        "!!!!!!!! Compiling " + name + " TLTS\\n" + //
                         "\\n" + //
                         "\"\n" + //
                         "if2gen " + ifModel + "\".if\"\n" + //
@@ -1820,9 +2270,20 @@ public class App {
         executeCommands(command);
     }
     
-    public static void bashReduceLTS(String ifModel, String name) throws IOException, InterruptedException {
+    public static void bashReduceLTS(String ifModel, String name, String reduction) throws IOException, InterruptedException {
         String command = "printf \"\\n" + //
-                        ">>>>>>>>> Reducing " + name + " LTS\\n" + //
+                        "!!!!!!!! Reducing " + name + " TLTS\\n" + //
+                        "\\n" + //
+                        "\"\n" + //
+                        "bcg_io " + ifModel + "\"-mod.aut\" \"" + ifModel + "-min.bcg\"\n" + //
+                        "bcg_open \"" + ifModel + "-min.bcg\" reductor -weaktrace \"" + ifModel + "-min.bcg\"\n" + //
+                        "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.aut\"\n" + //
+                        "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.dot\"\n" + //
+                        // "graphviz2drawio \"" + ifModel + "-min.dot\"\n" + //
+                        "dot -Tpdf -Gdpi=300 \"" + ifModel + "-min.dot\" > \"" + ifModel + "-min.pdf\"";
+        if (reduction.equals("strong")) {
+            command = "printf \"\\n" + //
+                        "!!!!!!!! Reducing " + name + " TLTS\\n" + //
                         "\\n" + //
                         "\"\n" + //
                         "bcg_io " + ifModel + "\"-mod.aut\" \"" + ifModel + "-min.bcg\"\n" + //
@@ -1830,14 +2291,16 @@ public class App {
                         "bcg_min \"" + ifModel + "-min.bcg\"\n" + //
                         "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.aut\"\n" + //
                         "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.dot\"\n" + //
-                        "graphviz2drawio \"" + ifModel + "-min.dot\"\n" + //
+                        // "graphviz2drawio \"" + ifModel + "-min.dot\"\n" + //
                         "dot -Tpdf -Gdpi=300 \"" + ifModel + "-min.dot\" > \"" + ifModel + "-min.pdf\"";
+        }
+        
         executeCommands(command);
     }
 
     public static void bashReduceIndvLTS(String ifModel, String name) throws IOException, InterruptedException {
         String command = "printf \"\\n" + //
-                        ">>>>>>>>> Reducing " + name + " LTS\\n" + //
+                        "!!!!!!!! Reducing " + name + " TLTS\\n" + //
                         "\\n" + //
                         "\"\n" + //
                         "bcg_io " + ifModel + "\"-mod.aut\" \"" + ifModel + "-min.bcg\"\n" + //
@@ -1845,7 +2308,7 @@ public class App {
                         "bcg_min \"" + ifModel + "-min.bcg\"\n" + //
                         "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.aut\"\n" + //
                         "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.dot\"\n" + //
-                        "graphviz2drawio \"" + ifModel + "-min.dot\"\n" + //
+                        // "graphviz2drawio \"" + ifModel + "-min.dot\"\n" + //
                         "dot -Tpdf -Gdpi=300 \"" + ifModel + "-min.dot\" > \"" + ifModel + "-min.pdf\"";
         executeCommands(command);
     }
@@ -1897,7 +2360,7 @@ public class App {
     
     public static void bashCreatePDF(String ifModel) throws IOException, InterruptedException {
         String command = "bcg_io \"" + ifModel + ".aut\" \"" + ifModel + ".dot\"\n" + //
-                        "graphviz2drawio \"" + ifModel + ".dot\"\n" + //
+                        // "graphviz2drawio \"" + ifModel + ".dot\"\n" + //
                         "dot -Tpdf -Gdpi=300 \"" + ifModel + ".dot\" > \"" + ifModel + ".pdf\"";
         executeCommands(command);
     }
@@ -1940,17 +2403,17 @@ public class App {
         System.out.println("----- End printing all events in LTS " + name + " -----");
     }
     
-    public static void printEventProbMap (Map <String, ArrayList<Double>> eventProbSet,
-    Map <String, Double> eventProb) {
+    public static void printEventProbMap (Map <String, ArrayList<FractionNumber>> eventProbSet,
+    Map <String, FractionNumber> eventProb) {
         System.out.println("\n----- Start printing event probabilities -----");
         int idxp = 0;
         String delimComma;
         for (String event : eventProbSet.keySet()) {
-            System.out.println(event + ": " + eventProb.get(event));
+            System.out.println(event + ": " + eventProb.get(event).up + "/" + eventProb.get(event).down);
             idxp = 0;
             delimComma = "";
-            for (Double prob : eventProbSet.get(event)) {
-                System.out.print(delimComma + idxp + ": " + prob);
+            for (FractionNumber prob : eventProbSet.get(event)) {
+                System.out.print(delimComma + idxp + ": " + prob.up + "/" + prob.down);
                 delimComma = ", ";
                 idxp++;
             }
@@ -1959,7 +2422,7 @@ public class App {
         System.out.println("----- End printing event probabilities -----");
     }
 
-    public static void printEventProbTimeMap (Map <String, ArrayList<Double>> eventProbTimeMap) {
+    public static void printEventProbTimeMap (Map <String, ArrayList<FractionNumber>> eventProbTimeMap) {
         System.out.println("\n----- Start printing transition delay probabilities -----");
         int idxp = 0;
         String delimComma;
@@ -1967,8 +2430,8 @@ public class App {
             System.out.println(event + ": ");
             idxp = 0;
             delimComma = "";
-            for (Double prob : eventProbTimeMap.get(event)) {
-                System.out.print(delimComma + idxp + ": " + prob);
+            for (FractionNumber prob : eventProbTimeMap.get(event)) {
+                System.out.print(delimComma + idxp + ": " + prob.up + "/" + prob.down);
                 delimComma = ", ";
                 idxp++;
             }
@@ -2090,6 +2553,18 @@ public class App {
         System.out.println("----- End printing event state networks -----");
     }
 
+    public static void printEventDelayProb(Map <Integer, Set <Trans>> inLTS) {
+        System.out.println("\n----- Start printing transition event delay probabilities -----");
+        for (int st : inLTS.keySet()) {
+            for (Trans tr : inLTS.get(st)) {
+                if (!tr.lbl.equals("Time")) {
+                    System.out.println(tr.asKey() + ": " + tr.eventDelayProb.getFractionString());
+                }
+            }
+        }
+        System.out.println("----- End printing transition event delay probabilities -----");
+    }
+
     public static void printEqStarts (Map <String, Map <Integer, Set <Set <Integer>>>> allEvents) {
         System.out.println("\n----- Start printing equation starting states -----");
         String delim;
@@ -2163,6 +2638,87 @@ public class App {
         System.out.println("----- End printing equations -----");
     }
 
+    public static void solveEquationsWithSympy (Map <String, FractionNumber> solverResult, String fileName,
+    Map <String, String> equationsPy,
+    Map <Integer, Set <String>> eqVars) throws InterruptedException {
+        try {
+            FileWriter myWriter = new FileWriter(fileName +  "-solver.py");
+            myWriter.write("import sympy as sp\n");
+            myWriter.write("import sys\n");
+            String delimVar = "";
+            for (int st : eqVars.keySet()) {
+                for (String var : eqVars.get(st)) {
+                    myWriter.write(delimVar + var);
+                    delimVar = ", ";
+                }
+            }
+            myWriter.write(" = sp.symbols(\'");
+            delimVar = "";
+            for (int st : eqVars.keySet()) {
+                for (String var : eqVars.get(st)) {
+                    myWriter.write(delimVar + var);
+                    delimVar = " ";
+                }
+            }
+            myWriter.write("\', real=True)\n");
+            myWriter.write("vars_all = [");
+            delimVar = "";
+            for (int st : eqVars.keySet()) {
+                for (String var : eqVars.get(st)) {
+                    myWriter.write(delimVar + var);
+                    delimVar = ", ";
+                }
+            }
+            myWriter.write("]\n");
+            myWriter.write("eqs = [\n");
+            String delimEq = "";
+            for (String left : equationsPy.keySet()) {
+                if (equationsPy.get(left).split("/").length > 1) {
+                    String up = equationsPy.get(left).split("/")[0];
+                    String down = equationsPy.get(left).split("/")[1];
+                    myWriter.write(delimEq + "\tsp.Eq(" + left + ", sp.Rational(" + up + ", " + down + "))");
+                } else {
+                    myWriter.write(delimEq + "\tsp.Eq(" + left + ", " + equationsPy.get(left) + ")");
+                }
+                delimEq = ",\n";
+            }
+            myWriter.write("\n]\nsol = sp.solve(eqs, vars_all, dict=True)\n");
+            myWriter.write("print(\"Solution:\")\n" + //
+                                "for s in sol:\n" + //
+                                "\tprint(s)\n");
+            myWriter.write("text_file = open(sys.argv[1] + \"-sympy.txt\", \"w\")\n" + //
+                                "for s in sol:\n" + //
+                                "    for key, value in s.items():\n" + //
+                                "        text_file.write(str(key) + \":\" + str(value) + \"\\n" + //
+                                "\")\n" + //
+                                "text_file.close()");
+            myWriter.close();
+            executeCommands("python3 " + fileName + "-solver.py " + fileName);
+
+            String string;
+            try(BufferedReader br = new BufferedReader(new FileReader(fileName + "-sympy.txt"))) {
+                while ((string = br.readLine()) != null) {
+                    String var = string.split(":")[0];
+                    if (string.split(":")[1].split("/").length > 1) {
+                        int up = Integer.parseInt(string.split(":")[1].split("/")[0]);
+                        int down = 1;
+                        if (string.split(":")[1].split("/").length > 1) {
+                            down = Integer.parseInt(string.split(":")[1].split("/")[1]);
+                        }
+                        solverResult.put(var, new FractionNumber(up, down));
+                    } else {
+                        int num = Integer.parseInt(string.split(":")[1]);
+                        solverResult.put(var, new FractionNumber(num, 1));
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Python code creation error!");
+            e.printStackTrace();
+        }
+    }
+
     public static void printEquationsUnmap (Map <Integer, Set <String>> equationsUnmap) {
         System.out.println("\n----- Start printing equations (unmap) -----");
         for (int start : equationsUnmap.keySet()) {
@@ -2176,7 +2732,7 @@ public class App {
     }
 
     public static void printLTSs (ArrayList <Map <Integer, Set <Trans>>> LTSs) {
-        System.out.println("\n----- Start printing local LTSs -----");
+        System.out.println("\n----- Start printing local TLTSs -----");
         int idxLTS = 1;
         for (Map <Integer, Set <Trans>> lts : LTSs) {
             System.out.println("LTS " + idxLTS);
@@ -2187,7 +2743,7 @@ public class App {
                 }
             }
         }
-        System.out.println("----- End printing local LTSs -----");
+        System.out.println("----- End printing local TLTSs -----");
     }
 
     public static void printMapping (Map <Integer, ArrayList <Set <Integer>>> mapping) {
@@ -2241,25 +2797,53 @@ public class App {
             myWriter.write(fileHeader+"\n");
             String tmpTime = "";
             DecimalFormat df = new DecimalFormat();
-            df.setMaximumFractionDigits(5);
+            df.setMaximumFractionDigits(12);
             for (int st : inLTS.keySet()) {
                 for (Trans itrs : inLTS.get(st)) {
                     tmpTime = "";
                     if (itrs.time > 0) {
                         tmpTime = " !" + itrs.time;
                     }
-                    myWriter.write("(" + st + ", \"" + itrs.lbl + tmpTime + "; prob " + df.format(itrs.prb)
+                    myWriter.write("(" + st + ", \"" + itrs.lbl + tmpTime + "; prob " + df.format(itrs.prb.getFloat())
                         + "\", " + itrs.dst + ")\n");
                 }
             }
             myWriter.close();
-            System.out.println("PTS created: " + fileName + "-pts"+".aut");
+            System.out.println("TPTS created: " + fileName + "-pts"+".aut");
         } catch (IOException e) {
-            System.out.println("PTS creation error!");
+            System.out.println("TPTS creation error!");
             e.printStackTrace();
         }
     }
     
+    public static void writeDTMC (Map<Integer, Set<Trans>> inLTS, String fileName, String fileHeader) {
+        try {
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(12);
+            int numState = Integer.parseInt(fileHeader.replace("(", "").replace(")", "").replace(" ", "").split(",")[2]);
+            String delimPlus = "";
+            FileWriter myWriter = new FileWriter(fileName +".nm");
+            myWriter.write("dtmc\n\n");
+            myWriter.write("module translated\n\n");
+            myWriter.write("\ts : [0.." + (numState-1) +"] init 0 ;\n\n");
+            for (int st : inLTS.keySet()) {
+                myWriter.write("\t[] s=" + st + " -> ");
+                delimPlus = "";
+                for (Trans itrs : inLTS.get(st)) {
+                    myWriter.write(delimPlus + df.format(itrs.prb.getFloat()) + " : (s'=" + itrs.dst + ") ");
+                    delimPlus = "+ ";
+                }
+                myWriter.write(";\n");
+            }
+            myWriter.write("\nendmodule\n");
+            myWriter.close();
+            System.out.println("DTMC created: " + fileName +".nm");
+        } catch (IOException e) {
+            System.out.println("DTMC translation error!");
+            e.printStackTrace();
+        }
+    }
+
     public static void writeMappedLTS (Map<Integer, Set<Trans>> inLTS, Map <String, String> transVarMapping, String fileName, String fileHeader) throws InterruptedException {
         try {
             FileWriter myWriter = new FileWriter(fileName +  "-mapped.aut");
@@ -2272,12 +2856,12 @@ public class App {
                     if (itrs.time > 0) {
                         tmpTime = " !" + itrs.time;
                     }
-                    myWriter.write("(" + st + ", \"" + transVarMapping.get(itrs.asKey()) + "_" + itrs.lbl + tmpTime + "\", " + itrs.dst + ")\n");
+                    myWriter.write("(" + st + ", \"" + itrs.lbl + tmpTime + " (" + transVarMapping.get(itrs.asKey()) + ")\", " + itrs.dst + ")\n");
                 }
             }
             myWriter.close();
             bashCreatePDF(fileName + "-mapped");
-            System.out.println("Mapped LTS created: " + fileName + "-mapped"+".aut");
+            // System.out.println("Mapped LTS created: " + fileName + "-mapped"+".aut");
         } catch (IOException e) {
             System.out.println("Mapped LTS creation error!");
             e.printStackTrace();
@@ -2378,4 +2962,70 @@ public class App {
             }
         }
     }
+
+    public static FractionNumber fracMultiply (FractionNumber a, FractionNumber b) {
+        FractionNumber simple = new FractionNumber(a.up * b.up, a.down * b.down);
+        simple.simplify();
+        return simple;
+    }
+
+    public static FractionNumber fracDiv (FractionNumber a, FractionNumber b) {
+        FractionNumber simple = new FractionNumber(a.up * b.down, a.down * b.up);
+        simple.simplify();
+        return simple;
+    }
+
+    public static FractionNumber fracPlus (FractionNumber a, FractionNumber b) {
+        int newDown = a.down * b.down;
+        int newUpA = newDown / a.down * a.up;
+        int newUpB = newDown / b.down * b.up;
+        FractionNumber simple = new FractionNumber(newUpA + newUpB, newDown);
+        simple.simplify();
+        return simple;
+    }
+
+    public static FractionNumber fracMin (FractionNumber a, FractionNumber b) {
+        int newDown = a.down * b.down;
+        int newUpA = newDown / a.down * a.up;
+        int newUpB = newDown / b.down * b.up;
+        FractionNumber simple = new FractionNumber(newUpA - newUpB, newDown);
+        simple.simplify();
+        return simple;
+    }
+
+    public static FractionNumber fracFlip (FractionNumber a) {
+        return new FractionNumber(a.down, a.up);
+    }
+
+    public static boolean fracLess (FractionNumber a, FractionNumber b) {
+        int newDown = a.down * b.down;
+        int newUpA = newDown / a.down * a.up;
+        int newUpB = newDown / b.down * b.up;
+        if (newUpA < newUpB) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static void simplifyMapFracs (Map <String, ArrayList<FractionNumber>> mapFracs) {
+        for (String s : mapFracs.keySet()) {
+            for (FractionNumber frac : mapFracs.get(s)) {
+                frac.simplify();
+            }
+        }
+    }
+
+    // public static void normalize (Map<Integer, Set<Trans>> inLTS) {
+    //     double tmpTotal = 0.0;
+    //     for (int st : inLTS.keySet()) {
+    //         tmpTotal = 0.0;
+    //         for (Trans tr : inLTS.get(st)) {
+    //             tmpTotal += tr.prb;
+    //         }
+    //         for (Trans tr : inLTS.get(st)) {
+    //             tr.prb = tr.prb / tmpTotal;
+    //         }
+    //     }
+    // }
 }

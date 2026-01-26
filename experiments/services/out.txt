@@ -1,0 +1,808 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m-----------------------< [0;36mcom.ptsv.app:ptsv-app[0;1m >------------------------[m
+[[1;34mINFO[m] [1mBuilding ptsv-app 1.0[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-clean-plugin:3.4.0:clean[m [1m(default-clean)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] Deleting /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/target
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:resources[m [1m(default-resources)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] skip non existing resourceDirectory /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/src/main/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.13.0:compile[m [1m(default-compile)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] Recompiling the module because of [1mchanged source code[m.
+[[1;34mINFO[m] Compiling 1 source file with javac [debug release 21] to target/classes
+[[1;34mINFO[m] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:testResources[m [1m(default-testResources)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] skip non existing resourceDirectory /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.13.0:testCompile[m [1m(default-testCompile)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] Recompiling the module because of [1mchanged dependency[m.
+[[1;34mINFO[m] Compiling 1 source file with javac [debug release 21] to target/test-classes
+[[1;34mINFO[m] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-surefire-plugin:3.3.0:test[m [1m(default-test)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[[1;34mINFO[m] 
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m]  T E S T S
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m] Running com.ptsv.app.[1mAppTest[m
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m1[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in com.ptsv.app.[1mAppTest[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Results:
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1;32mTests run: 1, Failures: 0, Errors: 0, Skipped: 0[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-assembly-plugin:3.1.0:single[m [1m(default)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] Building jar: /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/target/ptsv.jar
+[[1;33mWARNING[m] Configuration option 'appendAssemblyId' is set to false.
+Instead of attaching the assembly file: /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/target/ptsv.jar, it will become the file for main project artifact.
+NOTE: If multiple descriptors or descriptor-formats are provided for this project, the value of this file will be non-deterministic!
+[[1;33mWARNING[m] Replacing pre-existing project main-artifact file: /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/target/classes
+with assembly file: /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/target/ptsv.jar
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  7.793 s
+[[1;34mINFO[m] Finished at: 2026-01-26T16:41:56+01:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+
+!!!!---------------- Start analysis of IF model: services----------------!!!!
+Detected probabilistic distribution: 
+Read: custom:1/3,1/3,1/3
+Write: custom:1/3,1/3,1/3
+Finish: custom:1/3,1/3,1/3
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h services-stripped.m4 > services-stripped.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C services-stripped.m4 > services-stripped.C
+g++ -Wno-tautological-compare -O3 -c -o services-stripped.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator services-stripped.C 
+Compiled C++ code...
+g++  -o services-stripped.x services-stripped.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: services-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-min.bcg'' for ``./services-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (1442ms)
+
+!!!!!!!! Computing TPTS of services.if according to specified distributions
+
+
+<<<<<<<<<< Start generating the local TLTSs
+
+!!!!!!!! Compiling process Sensor TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h services-Sensor.m4 > services-Sensor.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C services-Sensor.m4 > services-Sensor.C
+g++ -Wno-tautological-compare -O3 -c -o services-Sensor.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator services-Sensor.C 
+Compiled C++ code...
+g++  -o services-Sensor.x services-Sensor.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: services-Sensor-mod.aut
+
+!!!!!!!! Reducing process Sensor TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-Sensor-min.bcg'' for ``./services-Sensor-min.bcg''
+
+!!!!!!!! Compiling process Controller TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h services-Controller.m4 > services-Controller.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C services-Controller.m4 > services-Controller.C
+g++ -Wno-tautological-compare -O3 -c -o services-Controller.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator services-Controller.C 
+Compiled C++ code...
+g++  -o services-Controller.x services-Controller.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: services-Controller-mod.aut
+
+!!!!!!!! Reducing process Controller TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-Controller-min.bcg'' for ``./services-Controller-min.bcg''
+
+!!!!!!!! Compiling process Actuator TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h services-Actuator.m4 > services-Actuator.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C services-Actuator.m4 > services-Actuator.C
+g++ -Wno-tautological-compare -O3 -c -o services-Actuator.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator services-Actuator.C 
+Compiled C++ code...
+g++  -o services-Actuator.x services-Actuator.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: services-Actuator-mod.aut
+
+!!!!!!!! Reducing process Actuator TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-Actuator-min.bcg'' for ``./services-Actuator-min.bcg''
+
+>>>>>>>>>> Finish generating the local TLTSs (4483ms)
+
+<<<<<<<<<< Start collecting equations
+TPTS created: services-Sensor-min-pts.aut
+TPTS created: services-Controller-min-pts.aut
+TPTS created: services-Actuator-min-pts.aut
+
+>>>>>>>>>> Finish collecting equations (1069ms)
+
+<<<<<<<<<< Start solving with sympy
+
+Solution:
+{v10: 4/5, v11: 1/5, v12: 3/7, v13: 4/7, v15: 1/2, v16: 1/2, v17: 4/7, v18: 3/7, v19: 1, v2: 5/18, v21: 1, v22: 1, v25: 2/3, v26: 1/3, v28: 1/2, v29: 1/2, v3: 5/18, v30: 4/9, v31: 5/18, v32: 5/18, v34: 1, v35: 4/5, v36: 1/5, v37: 3/5, v38: 1/5, v39: 1/5, v4: 4/9, v40: 1/5, v41: 4/5, v43: 1/4, v44: 3/4, v45: 1, v46: 1/4, v47: 3/8, v48: 3/8, v49: 3/4, v5: 1/5, v50: 1/4, v51: 1/5, v52: 4/5, v53: 1, v54: 1/3, v55: 1/3, v56: 1/3, v57: 1/5, v58: 4/5, v59: 1/2, v6: 4/5, v60: 1/2, v61: 1, v62: 1/2, v63: 1/2, v64: 1/2, v65: 1/2, v66: 1, v67: 1/31, v68: 30/31, v69: 1, v7: 3/8, v71: 1/2, v72: 1/2, v73: 1, v75: 1, v8: 1/4, v9: 3/8}
+
+>>>>>>>>>> Finish solving with sympy (1427ms)
+TPTS created: services-min-pts.aut
+DTMC created: services-min-pts.nm
+
+<<<<<<<<<< Start analysing reaction time probabilities
+Specified chain of actions: Read, Start, Finish, Write
+Specified bounds: 0 - 14
+Steady-state probabilities (using PRISM): services-min-pts-steady.txt
+TPTS (indexed) created: services-min-pts-indexed.aut
+Model checking for t = 0
+Model checking for t = 1
+Model checking for t = 2
+Model checking for t = 3
+Model checking for t = 4
+Model checking for t = 5
+Model checking for t = 6
+Model checking for t = 7
+Model checking for t = 8
+Model checking for t = 9
+Model checking for t = 10
+Model checking for t = 11
+Model checking for t = 12
+Model checking for t = 13
+Model checking for t = 14
+Analysis results created: services-min-pts-verdicts-final.txt
+
+>>>>>>>>>> Finish analysing reaction time probabilities (115110ms)
+
+!!!!---------------- Start analysis of IF model: services----------------!!!!
+Detected probabilistic distribution: 
+Read: custom:1/7,9/14,1/14,1/7
+Write: custom:8/9,1/9
+Finish: custom:1/6,2/3,1/6
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h services-stripped.m4 > services-stripped.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C services-stripped.m4 > services-stripped.C
+g++ -Wno-tautological-compare -O3 -c -o services-stripped.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator services-stripped.C 
+Compiled C++ code...
+g++  -o services-stripped.x services-stripped.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: services-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-min.bcg'' for ``./services-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (1400ms)
+
+!!!!!!!! Computing TPTS of services.if according to specified distributions
+
+
+<<<<<<<<<< Start generating the local TLTSs
+
+!!!!!!!! Compiling process Sensor TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h services-Sensor.m4 > services-Sensor.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C services-Sensor.m4 > services-Sensor.C
+g++ -Wno-tautological-compare -O3 -c -o services-Sensor.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator services-Sensor.C 
+Compiled C++ code...
+g++  -o services-Sensor.x services-Sensor.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: services-Sensor-mod.aut
+
+!!!!!!!! Reducing process Sensor TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-Sensor-min.bcg'' for ``./services-Sensor-min.bcg''
+
+!!!!!!!! Compiling process Controller TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h services-Controller.m4 > services-Controller.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C services-Controller.m4 > services-Controller.C
+g++ -Wno-tautological-compare -O3 -c -o services-Controller.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator services-Controller.C 
+Compiled C++ code...
+g++  -o services-Controller.x services-Controller.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: services-Controller-mod.aut
+
+!!!!!!!! Reducing process Controller TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-Controller-min.bcg'' for ``./services-Controller-min.bcg''
+
+!!!!!!!! Compiling process Actuator TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h services-Actuator.m4 > services-Actuator.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C services-Actuator.m4 > services-Actuator.C
+g++ -Wno-tautological-compare -O3 -c -o services-Actuator.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator services-Actuator.C 
+Compiled C++ code...
+g++  -o services-Actuator.x services-Actuator.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: services-Actuator-mod.aut
+
+!!!!!!!! Reducing process Actuator TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-Actuator-min.bcg'' for ``./services-Actuator-min.bcg''
+
+>>>>>>>>>> Finish generating the local TLTSs (4474ms)
+
+<<<<<<<<<< Start collecting equations
+TPTS created: services-Sensor-min-pts.aut
+TPTS created: services-Controller-min-pts.aut
+TPTS created: services-Actuator-min-pts.aut
+
+>>>>>>>>>> Finish collecting equations (1056ms)
+
+<<<<<<<<<< Start solving with sympy
+
+Solution:
+{v10: 130/133, v11: 1, v13: 249/344, v14: 95/344, v16: 1, v17: 2/3, v18: 1/3, v2: 152/195, v21: 1, v22: 5/6, v23: 1/6, v26: 4/5, v27: 1/5, v28: 57/455, v29: 152/195, v3: 2/21, v30: 2/21, v32: 1, v33: 65/513, v34: 448/513, v35: 81/221, v36: 14/221, v37: 126/221, v38: 3/133, v39: 130/133, v4: 57/455, v41: 1/10, v42: 9/10, v43: 1, v44: 14/95, v45: 81/95, v46: 14/23, v47: 9/23, v48: 1, v49: 1, v5: 65/513, v50: 482885/1071392, v51: 588507/1071392, v52: 1, v53: 2/15, v54: 5/9, v55: 14/45, v56: 50/57, v57: 7/57, v58: 5/14, v59: 9/14, v6: 448/513, v60: 3/17, v61: 14/17, v63: 58/75, v64: 17/75, v65: 1, v66: 1, v68: 1, v7: 14/95, v8: 81/95, v9: 3/133}
+
+>>>>>>>>>> Finish solving with sympy (1055ms)
+TPTS created: services-min-pts.aut
+DTMC created: services-min-pts.nm
+
+<<<<<<<<<< Start analysing reaction time probabilities
+Specified chain of actions: Read, Start, Finish, Write
+Specified bounds: 0 - 14
+Steady-state probabilities (using PRISM): services-min-pts-steady.txt
+TPTS (indexed) created: services-min-pts-indexed.aut
+Model checking for t = 0
+Model checking for t = 1
+Model checking for t = 2
+Model checking for t = 3
+Model checking for t = 4
+Model checking for t = 5
+Model checking for t = 6
+Model checking for t = 7
+Model checking for t = 8
+Model checking for t = 9
+Model checking for t = 10
+Model checking for t = 11
+Model checking for t = 12
+Model checking for t = 13
+Model checking for t = 14
+Analysis results created: services-min-pts-verdicts-final.txt
+
+>>>>>>>>>> Finish analysing reaction time probabilities (114719ms)
+----- Configurations ----- 
+
+Conf: C1,
+Sensor: (4, 10, 1, [0.3333333333333333, 0.3333333333333333, 0.3333333333333333]),
+Controller : (10, 5, 1, 3, [0.3333333333333333, 0.3333333333333333, 0.3333333333333333]), 
+Actuator: (4, 10, 1, [0.3333333333333333, 0.3333333333333333, 0.3333333333333333])
+
+Conf: C2,
+Sensor: (4, 10, 1.5, [0.14285714285714285, 0.6428571428571429, 0.07142857142857142, 0.14285714285714285]),
+Controller : (10, 5, 1, 3, [0.16666666666666666, 0.6666666666666666, 0.16666666666666666]), 
+Actuator: (4, 10, 0.5, [0.8888888888888888, 0.1111111111111111])
+
+----- Simulations -----
+Directory 'results'/'C1' created successfully.
+Directory 'results'/'C2' created successfully.
+started seed:1, conf:C1.txt
+started seed:1, conf:C2.txt
+started seed:2, conf:C1.txt
+started seed:2, conf:C2.txt
+started seed:3, conf:C1.txt
+started seed:3, conf:C2.txt
+started seed:4, conf:C1.txt
+started seed:4, conf:C2.txt
+started seed:5, conf:C1.txt
+started seed:5, conf:C2.txt
+started seed:6, conf:C1.txt
+started seed:6, conf:C2.txt
+started seed:7, conf:C1.txt
+started seed:7, conf:C2.txt
+started seed:8, conf:C1.txt
+started seed:8, conf:C2.txt
+started seed:9, conf:C1.txt
+started seed:9, conf:C2.txt
+started seed:10, conf:C1.txt
+started seed:10, conf:C2.txt
+started seed:11, conf:C1.txt
+started seed:11, conf:C2.txt
+started seed:12, conf:C1.txt
+started seed:12, conf:C2.txt
+started seed:13, conf:C1.txt
+started seed:13, conf:C2.txt
+started seed:14, conf:C1.txt
+started seed:14, conf:C2.txt
+started seed:15, conf:C1.txt
+started seed:15, conf:C2.txt
+started seed:16, conf:C1.txt
+started seed:16, conf:C2.txt
+started seed:17, conf:C1.txt
+started seed:17, conf:C2.txt
+started seed:18, conf:C1.txt
+started seed:18, conf:C2.txt
+started seed:19, conf:C1.txt
+started seed:19, conf:C2.txt
+started seed:20, conf:C1.txt
+started seed:20, conf:C2.txt
+started seed:21, conf:C1.txt
+started seed:21, conf:C2.txt
+started seed:22, conf:C1.txt
+started seed:22, conf:C2.txt
+started seed:23, conf:C1.txt
+started seed:23, conf:C2.txt
+started seed:24, conf:C1.txt
+started seed:24, conf:C2.txt
+started seed:25, conf:C1.txt
+started seed:25, conf:C2.txt
+started seed:26, conf:C1.txt
+started seed:26, conf:C2.txt
+started seed:27, conf:C1.txt
+started seed:27, conf:C2.txt
+started seed:28, conf:C1.txt
+started seed:28, conf:C2.txt
+started seed:29, conf:C1.txt
+started seed:29, conf:C2.txt
+started seed:30, conf:C1.txt
+started seed:30, conf:C2.txt
+
+!!!!---------------- Start analysis of IF model: services----------------!!!!
+Detected probabilistic distribution: 
+Read: custom:1/3,1/3,1/3
+Write: custom:1/3,1/3,1/3
+Finish: custom:1/3,1/3,1/3
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+make: 'services-stripped.C' is up to date.
+make: 'services-stripped.o' is up to date.
+Compiled C++ code...
+make: 'services-stripped.x' is up to date.
+Done.
+LTS created: services-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-min.bcg'' for ``./services-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (806ms)
+
+!!!!!!!! Computing TPTS of services.if according to traces in folder simulation
+computing: simulation/T1.txt
+computing: simulation/T2.txt
+computing: simulation/T3.txt
+computing: simulation/T4.txt
+computing: simulation/T5.txt
+computing: simulation/T6.txt
+computing: simulation/T7.txt
+computing: simulation/T8.txt
+computing: simulation/T9.txt
+computing: simulation/T10.txt
+computing: simulation/T11.txt
+computing: simulation/T12.txt
+computing: simulation/T13.txt
+computing: simulation/T14.txt
+computing: simulation/T15.txt
+computing: simulation/T16.txt
+computing: simulation/T17.txt
+computing: simulation/T18.txt
+computing: simulation/T19.txt
+computing: simulation/T20.txt
+computing: simulation/T21.txt
+computing: simulation/T22.txt
+computing: simulation/T23.txt
+computing: simulation/T24.txt
+computing: simulation/T25.txt
+computing: simulation/T26.txt
+computing: simulation/T27.txt
+computing: simulation/T28.txt
+computing: simulation/T29.txt
+computing: simulation/T30.txt
+TPTS created: services-min-simulation-pts.aut
+TPTS created: services-min-simulation-rem-pts.aut
+Steady-state probabilities: services-min-ori-steady.txt
+Steady-state probabilities: services-min-rem-steady.txt
+DTMC created: services-min-simulation-rem-pts.nm
+State coverage: .935
+PTS computation time: 584ms
+
+<<<<<<<<<< Start analysing reaction time probabilities
+Specified chain of actions: Read, Start, Finish, Write
+Specified bounds: 0 - 14
+Steady-state probabilities (using PRISM): services-min-simulation-rem-pts-steady.txt
+TPTS (indexed) created: services-min-simulation-rem-pts-indexed.aut
+Model checking for t = 0
+Model checking for t = 1
+Model checking for t = 2
+Model checking for t = 3
+Model checking for t = 4
+Model checking for t = 5
+Model checking for t = 6
+Model checking for t = 7
+Model checking for t = 8
+Model checking for t = 9
+Model checking for t = 10
+Model checking for t = 11
+Model checking for t = 12
+Model checking for t = 13
+Model checking for t = 14
+Analysis results created: services-min-simulation-rem-pts-verdicts-final.txt
+
+>>>>>>>>>> Finish analysing reaction time probabilities (86701ms)
+
+!!!!---------------- Start analysis of IF model: services----------------!!!!
+Detected probabilistic distribution: 
+Read: custom:1/7,9/14,1/14,1/7
+Write: custom:8/9,1/9
+Finish: custom:1/6,2/3,1/6
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+make: 'services-stripped.C' is up to date.
+make: 'services-stripped.o' is up to date.
+Compiled C++ code...
+make: 'services-stripped.x' is up to date.
+Done.
+LTS created: services-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-min.bcg'' for ``./services-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (875ms)
+
+!!!!!!!! Computing TPTS of services.if according to traces in folder simulation
+computing: simulation/T1.txt
+computing: simulation/T2.txt
+computing: simulation/T3.txt
+computing: simulation/T4.txt
+computing: simulation/T5.txt
+computing: simulation/T6.txt
+computing: simulation/T7.txt
+computing: simulation/T8.txt
+computing: simulation/T9.txt
+computing: simulation/T10.txt
+computing: simulation/T11.txt
+computing: simulation/T12.txt
+computing: simulation/T13.txt
+computing: simulation/T14.txt
+computing: simulation/T15.txt
+computing: simulation/T16.txt
+computing: simulation/T17.txt
+computing: simulation/T18.txt
+computing: simulation/T19.txt
+computing: simulation/T20.txt
+computing: simulation/T21.txt
+computing: simulation/T22.txt
+computing: simulation/T23.txt
+computing: simulation/T24.txt
+computing: simulation/T25.txt
+computing: simulation/T26.txt
+computing: simulation/T27.txt
+computing: simulation/T28.txt
+computing: simulation/T29.txt
+computing: simulation/T30.txt
+TPTS created: services-min-simulation-pts.aut
+TPTS created: services-min-simulation-rem-pts.aut
+Steady-state probabilities: services-min-ori-steady.txt
+Steady-state probabilities: services-min-rem-steady.txt
+DTMC created: services-min-simulation-rem-pts.nm
+State coverage: 1.000
+PTS computation time: 579ms
+
+<<<<<<<<<< Start analysing reaction time probabilities
+Specified chain of actions: Read, Start, Finish, Write
+Specified bounds: 0 - 14
+Steady-state probabilities (using PRISM): services-min-simulation-rem-pts-steady.txt
+TPTS (indexed) created: services-min-simulation-rem-pts-indexed.aut
+Model checking for t = 0
+Model checking for t = 1
+Model checking for t = 2
+Model checking for t = 3
+Model checking for t = 4
+Model checking for t = 5
+Model checking for t = 6
+Model checking for t = 7
+Model checking for t = 8
+Model checking for t = 9
+Model checking for t = 10
+Model checking for t = 11
+Model checking for t = 12
+Model checking for t = 13
+Model checking for t = 14
+Analysis results created: services-min-simulation-rem-pts-verdicts-final.txt
+
+>>>>>>>>>> Finish analysing reaction time probabilities (87290ms)
+----- Configurations ----- 
+
+Conf: C1,
+Sensor: (4, 10, 1, [0.3333333333333333, 0.3333333333333333, 0.3333333333333333]),
+Controller : (10, 5, 1, 3, [0.3333333333333333, 0.3333333333333333, 0.3333333333333333]), 
+Actuator: (4, 10, 1, [0.3333333333333333, 0.3333333333333333, 0.3333333333333333])
+
+Conf: C2,
+Sensor: (4, 10, 1.5, [0.25, 0.25, 0.25, 0.25]),
+Controller : (10, 5, 1, 3, [0.3333333333333333, 0.3333333333333333, 0.3333333333333333]), 
+Actuator: (4, 10, 0.5, [0.5, 0.5])
+
+----- Simulations -----
+Directory 'results'/'C1' created successfully.
+Directory 'results'/'C2' created successfully.
+started seed:1, conf:C1.txt
+started seed:1, conf:C2.txt
+started seed:2, conf:C1.txt
+started seed:2, conf:C2.txt
+started seed:3, conf:C1.txt
+started seed:3, conf:C2.txt
+started seed:4, conf:C1.txt
+started seed:4, conf:C2.txt
+started seed:5, conf:C1.txt
+started seed:5, conf:C2.txt
+started seed:6, conf:C1.txt
+started seed:6, conf:C2.txt
+started seed:7, conf:C1.txt
+started seed:7, conf:C2.txt
+started seed:8, conf:C1.txt
+started seed:8, conf:C2.txt
+started seed:9, conf:C1.txt
+started seed:9, conf:C2.txt
+started seed:10, conf:C1.txt
+started seed:10, conf:C2.txt
+started seed:11, conf:C1.txt
+started seed:11, conf:C2.txt
+started seed:12, conf:C1.txt
+started seed:12, conf:C2.txt
+started seed:13, conf:C1.txt
+started seed:13, conf:C2.txt
+started seed:14, conf:C1.txt
+started seed:14, conf:C2.txt
+started seed:15, conf:C1.txt
+started seed:15, conf:C2.txt
+started seed:16, conf:C1.txt
+started seed:16, conf:C2.txt
+started seed:17, conf:C1.txt
+started seed:17, conf:C2.txt
+started seed:18, conf:C1.txt
+started seed:18, conf:C2.txt
+started seed:19, conf:C1.txt
+started seed:19, conf:C2.txt
+started seed:20, conf:C1.txt
+started seed:20, conf:C2.txt
+started seed:21, conf:C1.txt
+started seed:21, conf:C2.txt
+started seed:22, conf:C1.txt
+started seed:22, conf:C2.txt
+started seed:23, conf:C1.txt
+started seed:23, conf:C2.txt
+started seed:24, conf:C1.txt
+started seed:24, conf:C2.txt
+started seed:25, conf:C1.txt
+started seed:25, conf:C2.txt
+started seed:26, conf:C1.txt
+started seed:26, conf:C2.txt
+started seed:27, conf:C1.txt
+started seed:27, conf:C2.txt
+started seed:28, conf:C1.txt
+started seed:28, conf:C2.txt
+started seed:29, conf:C1.txt
+started seed:29, conf:C2.txt
+started seed:30, conf:C1.txt
+started seed:30, conf:C2.txt
+
+!!!!---------------- Start analysis of IF model: services----------------!!!!
+Detected probabilistic distribution: 
+Read: custom:1/3,1/3,1/3
+Write: custom:1/3,1/3,1/3
+Finish: custom:1/3,1/3,1/3
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+make: 'services-stripped.C' is up to date.
+make: 'services-stripped.o' is up to date.
+Compiled C++ code...
+make: 'services-stripped.x' is up to date.
+Done.
+LTS created: services-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-min.bcg'' for ``./services-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (908ms)
+
+!!!!!!!! Computing TPTS of services.if according to traces in folder execution
+computing: execution/T1.txt
+computing: execution/T2.txt
+computing: execution/T3.txt
+computing: execution/T4.txt
+computing: execution/T5.txt
+computing: execution/T6.txt
+computing: execution/T7.txt
+computing: execution/T8.txt
+computing: execution/T9.txt
+computing: execution/T10.txt
+computing: execution/T11.txt
+computing: execution/T12.txt
+computing: execution/T13.txt
+computing: execution/T14.txt
+computing: execution/T15.txt
+computing: execution/T16.txt
+computing: execution/T17.txt
+computing: execution/T18.txt
+computing: execution/T19.txt
+computing: execution/T20.txt
+computing: execution/T21.txt
+computing: execution/T22.txt
+computing: execution/T23.txt
+computing: execution/T24.txt
+computing: execution/T25.txt
+computing: execution/T26.txt
+computing: execution/T27.txt
+computing: execution/T28.txt
+computing: execution/T29.txt
+computing: execution/T30.txt
+TPTS created: services-min-execution-pts.aut
+TPTS created: services-min-execution-rem-pts.aut
+Steady-state probabilities: services-min-ori-steady.txt
+Steady-state probabilities: services-min-rem-steady.txt
+DTMC created: services-min-execution-rem-pts.nm
+State coverage: .935
+PTS computation time: 588ms
+
+<<<<<<<<<< Start analysing reaction time probabilities
+Specified chain of actions: Read, Start, Finish, Write
+Specified bounds: 0 - 14
+Steady-state probabilities (using PRISM): services-min-execution-rem-pts-steady.txt
+TPTS (indexed) created: services-min-execution-rem-pts-indexed.aut
+Model checking for t = 0
+Model checking for t = 1
+Model checking for t = 2
+Model checking for t = 3
+Model checking for t = 4
+Model checking for t = 5
+Model checking for t = 6
+Model checking for t = 7
+Model checking for t = 8
+Model checking for t = 9
+Model checking for t = 10
+Model checking for t = 11
+Model checking for t = 12
+Model checking for t = 13
+Model checking for t = 14
+Analysis results created: services-min-execution-rem-pts-verdicts-final.txt
+
+>>>>>>>>>> Finish analysing reaction time probabilities (86135ms)
+
+!!!!---------------- Start analysis of IF model: services----------------!!!!
+Detected probabilistic distribution: 
+Read: custom:1/7,9/14,1/14,1/7
+Write: custom:8/9,1/9
+Finish: custom:1/6,2/3,1/6
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+make: 'services-stripped.C' is up to date.
+make: 'services-stripped.o' is up to date.
+Compiled C++ code...
+make: 'services-stripped.x' is up to date.
+Done.
+LTS created: services-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace services-min.bcg'' for ``./services-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (891ms)
+
+!!!!!!!! Computing TPTS of services.if according to traces in folder execution
+computing: execution/T1.txt
+computing: execution/T2.txt
+computing: execution/T3.txt
+computing: execution/T4.txt
+computing: execution/T5.txt
+computing: execution/T6.txt
+computing: execution/T7.txt
+computing: execution/T8.txt
+computing: execution/T9.txt
+computing: execution/T10.txt
+computing: execution/T11.txt
+computing: execution/T12.txt
+computing: execution/T13.txt
+computing: execution/T14.txt
+computing: execution/T15.txt
+computing: execution/T16.txt
+computing: execution/T17.txt
+computing: execution/T18.txt
+computing: execution/T19.txt
+computing: execution/T20.txt
+computing: execution/T21.txt
+computing: execution/T22.txt
+computing: execution/T23.txt
+computing: execution/T24.txt
+computing: execution/T25.txt
+computing: execution/T26.txt
+computing: execution/T27.txt
+computing: execution/T28.txt
+computing: execution/T29.txt
+computing: execution/T30.txt
+TPTS created: services-min-execution-pts.aut
+TPTS created: services-min-execution-rem-pts.aut
+Steady-state probabilities: services-min-ori-steady.txt
+Steady-state probabilities: services-min-rem-steady.txt
+DTMC created: services-min-execution-rem-pts.nm
+State coverage: 1.000
+PTS computation time: 591ms
+
+<<<<<<<<<< Start analysing reaction time probabilities
+Specified chain of actions: Read, Start, Finish, Write
+Specified bounds: 0 - 14
+Steady-state probabilities (using PRISM): services-min-execution-rem-pts-steady.txt
+TPTS (indexed) created: services-min-execution-rem-pts-indexed.aut
+Model checking for t = 0
+Model checking for t = 1
+Model checking for t = 2
+Model checking for t = 3
+Model checking for t = 4
+Model checking for t = 5
+Model checking for t = 6
+Model checking for t = 7
+Model checking for t = 8
+Model checking for t = 9
+Model checking for t = 10
+Model checking for t = 11
+Model checking for t = 12
+Model checking for t = 13
+Model checking for t = 14
+Analysis results created: services-min-execution-rem-pts-verdicts-final.txt
+
+>>>>>>>>>> Finish analysing reaction time probabilities (94443ms)

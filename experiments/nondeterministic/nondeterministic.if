@@ -1,0 +1,27 @@
+system nondeterministic;
+
+process Test(1);
+    var x clock;
+    var y clock;
+    state start #start ;
+        set x := 0;
+        set y := 0;
+        nextstate first;
+    endstate;
+    state first #start ;
+        nextstate second;
+    endstate;
+    state second;
+        deadline delayable;
+        when x <= 2;
+            set x := 0;
+            informal "two"; [uniform]
+            nextstate first;
+        deadline delayable;
+        when y <= 3;
+            set y := 0;
+            informal "three"; [uniform]
+            nextstate first;
+    endstate;
+endprocess;
+endsystem;
