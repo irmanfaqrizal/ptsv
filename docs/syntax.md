@@ -52,7 +52,7 @@ The syntax described below is a subset of the [IF language](https://www-verimag.
 
 <i>dist</i> ::= <b>uniform</b> | <b>custom:</b><i>F</i>
 
-<i>F</i> = f0, f1, f2, ..., fn, where each fi is a fractional number, and n is the length of the associated delays.
+<i>F</i> = f0, f1, f2, ..., fn, where each fi is a fractional number (f0 + f1 + f2 + ... + fn = 1), and n is the maximum possible delay of the associated action.
 
 </pre
 
