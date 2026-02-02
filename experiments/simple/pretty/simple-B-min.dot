@@ -1,0 +1,18 @@
+digraph BCG {
+size = "7, 10.5";
+center = TRUE;
+rankdir=LR;
+node [shape = circle];
+0 [peripheries = 2];
+0 -> 2 [label = "B"];
+0 -> 3 [label = "Time !1"];
+1 -> 0 [label = "Time !3"];
+2 -> 0 [label = "Time !4"];
+3 -> 1 [label = "B"];
+3 -> 4 [label = "Time !1"];
+4 -> 6 [label = "Time !1"];
+4 -> 7 [label = "B"];
+5 -> 0 [label = "Time !1"];
+6 -> 5 [label = "B"];
+7 -> 0 [label = "Time !2"];
+}

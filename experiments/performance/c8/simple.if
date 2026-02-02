@@ -1,0 +1,56 @@
+system simple; [strong]
+process A(1);
+    var x clock;
+    state start #start ;
+        set x := 0;
+        nextstate jitter;
+    endstate;
+    state jitter;
+        deadline delayable;
+        when x <= 5;
+            informal "A"; [uniform]
+            nextstate wait;
+    endstate;
+    state wait;
+        when x = 30;
+            set x:= 0;
+            nextstate jitter;
+    endstate;
+endprocess;
+process B(1);
+    var x clock;
+    state start #start ;
+        set x := 0;
+        nextstate jitter;
+    endstate;
+    state jitter;
+        deadline delayable;
+        when x <= 5;
+            informal "B"; [uniform]
+            nextstate wait;
+    endstate;
+    state wait;
+        when x = 30;
+            set x:= 0;
+            nextstate jitter;
+    endstate;
+endprocess;
+process C(1);
+    var x clock;
+    state start #start ;
+        set x := 0;
+        nextstate jitter;
+    endstate;
+    state jitter;
+        deadline delayable;
+        when x <= 5;
+            informal "C"; [uniform]
+            nextstate wait;
+    endstate;
+    state wait;
+        when x = 30;
+            set x:= 0;
+            nextstate jitter;
+    endstate;
+endprocess;
+endsystem;

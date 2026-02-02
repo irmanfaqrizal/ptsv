@@ -47,6 +47,7 @@ public class App {
         int time;
         int ctr;
         FractionNumber prb;
+        Double prbFinal;
         FractionNumber eventDelayProb;
         int dst;
         Map <String, Integer> delayForEvent;
@@ -57,6 +58,7 @@ public class App {
             this.time = tm;
             this.ctr = 0;
             this.prb = new FractionNumber(1, 1);
+            this.prbFinal = 1.0;
             this.eventDelayProb = new FractionNumber(1, 1);
             this.dst = dst;
             this.delayForEvent = new HashMap<String, Integer>();
@@ -68,6 +70,7 @@ public class App {
             this.time = tm;
             this.ctr = 0;
             this.prb = prb;
+            this.prbFinal = 1.0;
             this.eventDelayProb = new FractionNumber(1, 1);
             this.dst = dst;
             this.delayForEvent = new HashMap<String, Integer>();
@@ -79,6 +82,7 @@ public class App {
             this.time = tm;
             this.ctr = ctr;
             this.prb = prb;
+            this.prbFinal = 1.0;
             this.eventDelayProb = new FractionNumber(1, 1);
             this.dst = dst;
             this.delayForEvent = new HashMap<String, Integer>();
@@ -127,10 +131,10 @@ public class App {
     }
     
     static class FractionNumber {
-        int up;
-        int down;
+        long up;
+        long down;
         // int intgr;
-        public FractionNumber(int up, int down) {
+        public FractionNumber(long up, long down) {
             this.up = up;
             this.down = down;
             // this.intgr = -1;
@@ -152,21 +156,20 @@ public class App {
             return (double) up/down;
         }
 
-        public int gcd(int a, int b) {
+        public long gcd(long a, long b) {
             return b == 0 ? a : gcd(b, a % b);
         }
 
         public void simplify() {
-            int a  = up;
-            int b = down;
-            int gcd = gcd(a, b);
+            long a  = up;
+            long b = down;
+            long gcd = gcd(a, b);
             up = a/gcd;
             down = b/gcd;
         }
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        // testEqs();
         if (args.length == 0) {
             System.out.println("Missing IF model name!");
             return;
@@ -455,7 +458,8 @@ public class App {
         Map <Integer, Set <String>> equations = new HashMap<Integer, Set <String>>();
         Map <Integer, Set <String>> equationsUnmap = new HashMap<Integer, Set <String>>();
         Map <Integer, Set <String>> equationVars = new HashMap<Integer, Set <String>>();
-        Map <String, FractionNumber> solverResults = new HashMap<String, FractionNumber>();
+        // Map <String, FractionNumber> solverResults = new HashMap<String, FractionNumber>();
+        Map <String, Double> solverResultsSci = new HashMap<String, Double>();
         Map <String, String> equationsPy = new HashMap <String, String>();
         String header = buildLTS(inLTS, ifModel, statesInsAll);
         annotateDelayTrans(inLTS);
@@ -477,21 +481,28 @@ public class App {
             transPossibilities, eventProbTriggerMap,
             eventProbMap, eventProbTimeMap, transVarMapping, inLTS);
         // printEquations(equations, equationVars);
+        // printEquationsUnmap(equationsUnmap);
+        System.out.println("Number of equations collected: " + equationsPy.size());
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
         System.out.println("\n>>>>>>>>>> Finish collecting equations (" + elapsedTime + "ms)");
-        System.out.println("\n<<<<<<<<<< Start solving with sympy\n");
+        System.out.println("\n<<<<<<<<<< Start solving\n");
         startTime = System.currentTimeMillis();
-        solveEquationsWithSympy(solverResults, ifModel, equationsPy, equationVars);
+        // solveEquationsWithSympy(solverResults, ifModel, equationsPy, equationVars);
+        solveEquationsWithScipy(solverResultsSci, ifModel, equationsPy, equationVars);
         stopTime = System.currentTimeMillis();
         elapsedTime = stopTime - startTime;
-        System.out.println("\n>>>>>>>>>> Finish solving with sympy (" + elapsedTime + "ms)");
+        System.out.println("\n>>>>>>>>>> Finish solving (" + elapsedTime + "ms)");
         // solveNetEquations(solverResults, equations, equationVars, transVarMapping);
         // printSolverResult(solverResults, transVarMapping);
-        assignProbsToLTS(inLTS, transVarMapping, solverResults);
-        writePTS(inLTS, ifModel, header);
+        // assignProbsToLTS(inLTS, transVarMapping, solverResults);
+        // writePTS(inLTS, ifModel, header);
+        // bashCreatePDF(ifModel +"-pts");
+        // writeDTMC(inLTS, ifModel +"-pts", header);
+        assignProbsToLTSSci(inLTS, transVarMapping, solverResultsSci);
+        writePTSSci(inLTS, ifModel, header);
         bashCreatePDF(ifModel +"-pts");
-        writeDTMC(inLTS, ifModel +"-pts", header);
+        writeDTMCSci(inLTS, ifModel +"-pts", header);
     }
     
     public static void analyzeChain(String modelName, ArrayList <String> chain,
@@ -1251,7 +1262,9 @@ public class App {
                             equationsPy.put(transVarMapping.get(firstTransEvent) + "/" + transVarMapping.get(tr.asKey()), fracDiv(firstTrans.eventDelayProb, tr.eventDelayProb).getFractionString());
                             tmpEqs.add(transVarMapping.get(firstTransEvent) + "/" + transVarMapping.get(tr.asKey())
                             + " == " + fracDiv(firstTrans.eventDelayProb, tr.eventDelayProb).getFractionString());
-                            tmpEqsUnmap.add(firstTransEvent + " == " + tr.asKey());
+                            // tmpEqsUnmap.add(firstTransEvent + " == " + tr.asKey());
+                            tmpEqsUnmap.add(firstTransEvent + "/" + tr.asKey()
+                            + " == " + fracDiv(firstTrans.eventDelayProb, tr.eventDelayProb).getFractionString());
                         }
                         if (tr.isDelayTrans) {
                             multiForDelayProb = new FractionNumber(1, 1);
@@ -1734,8 +1747,8 @@ public class App {
     }
     
     public static void assignProbsToLTS (Map <Integer, Set <Trans>> inLTS, Map <String, String> mapEqVars, Map <String, FractionNumber> solverResults) {
-        int up;
-        int down;
+        long up;
+        long down;
         for (int st : inLTS.keySet()) {
             for (Trans tr : inLTS.get(st)) {
                 if (mapEqVars.get(tr.asKey()) != null) {
@@ -1743,11 +1756,18 @@ public class App {
                         up = solverResults.get(mapEqVars.get(tr.asKey())).up;
                         down = solverResults.get(mapEqVars.get(tr.asKey())).down;
                         tr.prb = new FractionNumber(up, down);
-                        // if (tmpFrac.intgr == -1) {
-                        //     tr.prb = new FractionNumber(tmpFrac.up, tmpFrac.down);
-                        // } else {
-                        //     tr.prb = new FractionNumber(1, 1);
-                        // }
+                    }
+                }
+            }
+        }
+    }
+
+    public static void assignProbsToLTSSci (Map <Integer, Set <Trans>> inLTS, Map <String, String> mapEqVars, Map <String, Double> solverResults) {
+        for (int st : inLTS.keySet()) {
+            for (Trans tr : inLTS.get(st)) {
+                if (mapEqVars.get(tr.asKey()) != null) {
+                    if (solverResults.get(mapEqVars.get(tr.asKey())) != null){
+                        tr.prbFinal = solverResults.get(mapEqVars.get(tr.asKey()));
                     }
                 }
             }
@@ -2700,16 +2720,81 @@ public class App {
                 while ((string = br.readLine()) != null) {
                     String var = string.split(":")[0];
                     if (string.split(":")[1].split("/").length > 1) {
-                        int up = Integer.parseInt(string.split(":")[1].split("/")[0]);
-                        int down = 1;
+                        long up = Long.parseLong(string.split(":")[1].split("/")[0]);
+                        long down = 1;
                         if (string.split(":")[1].split("/").length > 1) {
-                            down = Integer.parseInt(string.split(":")[1].split("/")[1]);
+                            down = Long.parseLong(string.split(":")[1].split("/")[1]);
                         }
                         solverResult.put(var, new FractionNumber(up, down));
                     } else {
                         int num = Integer.parseInt(string.split(":")[1]);
                         solverResult.put(var, new FractionNumber(num, 1));
                     }
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Python code creation error!");
+            e.printStackTrace();
+        }
+    }
+
+    public static void solveEquationsWithScipy (Map <String, Double> solverResult, String fileName,
+    Map <String, String> equationsPy,
+    Map <Integer, Set <String>> eqVars) throws InterruptedException {
+        try {
+            FileWriter myWriter = new FileWriter(fileName +  "-solver.py");
+            myWriter.write("from scipy.optimize import least_squares\n");
+            myWriter.write("import numpy as np\n");
+            myWriter.write("import sys\n");
+            myWriter.write("var_names = [");
+            String delimVar = "";
+            for (int st : eqVars.keySet()) {
+                for (String var : eqVars.get(st)) {
+                    myWriter.write(delimVar + "\'" + var + "\'");
+                    delimVar = ", ";
+                }
+            }
+            myWriter.write("]\n");
+            myWriter.write("def system_of_residuals(x):\n\t");
+            delimVar = "";
+            for (int st : eqVars.keySet()) {
+                for (String var : eqVars.get(st)) {
+                    myWriter.write(delimVar + var);
+                    delimVar = ", ";
+                }
+            }
+            myWriter.write(" = x\n\t");
+            myWriter.write("return [\n");
+            String delimEq = "";
+            for (String left : equationsPy.keySet()) {
+                if (equationsPy.get(left).split("/").length > 1) {
+                    String up = equationsPy.get(left).split("/")[0];
+                    String down = equationsPy.get(left).split("/")[1];
+                    myWriter.write(delimEq + "\t\t(" + left + ") - " + up + "/" + down);
+                } else {
+                    myWriter.write(delimEq + "\t\t(" + left + ") - " + equationsPy.get(left));
+                }
+                delimEq = ",\n";
+            }
+            myWriter.write("\n\t]\n");
+            myWriter.write("x0 = np.full(len(var_names), 0.5)\n" + //
+                                "res = least_squares(system_of_residuals, x0, bounds=(0, 1))\n" + //
+                                "sol_dict = dict(zip(var_names, res.x))\n" + //
+                                "text_file = open(sys.argv[1] + \"-scipy.txt\", \"w\")\n" + //
+                                "for var, val in sol_dict.items():\n" + //
+                                "    text_file.write(f\"{var}:{val:.6f}\\n\")\n" + //
+                                "text_file.close()\n" + //
+                                "print(\"Solution: \" + sys.argv[1] + \"-scipy.txt\")");
+            myWriter.close();
+            executeCommands("python3 " + fileName + "-solver.py " + fileName);
+
+            String string;
+            try(BufferedReader br = new BufferedReader(new FileReader(fileName + "-scipy.txt"))) {
+                while ((string = br.readLine()) != null) {
+                    String var = string.split(":")[0];
+                    Double res = Double.parseDouble(string.split(":")[1]);
+                    solverResult.put(var, res);
                 }
             }
 
@@ -2815,6 +2900,31 @@ public class App {
             e.printStackTrace();
         }
     }
+
+    public static void writePTSSci (Map<Integer, Set<Trans>> inLTS, String fileName, String fileHeader) {
+        try {
+            FileWriter myWriter = new FileWriter(fileName +  "-pts.aut");
+            myWriter.write(fileHeader+"\n");
+            String tmpTime = "";
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(12);
+            for (int st : inLTS.keySet()) {
+                for (Trans itrs : inLTS.get(st)) {
+                    tmpTime = "";
+                    if (itrs.time > 0) {
+                        tmpTime = " !" + itrs.time;
+                    }
+                    myWriter.write("(" + st + ", \"" + itrs.lbl + tmpTime + "; prob " + itrs.prbFinal
+                        + "\", " + itrs.dst + ")\n");
+                }
+            }
+            myWriter.close();
+            System.out.println("TPTS created: " + fileName + "-pts"+".aut");
+        } catch (IOException e) {
+            System.out.println("TPTS creation error!");
+            e.printStackTrace();
+        }
+    }
     
     public static void writeDTMC (Map<Integer, Set<Trans>> inLTS, String fileName, String fileHeader) {
         try {
@@ -2831,6 +2941,34 @@ public class App {
                 delimPlus = "";
                 for (Trans itrs : inLTS.get(st)) {
                     myWriter.write(delimPlus + df.format(itrs.prb.getFloat()) + " : (s'=" + itrs.dst + ") ");
+                    delimPlus = "+ ";
+                }
+                myWriter.write(";\n");
+            }
+            myWriter.write("\nendmodule\n");
+            myWriter.close();
+            System.out.println("DTMC created: " + fileName +".nm");
+        } catch (IOException e) {
+            System.out.println("DTMC translation error!");
+            e.printStackTrace();
+        }
+    }
+
+    public static void writeDTMCSci (Map<Integer, Set<Trans>> inLTS, String fileName, String fileHeader) {
+        try {
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(12);
+            int numState = Integer.parseInt(fileHeader.replace("(", "").replace(")", "").replace(" ", "").split(",")[2]);
+            String delimPlus = "";
+            FileWriter myWriter = new FileWriter(fileName +".nm");
+            myWriter.write("dtmc\n\n");
+            myWriter.write("module translated\n\n");
+            myWriter.write("\ts : [0.." + (numState-1) +"] init 0 ;\n\n");
+            for (int st : inLTS.keySet()) {
+                myWriter.write("\t[] s=" + st + " -> ");
+                delimPlus = "";
+                for (Trans itrs : inLTS.get(st)) {
+                    myWriter.write(delimPlus + itrs.prbFinal + " : (s'=" + itrs.dst + ") ");
                     delimPlus = "+ ";
                 }
                 myWriter.write(";\n");
@@ -2976,18 +3114,18 @@ public class App {
     }
 
     public static FractionNumber fracPlus (FractionNumber a, FractionNumber b) {
-        int newDown = a.down * b.down;
-        int newUpA = newDown / a.down * a.up;
-        int newUpB = newDown / b.down * b.up;
+        long newDown = a.down * b.down;
+        long newUpA = newDown / a.down * a.up;
+        long newUpB = newDown / b.down * b.up;
         FractionNumber simple = new FractionNumber(newUpA + newUpB, newDown);
         simple.simplify();
         return simple;
     }
 
     public static FractionNumber fracMin (FractionNumber a, FractionNumber b) {
-        int newDown = a.down * b.down;
-        int newUpA = newDown / a.down * a.up;
-        int newUpB = newDown / b.down * b.up;
+        long newDown = a.down * b.down;
+        long newUpA = newDown / a.down * a.up;
+        long newUpB = newDown / b.down * b.up;
         FractionNumber simple = new FractionNumber(newUpA - newUpB, newDown);
         simple.simplify();
         return simple;
@@ -2998,9 +3136,9 @@ public class App {
     }
 
     public static boolean fracLess (FractionNumber a, FractionNumber b) {
-        int newDown = a.down * b.down;
-        int newUpA = newDown / a.down * a.up;
-        int newUpB = newDown / b.down * b.up;
+        long newDown = a.down * b.down;
+        long newUpA = newDown / a.down * a.up;
+        long newUpB = newDown / b.down * b.up;
         if (newUpA < newUpB) {
             return true;
         } else {

@@ -1,32 +1,36 @@
 
 # PTSV
 
-PTSV is a tool to compute discrete Timed Probabilistic Transition Systems (TPTSs). It takes as input a network of timed automata and, optionally, a set of execution traces. Without the traces, the tool will generate probabilities of the transition delays according to uniform distribution. However, this feature is still being developed and only works for specific timed automata.
+- PTSV is a tool to compute discrete Timed Probabilistic Transition Systems (TPTSs).
+- It takes as input a network of Discrete Stochastic Timed Automata and, optionally, a set of execution traces.
+- The network of DSTA is described according to a subset of [IF specification](https://www-verimag.imag.fr/~async/IF/tutorials.html) language extended with discrete probabilistic distributions of the delays (see [Syntax](docs/syntax.txt)).
+
 
 ## Prerequisites
 
 - [Java](https://www.java.com/en/download/manual.jsp) must be installed to run PTSV.
-- The tool executes bash scripts inside to run other tools below.
-- The network of timed automata is specified using the language described by the [IF toolset](https://gricad-gitlab.univ-grenoble-alpes.fr/verimag/if/if-toolset). It is required to install the toolset because PTSV uses it to generate discrete Timed Labeled Transition Systems (TLTSs).
-- The [CADP Toolbox](https://cadp.inria.fr/) also needs to be installed for applying reduction on the TLTSs (and later for verification purposes).
-- [graphviz](https://graphviz.org/download/) for visualization (PTSV uses it to generate transition system PDF files).
+- The tool executes bash scripts to run other tools below:
+	- The [IF toolset](https://gricad-gitlab.univ-grenoble-alpes.fr/verimag/if/if-toolset) is required to generate discrete Timed Labeled Transition Systems (TLTSs).
+	- [Python3](https://www.python.org/downloads/) with [SciPy](https://pypi.org/project/scipy/) framework must be installed for solving systems of equations.
+	- The [CADP Toolbox](https://cadp.inria.fr/) needs to be installed for applying reduction on the TLTSs (and later for verification purposes).
+	- [Graphviz](https://graphviz.org/download/) is used for visualization (i.e., to generate transition system PDF files).
 
 ## Running PTSV
 
-- A JAR file is provided in the [experiments/simple](experiments/simple/) folder.
+- A JAR file is provided in the [target](ptsv-app/target/ptsv.jar) folder.
 - The command to run it is as follows:
 `````
 cd experiments/simple
-java -cp ptsv.jar com.ptsv.app.App <IF model> <traces folder>
+java -cp ptsv.jar com.ptsv.app.App <IF model> [<traces folder>]
 `````
-- In the folder,  [test.sh](experiments/simple/test.sh) can be executed to run PTSV using the example model [simple.if](experiments/simple/simple.if) and the set of [traces](experiments/simple/traces).
+- The [experiments](experiments) folder contains a set of experiments for testing.
+- For instance,  [test.sh](experiments/simple/test.sh) can be executed to run PTSV using the example model [simple.if](experiments/simple/simple.if).
 `````
 cd experiments/simple
 ./test.sh
 `````
-- In this example, the main outputs are as follows:
-	- [simple-min-pts.pdf](experiments/simple-min-pts.pdf) shows the TPTS of [simple.if](experiments/simple/simple.if) according to uniform distribution.
-	- [simple-min-traces-pts.pdf](experiments/simple-min-traces-pts.pdf) shows the TPTS of [simple.if](experiments/simple/simple.if) computed using the set of [traces](experiments/simple/traces).
+- The tool will return [simple-min-pts.pdf](experiments/simple-min-pts.pdf), which shows the TPTS of [simple.if](experiments/simple/simple.if) according to the specified distribution.
+
 
 ## Building from source
 
@@ -37,4 +41,4 @@ cd experiments/simple
 cd ptsv-app
 mvn clean package
 `````
-- The JAR file will appear in [ptsv-app/target](ptsv-app/target) as ptsv.jar.
+- The JAR file will appear in [target](ptsv-app/target) as ptsv.jar.

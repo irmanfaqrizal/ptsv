@@ -1,0 +1,946 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m-----------------------< [0;36mcom.ptsv.app:ptsv-app[0;1m >------------------------[m
+[[1;34mINFO[m] [1mBuilding ptsv-app 1.0[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-clean-plugin:3.4.0:clean[m [1m(default-clean)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] Deleting /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/target
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:resources[m [1m(default-resources)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] skip non existing resourceDirectory /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/src/main/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.13.0:compile[m [1m(default-compile)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] Recompiling the module because of [1mchanged source code[m.
+[[1;34mINFO[m] Compiling 1 source file with javac [debug release 21] to target/classes
+[[1;34mINFO[m] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:testResources[m [1m(default-testResources)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] skip non existing resourceDirectory /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.13.0:testCompile[m [1m(default-testCompile)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] Recompiling the module because of [1mchanged dependency[m.
+[[1;34mINFO[m] Compiling 1 source file with javac [debug release 21] to target/test-classes
+[[1;34mINFO[m] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-surefire-plugin:3.3.0:test[m [1m(default-test)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[[1;34mINFO[m] 
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m]  T E S T S
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m] Running com.ptsv.app.[1mAppTest[m
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m1[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in com.ptsv.app.[1mAppTest[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Results:
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1;32mTests run: 1, Failures: 0, Errors: 0, Skipped: 0[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-assembly-plugin:3.1.0:single[m [1m(default)[m @ [36mptsv-app[0;1m ---[m
+[[1;34mINFO[m] Building jar: /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/target/ptsv.jar
+[[1;33mWARNING[m] Configuration option 'appendAssemblyId' is set to false.
+Instead of attaching the assembly file: /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/target/ptsv.jar, it will become the file for main project artifact.
+NOTE: If multiple descriptors or descriptor-formats are provided for this project, the value of this file will be non-deterministic!
+[[1;33mWARNING[m] Replacing pre-existing project main-artifact file: /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/target/classes
+with assembly file: /home/ifaqriza/Documents/Repos/ptsv/ptsv/ptsv-app/target/ptsv.jar
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  7.913 s
+[[1;34mINFO[m] Finished at: 2026-02-01T18:51:40+01:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+!!!!!!!!!!!!!!! GENERATING c1 !!!!!!!!!!!!!!!
+
+!!!!---------------- Start analysis of IF model: simple----------------!!!!
+Detected probabilistic distribution: 
+A: uniform
+B: uniform
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-stripped.m4 > simple-stripped.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-stripped.m4 > simple-stripped.C
+g++ -Wno-tautological-compare -O3 -c -o simple-stripped.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-stripped.C 
+Compiled C++ code...
+g++  -o simple-stripped.x simple-stripped.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-min.bcg'' for ``./simple-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (1486ms)
+
+!!!!!!!! Computing TPTS of simple.if according to specified distributions
+
+
+<<<<<<<<<< Start generating the local TLTSs
+
+!!!!!!!! Compiling process A TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-A.m4 > simple-A.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-A.m4 > simple-A.C
+g++ -Wno-tautological-compare -O3 -c -o simple-A.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-A.C 
+Compiled C++ code...
+g++  -o simple-A.x simple-A.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-A-mod.aut
+
+!!!!!!!! Reducing process A TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-A-min.bcg'' for ``./simple-A-min.bcg''
+
+!!!!!!!! Compiling process B TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-B.m4 > simple-B.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-B.m4 > simple-B.C
+g++ -Wno-tautological-compare -O3 -c -o simple-B.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-B.C 
+Compiled C++ code...
+g++  -o simple-B.x simple-B.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-B-mod.aut
+
+!!!!!!!! Reducing process B TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-B-min.bcg'' for ``./simple-B-min.bcg''
+
+>>>>>>>>>> Finish generating the local TLTSs (2681ms)
+
+<<<<<<<<<< Start collecting equations
+TPTS created: simple-A-min-pts.aut
+TPTS created: simple-B-min-pts.aut
+Number of equations collected: 13
+
+>>>>>>>>>> Finish collecting equations (766ms)
+
+<<<<<<<<<< Start solving
+
+Solution: simple-min-scipy.txt
+
+>>>>>>>>>> Finish solving (325ms)
+TPTS created: simple-min-pts.aut
+DTMC created: simple-min-pts.nm
+!!!!!!!!!!!!!!! GENERATING c2 !!!!!!!!!!!!!!!
+
+!!!!---------------- Start analysis of IF model: simple----------------!!!!
+Detected probabilistic distribution: 
+A: uniform
+B: uniform
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-stripped.m4 > simple-stripped.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-stripped.m4 > simple-stripped.C
+g++ -Wno-tautological-compare -O3 -c -o simple-stripped.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-stripped.C 
+Compiled C++ code...
+g++  -o simple-stripped.x simple-stripped.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-min.bcg'' for ``./simple-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (1464ms)
+
+!!!!!!!! Computing TPTS of simple.if according to specified distributions
+
+
+<<<<<<<<<< Start generating the local TLTSs
+
+!!!!!!!! Compiling process A TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-A.m4 > simple-A.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-A.m4 > simple-A.C
+g++ -Wno-tautological-compare -O3 -c -o simple-A.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-A.C 
+Compiled C++ code...
+g++  -o simple-A.x simple-A.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-A-mod.aut
+
+!!!!!!!! Reducing process A TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-A-min.bcg'' for ``./simple-A-min.bcg''
+
+!!!!!!!! Compiling process B TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-B.m4 > simple-B.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-B.m4 > simple-B.C
+g++ -Wno-tautological-compare -O3 -c -o simple-B.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-B.C 
+Compiled C++ code...
+g++  -o simple-B.x simple-B.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-B-mod.aut
+
+!!!!!!!! Reducing process B TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-B-min.bcg'' for ``./simple-B-min.bcg''
+
+>>>>>>>>>> Finish generating the local TLTSs (2691ms)
+
+<<<<<<<<<< Start collecting equations
+TPTS created: simple-A-min-pts.aut
+TPTS created: simple-B-min-pts.aut
+Number of equations collected: 27
+
+>>>>>>>>>> Finish collecting equations (758ms)
+
+<<<<<<<<<< Start solving
+
+Solution: simple-min-scipy.txt
+
+>>>>>>>>>> Finish solving (303ms)
+TPTS created: simple-min-pts.aut
+DTMC created: simple-min-pts.nm
+!!!!!!!!!!!!!!! GENERATING c3 !!!!!!!!!!!!!!!
+
+!!!!---------------- Start analysis of IF model: simple----------------!!!!
+Detected probabilistic distribution: 
+A: uniform
+B: uniform
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-stripped.m4 > simple-stripped.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-stripped.m4 > simple-stripped.C
+g++ -Wno-tautological-compare -O3 -c -o simple-stripped.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-stripped.C 
+Compiled C++ code...
+g++  -o simple-stripped.x simple-stripped.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-min.bcg'' for ``./simple-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (1481ms)
+
+!!!!!!!! Computing TPTS of simple.if according to specified distributions
+
+
+<<<<<<<<<< Start generating the local TLTSs
+
+!!!!!!!! Compiling process A TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-A.m4 > simple-A.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-A.m4 > simple-A.C
+g++ -Wno-tautological-compare -O3 -c -o simple-A.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-A.C 
+Compiled C++ code...
+g++  -o simple-A.x simple-A.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-A-mod.aut
+
+!!!!!!!! Reducing process A TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-A-min.bcg'' for ``./simple-A-min.bcg''
+
+!!!!!!!! Compiling process B TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-B.m4 > simple-B.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-B.m4 > simple-B.C
+g++ -Wno-tautological-compare -O3 -c -o simple-B.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-B.C 
+Compiled C++ code...
+g++  -o simple-B.x simple-B.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-B-mod.aut
+
+!!!!!!!! Reducing process B TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-B-min.bcg'' for ``./simple-B-min.bcg''
+
+>>>>>>>>>> Finish generating the local TLTSs (2801ms)
+
+<<<<<<<<<< Start collecting equations
+TPTS created: simple-A-min-pts.aut
+TPTS created: simple-B-min-pts.aut
+Number of equations collected: 41
+
+>>>>>>>>>> Finish collecting equations (752ms)
+
+<<<<<<<<<< Start solving
+
+Solution: simple-min-scipy.txt
+
+>>>>>>>>>> Finish solving (332ms)
+TPTS created: simple-min-pts.aut
+DTMC created: simple-min-pts.nm
+!!!!!!!!!!!!!!! GENERATING c4 !!!!!!!!!!!!!!!
+
+!!!!---------------- Start analysis of IF model: simple----------------!!!!
+Detected probabilistic distribution: 
+A: uniform
+B: uniform
+C: uniform
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-stripped.m4 > simple-stripped.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-stripped.m4 > simple-stripped.C
+g++ -Wno-tautological-compare -O3 -c -o simple-stripped.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-stripped.C 
+Compiled C++ code...
+g++  -o simple-stripped.x simple-stripped.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-min.bcg'' for ``./simple-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (1545ms)
+
+!!!!!!!! Computing TPTS of simple.if according to specified distributions
+
+
+<<<<<<<<<< Start generating the local TLTSs
+
+!!!!!!!! Compiling process A TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-A.m4 > simple-A.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-A.m4 > simple-A.C
+g++ -Wno-tautological-compare -O3 -c -o simple-A.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-A.C 
+Compiled C++ code...
+g++  -o simple-A.x simple-A.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-A-mod.aut
+
+!!!!!!!! Reducing process A TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-A-min.bcg'' for ``./simple-A-min.bcg''
+
+!!!!!!!! Compiling process B TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-B.m4 > simple-B.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-B.m4 > simple-B.C
+g++ -Wno-tautological-compare -O3 -c -o simple-B.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-B.C 
+Compiled C++ code...
+g++  -o simple-B.x simple-B.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-B-mod.aut
+
+!!!!!!!! Reducing process B TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-B-min.bcg'' for ``./simple-B-min.bcg''
+
+!!!!!!!! Compiling process C TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-C.m4 > simple-C.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-C.m4 > simple-C.C
+g++ -Wno-tautological-compare -O3 -c -o simple-C.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-C.C 
+Compiled C++ code...
+g++  -o simple-C.x simple-C.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-C-mod.aut
+
+!!!!!!!! Reducing process C TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-C-min.bcg'' for ``./simple-C-min.bcg''
+
+>>>>>>>>>> Finish generating the local TLTSs (4081ms)
+
+<<<<<<<<<< Start collecting equations
+TPTS created: simple-A-min-pts.aut
+TPTS created: simple-B-min-pts.aut
+TPTS created: simple-C-min-pts.aut
+Number of equations collected: 34
+
+>>>>>>>>>> Finish collecting equations (986ms)
+
+<<<<<<<<<< Start solving
+
+Solution: simple-min-scipy.txt
+
+>>>>>>>>>> Finish solving (328ms)
+TPTS created: simple-min-pts.aut
+DTMC created: simple-min-pts.nm
+!!!!!!!!!!!!!!! GENERATING c5 !!!!!!!!!!!!!!!
+
+!!!!---------------- Start analysis of IF model: simple----------------!!!!
+Detected probabilistic distribution: 
+A: uniform
+B: uniform
+C: uniform
+D: uniform
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-stripped.m4 > simple-stripped.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-stripped.m4 > simple-stripped.C
+g++ -Wno-tautological-compare -O3 -c -o simple-stripped.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-stripped.C 
+Compiled C++ code...
+g++  -o simple-stripped.x simple-stripped.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-min.bcg'' for ``./simple-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (1535ms)
+
+!!!!!!!! Computing TPTS of simple.if according to specified distributions
+
+
+<<<<<<<<<< Start generating the local TLTSs
+
+!!!!!!!! Compiling process A TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-A.m4 > simple-A.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-A.m4 > simple-A.C
+g++ -Wno-tautological-compare -O3 -c -o simple-A.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-A.C 
+Compiled C++ code...
+g++  -o simple-A.x simple-A.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-A-mod.aut
+
+!!!!!!!! Reducing process A TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-A-min.bcg'' for ``./simple-A-min.bcg''
+
+!!!!!!!! Compiling process B TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-B.m4 > simple-B.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-B.m4 > simple-B.C
+g++ -Wno-tautological-compare -O3 -c -o simple-B.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-B.C 
+Compiled C++ code...
+g++  -o simple-B.x simple-B.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-B-mod.aut
+
+!!!!!!!! Reducing process B TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-B-min.bcg'' for ``./simple-B-min.bcg''
+
+!!!!!!!! Compiling process C TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-C.m4 > simple-C.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-C.m4 > simple-C.C
+g++ -Wno-tautological-compare -O3 -c -o simple-C.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-C.C 
+Compiled C++ code...
+g++  -o simple-C.x simple-C.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-C-mod.aut
+
+!!!!!!!! Reducing process C TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-C-min.bcg'' for ``./simple-C-min.bcg''
+
+!!!!!!!! Compiling process D TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-D.m4 > simple-D.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-D.m4 > simple-D.C
+g++ -Wno-tautological-compare -O3 -c -o simple-D.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-D.C 
+Compiled C++ code...
+g++  -o simple-D.x simple-D.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-D-mod.aut
+
+!!!!!!!! Reducing process D TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-D-min.bcg'' for ``./simple-D-min.bcg''
+
+>>>>>>>>>> Finish generating the local TLTSs (5548ms)
+
+<<<<<<<<<< Start collecting equations
+TPTS created: simple-A-min-pts.aut
+TPTS created: simple-B-min-pts.aut
+TPTS created: simple-C-min-pts.aut
+TPTS created: simple-D-min-pts.aut
+Number of equations collected: 83
+
+>>>>>>>>>> Finish collecting equations (1270ms)
+
+<<<<<<<<<< Start solving
+
+Solution: simple-min-scipy.txt
+
+>>>>>>>>>> Finish solving (436ms)
+TPTS created: simple-min-pts.aut
+DTMC created: simple-min-pts.nm
+!!!!!!!!!!!!!!! GENERATING c6 !!!!!!!!!!!!!!!
+
+!!!!---------------- Start analysis of IF model: simple----------------!!!!
+Detected probabilistic distribution: 
+A: uniform
+B: uniform
+C: uniform
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-stripped.m4 > simple-stripped.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-stripped.m4 > simple-stripped.C
+g++ -Wno-tautological-compare -O3 -c -o simple-stripped.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-stripped.C 
+Compiled C++ code...
+g++  -o simple-stripped.x simple-stripped.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-min.bcg'' for ``./simple-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (1545ms)
+
+!!!!!!!! Computing TPTS of simple.if according to specified distributions
+
+
+<<<<<<<<<< Start generating the local TLTSs
+
+!!!!!!!! Compiling process A TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-A.m4 > simple-A.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-A.m4 > simple-A.C
+g++ -Wno-tautological-compare -O3 -c -o simple-A.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-A.C 
+Compiled C++ code...
+g++  -o simple-A.x simple-A.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-A-mod.aut
+
+!!!!!!!! Reducing process A TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-A-min.bcg'' for ``./simple-A-min.bcg''
+
+!!!!!!!! Compiling process B TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-B.m4 > simple-B.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-B.m4 > simple-B.C
+g++ -Wno-tautological-compare -O3 -c -o simple-B.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-B.C 
+Compiled C++ code...
+g++  -o simple-B.x simple-B.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-B-mod.aut
+
+!!!!!!!! Reducing process B TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-B-min.bcg'' for ``./simple-B-min.bcg''
+
+!!!!!!!! Compiling process C TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-C.m4 > simple-C.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-C.m4 > simple-C.C
+g++ -Wno-tautological-compare -O3 -c -o simple-C.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-C.C 
+Compiled C++ code...
+g++  -o simple-C.x simple-C.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-C-mod.aut
+
+!!!!!!!! Reducing process C TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-C-min.bcg'' for ``./simple-C-min.bcg''
+
+>>>>>>>>>> Finish generating the local TLTSs (4151ms)
+
+<<<<<<<<<< Start collecting equations
+TPTS created: simple-A-min-pts.aut
+TPTS created: simple-B-min-pts.aut
+TPTS created: simple-C-min-pts.aut
+Number of equations collected: 72
+
+>>>>>>>>>> Finish collecting equations (1028ms)
+
+<<<<<<<<<< Start solving
+
+Solution: simple-min-scipy.txt
+
+>>>>>>>>>> Finish solving (429ms)
+TPTS created: simple-min-pts.aut
+DTMC created: simple-min-pts.nm
+!!!!!!!!!!!!!!! GENERATING c7 !!!!!!!!!!!!!!!
+
+!!!!---------------- Start analysis of IF model: simple----------------!!!!
+Detected probabilistic distribution: 
+A: uniform
+B: uniform
+C: uniform
+D: uniform
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-stripped.m4 > simple-stripped.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-stripped.m4 > simple-stripped.C
+g++ -Wno-tautological-compare -O3 -c -o simple-stripped.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-stripped.C 
+Compiled C++ code...
+g++  -o simple-stripped.x simple-stripped.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-min.bcg'' for ``./simple-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (1715ms)
+
+!!!!!!!! Computing TPTS of simple.if according to specified distributions
+
+
+<<<<<<<<<< Start generating the local TLTSs
+
+!!!!!!!! Compiling process A TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-A.m4 > simple-A.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-A.m4 > simple-A.C
+g++ -Wno-tautological-compare -O3 -c -o simple-A.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-A.C 
+Compiled C++ code...
+g++  -o simple-A.x simple-A.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-A-mod.aut
+
+!!!!!!!! Reducing process A TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-A-min.bcg'' for ``./simple-A-min.bcg''
+
+!!!!!!!! Compiling process B TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-B.m4 > simple-B.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-B.m4 > simple-B.C
+g++ -Wno-tautological-compare -O3 -c -o simple-B.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-B.C 
+Compiled C++ code...
+g++  -o simple-B.x simple-B.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-B-mod.aut
+
+!!!!!!!! Reducing process B TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-B-min.bcg'' for ``./simple-B-min.bcg''
+
+!!!!!!!! Compiling process C TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-C.m4 > simple-C.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-C.m4 > simple-C.C
+g++ -Wno-tautological-compare -O3 -c -o simple-C.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-C.C 
+Compiled C++ code...
+g++  -o simple-C.x simple-C.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-C-mod.aut
+
+!!!!!!!! Reducing process C TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-C-min.bcg'' for ``./simple-C-min.bcg''
+
+!!!!!!!! Compiling process D TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-D.m4 > simple-D.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-D.m4 > simple-D.C
+g++ -Wno-tautological-compare -O3 -c -o simple-D.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-D.C 
+Compiled C++ code...
+g++  -o simple-D.x simple-D.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-D-mod.aut
+
+!!!!!!!! Reducing process D TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-D-min.bcg'' for ``./simple-D-min.bcg''
+
+>>>>>>>>>> Finish generating the local TLTSs (5533ms)
+
+<<<<<<<<<< Start collecting equations
+TPTS created: simple-A-min-pts.aut
+TPTS created: simple-B-min-pts.aut
+TPTS created: simple-C-min-pts.aut
+TPTS created: simple-D-min-pts.aut
+Number of equations collected: 177
+
+>>>>>>>>>> Finish collecting equations (1308ms)
+
+<<<<<<<<<< Start solving
+
+Solution: simple-min-scipy.txt
+
+>>>>>>>>>> Finish solving (3614ms)
+TPTS created: simple-min-pts.aut
+DTMC created: simple-min-pts.nm
+!!!!!!!!!!!!!!! GENERATING c8 !!!!!!!!!!!!!!!
+
+!!!!---------------- Start analysis of IF model: simple----------------!!!!
+Detected probabilistic distribution: 
+A: uniform
+B: uniform
+C: uniform
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-stripped.m4 > simple-stripped.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-stripped.m4 > simple-stripped.C
+g++ -Wno-tautological-compare -O3 -c -o simple-stripped.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-stripped.C 
+Compiled C++ code...
+g++  -o simple-stripped.x simple-stripped.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-min.bcg'' for ``./simple-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (1572ms)
+
+!!!!!!!! Computing TPTS of simple.if according to specified distributions
+
+
+<<<<<<<<<< Start generating the local TLTSs
+
+!!!!!!!! Compiling process A TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-A.m4 > simple-A.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-A.m4 > simple-A.C
+g++ -Wno-tautological-compare -O3 -c -o simple-A.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-A.C 
+Compiled C++ code...
+g++  -o simple-A.x simple-A.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-A-mod.aut
+
+!!!!!!!! Reducing process A TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-A-min.bcg'' for ``./simple-A-min.bcg''
+
+!!!!!!!! Compiling process B TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-B.m4 > simple-B.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-B.m4 > simple-B.C
+g++ -Wno-tautological-compare -O3 -c -o simple-B.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-B.C 
+Compiled C++ code...
+g++  -o simple-B.x simple-B.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-B-mod.aut
+
+!!!!!!!! Reducing process B TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-B-min.bcg'' for ``./simple-B-min.bcg''
+
+!!!!!!!! Compiling process C TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-C.m4 > simple-C.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-C.m4 > simple-C.C
+g++ -Wno-tautological-compare -O3 -c -o simple-C.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-C.C 
+Compiled C++ code...
+g++  -o simple-C.x simple-C.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-C-mod.aut
+
+!!!!!!!! Reducing process C TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-C-min.bcg'' for ``./simple-C-min.bcg''
+
+>>>>>>>>>> Finish generating the local TLTSs (4113ms)
+
+<<<<<<<<<< Start collecting equations
+TPTS created: simple-A-min-pts.aut
+TPTS created: simple-B-min-pts.aut
+TPTS created: simple-C-min-pts.aut
+Number of equations collected: 110
+
+>>>>>>>>>> Finish collecting equations (1035ms)
+
+<<<<<<<<<< Start solving
+
+Solution: simple-min-scipy.txt
+
+>>>>>>>>>> Finish solving (935ms)
+TPTS created: simple-min-pts.aut
+DTMC created: simple-min-pts.nm
+!!!!!!!!!!!!!!! GENERATING c9 !!!!!!!!!!!!!!!
+
+!!!!---------------- Start analysis of IF model: simple----------------!!!!
+Detected probabilistic distribution: 
+A: uniform
+B: uniform
+C: uniform
+D: uniform
+
+<<<<<<<<<< Start generating the global TLTS
+
+!!!!!!!! Compiling global TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-stripped.m4 > simple-stripped.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-stripped.m4 > simple-stripped.C
+g++ -Wno-tautological-compare -O3 -c -o simple-stripped.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-stripped.C 
+Compiled C++ code...
+g++  -o simple-stripped.x simple-stripped.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-mod.aut
+
+!!!!!!!! Reducing global TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-min.bcg'' for ``./simple-min.bcg''
+
+>>>>>>>>>> Finish generating the global TLTS (1671ms)
+
+!!!!!!!! Computing TPTS of simple.if according to specified distributions
+
+
+<<<<<<<<<< Start generating the local TLTSs
+
+!!!!!!!! Compiling process A TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-A.m4 > simple-A.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-A.m4 > simple-A.C
+g++ -Wno-tautological-compare -O3 -c -o simple-A.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-A.C 
+Compiled C++ code...
+g++  -o simple-A.x simple-A.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-A-mod.aut
+
+!!!!!!!! Reducing process A TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-A-min.bcg'' for ``./simple-A-min.bcg''
+
+!!!!!!!! Compiling process B TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-B.m4 > simple-B.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-B.m4 > simple-B.C
+g++ -Wno-tautological-compare -O3 -c -o simple-B.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-B.C 
+Compiled C++ code...
+g++  -o simple-B.x simple-B.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-B-mod.aut
+
+!!!!!!!! Reducing process B TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-B-min.bcg'' for ``./simple-B-min.bcg''
+
+!!!!!!!! Compiling process C TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-C.m4 > simple-C.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-C.m4 > simple-C.C
+g++ -Wno-tautological-compare -O3 -c -o simple-C.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-C.C 
+Compiled C++ code...
+g++  -o simple-C.x simple-C.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-C-mod.aut
+
+!!!!!!!! Reducing process C TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-C-min.bcg'' for ``./simple-C-min.bcg''
+
+!!!!!!!! Compiling process D TLTS
+
+Compiled IF spec...
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=h simple-D.m4 > simple-D.h
+m4 -I/home/ifaqriza/if-toolset-master/src/code -D_CTYPE_=C simple-D.m4 > simple-D.C
+g++ -Wno-tautological-compare -O3 -c -o simple-D.o -DABSTRACT -I/home/ifaqriza/if-toolset-master/src/simulator-t -I/home/ifaqriza/if-toolset-master/src/simulator simple-D.C 
+Compiled C++ code...
+g++  -o simple-D.x simple-D.o -L/home/ifaqriza/if-toolset-master/bin -lsimulator -lexplorator -lxerces-c
+Done.
+LTS created: simple-D-mod.aut
+
+!!!!!!!! Reducing process D TLTS
+
+bcg_open: using ``/home/ifaqriza/cadp/bin.x64/reductor.a''
+bcg_open: running ``reductor -weaktrace simple-D-min.bcg'' for ``./simple-D-min.bcg''
+
+>>>>>>>>>> Finish generating the local TLTSs (5507ms)
+
+<<<<<<<<<< Start collecting equations
+TPTS created: simple-A-min-pts.aut
+TPTS created: simple-B-min-pts.aut
+TPTS created: simple-C-min-pts.aut
+TPTS created: simple-D-min-pts.aut
+Number of equations collected: 271
+
+>>>>>>>>>> Finish collecting equations (1577ms)
+
+<<<<<<<<<< Start solving
+
+Solution: simple-min-scipy.txt
+
+>>>>>>>>>> Finish solving (10391ms)
+TPTS created: simple-min-pts.aut
+DTMC created: simple-min-pts.nm

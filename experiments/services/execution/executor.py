@@ -10,7 +10,7 @@ from random import choices
 import numpy
 
 SIM_NUM = 5
-SIM_TIME = 100
+SIM_TIME = 1000
 NORMAL = True
 
 def randomizer(nMin, nMax, dist):

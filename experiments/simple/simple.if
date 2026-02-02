@@ -1,23 +1,18 @@
-system simple;
+system simple; [strong]
 process A(1);
     var x clock;
     state start #start ;
         set x := 0;
-        nextstate first;
-    endstate;
-    state first;
-        when x = 10;
-            set x:= 0;
-            nextstate jitter;
+        nextstate jitter;
     endstate;
     state jitter;
         deadline delayable;
         when x <= 1;
-            informal "A"; [custom:1/2,1/2]
+            informal "A"; [custom:1/4,3/4]
             nextstate wait;
     endstate;
     state wait;
-        when x = 5;
+        when x = 2;
             set x:= 0;
             nextstate jitter;
     endstate;
@@ -26,21 +21,16 @@ process B(1);
     var x clock;
     state start #start ;
         set x := 0;
-        nextstate first;
-    endstate;
-    state first;
-        when x = 10;
-            set x:= 0;
-            nextstate jitter;
+        nextstate jitter;
     endstate;
     state jitter;
         deadline delayable;
-        when x <= 1;
-            informal "B"; [custom:1/2,1/2]
+        when x <= 3;
+            informal "B"; [custom:1/8,1/2,1/8,1/4]
             nextstate wait;
     endstate;
     state wait;
-        when x = 5;
+        when x = 4;
             set x:= 0;
             nextstate jitter;
     endstate;
