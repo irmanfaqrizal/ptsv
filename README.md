@@ -3,7 +3,7 @@
 
 - PTSV is a tool to compute discrete Timed Probabilistic Transition Systems (TPTSs).
 - It takes as input a network of Discrete Stochastic Timed Automata and, optionally, a set of execution traces.
-- The network of DSTA is described according to a subset of [IF specification](https://www-verimag.imag.fr/~async/IF/tutorials.html) language extended with discrete probabilistic distributions of the delays (see [Syntax](docs/syntax.txt)).
+- The network of DSTA is described according to a subset of [IF specification](https://www-verimag.imag.fr/~async/IF/tutorials.html) language extended with discrete probabilistic distributions of the delays (see [Syntax](docs/syntax.md)).
 
 
 ## Prerequisites
