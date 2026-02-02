@@ -17,19 +17,19 @@
 
 ## Running PTSV
 
-- A JAR file is provided in the [target](ptsv-app/target/ptsv.jar) folder.
+- A JAR file is provided in the [target](ptsv-app/target) folder.
 - The command to run it is as follows:
 `````
-cd experiments/simple
+cd ptsv-app/target
 java -cp ptsv.jar com.ptsv.app.App <IF model> [<traces folder>]
 `````
 - The [experiments](experiments) folder contains a set of experiments for testing.
-- For instance,  [test.sh](experiments/simple/test.sh) can be executed to run PTSV using the example model [simple.if](experiments/simple/simple.if).
+- For instance, [test.sh](experiments/simple/test.sh) can be executed to run PTSV using the example model [simple.if](experiments/simple/simple.if).
 `````
 cd experiments/simple
 ./test.sh
 `````
-- The tool will return [simple-min-pts.pdf](experiments/simple-min-pts.pdf), which shows the TPTS of [simple.if](experiments/simple/simple.if) according to the specified distribution.
+- The tool will return [simple-min-pts.pdf](experiments/simple/simple-min-pts.pdf), which shows the TPTS of [simple.if](experiments/simple/simple.if) according to the specified distribution.
 
 
 ## Building from source
