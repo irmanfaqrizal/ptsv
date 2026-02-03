@@ -13,9 +13,7 @@ do
 done
 
 cd ../experiments/$name/simulation
-source myenv/bin/activate
 python3 simulator.py
-deactivate
 for conf in "${confs[@]}"
 do
     cp -TR results/$conf ../specification/$conf/simulation
@@ -25,9 +23,7 @@ do
 done
 
 cd ../execution
-source myenv/bin/activate
 python3 executor.py
-deactivate
 for conf in "${confs[@]}"
 do
     cp -TR results/$conf ../specification/$conf/execution
