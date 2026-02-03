@@ -500,6 +500,7 @@ public class App {
         // bashCreatePDF(ifModel +"-pts");
         // writeDTMC(inLTS, ifModel +"-pts", header);
         assignProbsToLTSSci(inLTS, transVarMapping, solverResultsSci);
+        normalize(inLTS);
         writePTSSci(inLTS, ifModel, header);
         bashCreatePDF(ifModel +"-pts");
         writeDTMCSci(inLTS, ifModel +"-pts", header);
@@ -3154,16 +3155,16 @@ public class App {
         }
     }
 
-    // public static void normalize (Map<Integer, Set<Trans>> inLTS) {
-    //     double tmpTotal = 0.0;
-    //     for (int st : inLTS.keySet()) {
-    //         tmpTotal = 0.0;
-    //         for (Trans tr : inLTS.get(st)) {
-    //             tmpTotal += tr.prb;
-    //         }
-    //         for (Trans tr : inLTS.get(st)) {
-    //             tr.prb = tr.prb / tmpTotal;
-    //         }
-    //     }
-    // }
+    public static void normalize (Map<Integer, Set<Trans>> inLTS) {
+        double tmpTotal = 0.0;
+        for (int st : inLTS.keySet()) {
+            tmpTotal = 0.0;
+            for (Trans tr : inLTS.get(st)) {
+                tmpTotal += tr.prbFinal;
+            }
+            for (Trans tr : inLTS.get(st)) {
+                tr.prbFinal = tr.prbFinal / tmpTotal;
+            }
+        }
+    }
 }
