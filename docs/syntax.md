@@ -58,7 +58,7 @@ In the third form, integer on the left must be smaller than the one on the right
 <i>action</i> ::= <b>informal</b> "action-id"<b>;</b>
 </pre>
 
-In the current implementation, the probabilistic distributions of delays can only be associated with actions. Users can specify a discrete uniform distribution or a custom discrete distribution defined using a sequence of fractional numbers.
+In the current implementation, the probabilistic distributions of delays can only be associated with actions (thus one delay transition can only have one action). Users can specify a discrete uniform distribution or a custom discrete distribution defined using a sequence of fractional numbers <i>F = f0, f1, f2, ..., fn</i>, where each <i>fi</i> is a fractional number; the sequence must sum to 1 (i.e., <i>f0 + f1 + f2 + ... + fn = 1</i>), and <i>n</i> is the maximum possible delay of the associated action.
 
 <pre>
 <i>action-with-delay</i> ::= <b>informal</b> "action-id"<b>;</b> [<i>dist</i>]
@@ -66,8 +66,6 @@ In the current implementation, the probabilistic distributions of delays can onl
 <i>reset</i> ::= <b>set</b> clock-id <b>:=</b> 0<b>;</b>
 
 <i>dist</i> ::= <b>uniform</b> | <b>custom:</b><i>F</i>
-
-<i>F</i> = f0, f1, f2, ..., fn, where each fi is a fractional number (f0 + f1 + f2 + ... + fn = 1), and n is the maximum possible delay of the associated action.
 </pre>
 
     
