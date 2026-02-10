@@ -2,8 +2,8 @@
 # PTSV
 
 - PTSV is a tool to compute discrete Timed Probabilistic Transition Systems (TPTSs).
-- It takes as input a network of Discrete Stochastic Timed Automata and, optionally, a set of execution traces.
-- The network of DSTA is described according to a subset of [IF specification](https://www-verimag.imag.fr/~async/IF/tutorials.html) language extended with discrete probabilistic distributions of the delays (see [Syntax](docs/syntax.md)).
+- It takes as input a network of Discrete Stochastic Timed Automata (DSTA) and, optionally, a set of execution traces.
+- The network of DSTA is described using a subset of [IF specification](https://www-verimag.imag.fr/~async/IF/tutorials.html) language extended with discrete probabilistic distributions of the delays (see [Syntax](docs/syntax.md)).
 
 
 ## Prerequisites
@@ -11,7 +11,7 @@
 - [Java](https://www.java.com/en/download/manual.jsp) must be installed to run PTSV.
 - The tool executes bash scripts to run other tools below:
 	- The [IF toolset](https://gricad-gitlab.univ-grenoble-alpes.fr/verimag/if/if-toolset) is required to generate discrete Timed Labeled Transition Systems (TLTSs).
-	- [Python3](https://www.python.org/downloads/) with [SciPy](https://pypi.org/project/scipy/) framework must be installed for solving systems of equations.
+	- [Python3](https://www.python.org/downloads/) with [SciPy](https://pypi.org/project/scipy/) or [SimPy](https://www.sympy.org/) framework must be installed for solving systems of equations.
 	- The [CADP Toolbox](https://cadp.inria.fr/) needs to be installed for applying reduction on the TLTSs (and later for verification purposes).
 	- [Graphviz](https://graphviz.org/download/) is used for visualization (i.e., to generate transition system PDF files).
 
@@ -21,7 +21,11 @@
 - The command to run it is as follows:
 `````
 cd ptsv-app/target
-java -cp ptsv.jar com.ptsv.app.App <IF model> [<traces folder>]
+java -cp ptsv.jar com.ptsv.app.App <IF model> [option] [<traces folder>]
+`````
+- To see the option:
+`````
+java -cp ptsv.jar com.ptsv.app.App -help
 `````
 - The [experiments](experiments) folder contains a set of experiments for testing the tool (see their [description](experiments/README.md) for more detail).
 - For instance, [test.sh](experiments/simple/test.sh) can be executed to run PTSV using the example model [simple.if](experiments/simple/simple.if).

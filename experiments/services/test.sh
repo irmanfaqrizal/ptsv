@@ -8,7 +8,7 @@ for conf in "${confs[@]}"
 do
     cp target/ptsv.jar ../experiments/$name/specification/$conf/ptsv.jar
     cd ../experiments/$name/specification/$conf
-    java -cp ptsv.jar com.ptsv.app.App $name.if
+    java -cp ptsv.jar com.ptsv.app.App $name.if -symbolic
     cd ../../../../ptsv-app
 done
 
@@ -18,7 +18,7 @@ for conf in "${confs[@]}"
 do
     cp -TR results/$conf ../specification/$conf/simulation
     cd ../specification/$conf
-    java -cp ptsv.jar com.ptsv.app.App $name.if simulation
+    java -cp ptsv.jar com.ptsv.app.App $name.if -trace simulation
     cd ../../simulation
 done
 
@@ -28,7 +28,7 @@ for conf in "${confs[@]}"
 do
     cp -TR results/$conf ../specification/$conf/execution
     cd ../specification/$conf
-    java -cp ptsv.jar com.ptsv.app.App $name.if execution
+    java -cp ptsv.jar com.ptsv.app.App $name.if -trace execution
     cd ../../execution
 done
 

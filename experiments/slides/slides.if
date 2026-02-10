@@ -1,0 +1,38 @@
+system slides; [strong]
+process a(1);
+    var x clock;
+    state start #start ;
+        set x := 0;
+        nextstate wait;
+    endstate;
+    state wait;
+        when x = 5;
+            informal "a"; 
+            set x := 0;
+            nextstate wait;
+    endstate;
+endprocess;
+process b(1);
+    var x clock;
+    state start #start ;
+        set x := 0;
+        nextstate first;
+    endstate;
+    state first;
+        when x = 5;
+            set x := 0;
+            nextstate jitter;
+    endstate;
+    state jitter;
+        deadline delayable;
+        when x <= 1;
+            informal "b"; [custom:3/7,4/7]
+            nextstate wait;
+    endstate;
+    state wait;
+        when x = 5;
+            set x:= 0;
+            nextstate jitter;
+    endstate;
+endprocess;
+endsystem;
