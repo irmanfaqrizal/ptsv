@@ -1,17 +1,4 @@
 system slides; [strong]
-process a(1);
-    var x clock;
-    state start #start ;
-        set x := 0;
-        nextstate wait;
-    endstate;
-    state wait;
-        when x = 5;
-            informal "a"; 
-            set x := 0;
-            nextstate wait;
-    endstate;
-endprocess;
 process b(1);
     var x clock;
     state start #start ;
@@ -26,7 +13,7 @@ process b(1);
     state jitter;
         deadline delayable;
         when x <= 1;
-            informal "b"; [custom:3/7,4/7]
+            informal "b"; [custom:1/2,1/2]
             nextstate wait;
     endstate;
     state wait;

@@ -38,6 +38,21 @@ import org.matheclipse.parser.client.math.MathException;
 
 public class App {
 
+    /* 
+        Transition in a TLTS/TPTS
+        - src: source state
+        - lbl: action, assigned as "Time" for non-action transitions
+        - time: number of ticks, 0 for action transitions
+        - ctr: times visited, for TPTS computation using traces
+        - prb: probability
+        - prbFinal: probability in float
+        - actionDelayProb: probability of action according to the distribution,
+            for generating equations based on ratios of action probabilities
+        - dst: target state
+        - delayForAction: names of delayed action,
+            for generating equations based on products of delay probabilities
+        - isDelayTrans: boolean flag for delay transitions
+    */
     static class Trans {
         int src;
         String lbl;
@@ -45,9 +60,9 @@ public class App {
         int ctr;
         FractionNumber prb;
         Double prbFinal;
-        FractionNumber eventDelayProb;
+        FractionNumber actionDelayProb;
         int dst;
-        Map <String, Integer> delayForEvent;
+        Map <String, Integer> delayForAction;
         boolean isDelayTrans;
         public Trans(int src, String lbl, int tm, int dst) {
             this.src = src;
@@ -56,9 +71,9 @@ public class App {
             this.ctr = 0;
             this.prb = new FractionNumber(1, 1);
             this.prbFinal = 1.0;
-            this.eventDelayProb = new FractionNumber(1, 1);
+            this.actionDelayProb = new FractionNumber(1, 1);
             this.dst = dst;
-            this.delayForEvent = new HashMap<String, Integer>();
+            this.delayForAction = new HashMap<String, Integer>();
             this.isDelayTrans = false;
         }
         public Trans(int src, String lbl, int tm, int dst, FractionNumber prb) {
@@ -68,9 +83,9 @@ public class App {
             this.ctr = 0;
             this.prb = prb;
             this.prbFinal = 1.0;
-            this.eventDelayProb = new FractionNumber(1, 1);
+            this.actionDelayProb = new FractionNumber(1, 1);
             this.dst = dst;
-            this.delayForEvent = new HashMap<String, Integer>();
+            this.delayForAction = new HashMap<String, Integer>();
             this.isDelayTrans = false;
         }
         public Trans(int src, String lbl, int tm, int dst, int ctr, FractionNumber prb) {
@@ -80,9 +95,9 @@ public class App {
             this.ctr = ctr;
             this.prb = prb;
             this.prbFinal = 1.0;
-            this.eventDelayProb = new FractionNumber(1, 1);
+            this.actionDelayProb = new FractionNumber(1, 1);
             this.dst = dst;
-            this.delayForEvent = new HashMap<String, Integer>();
+            this.delayForAction = new HashMap<String, Integer>();
             this.isDelayTrans = false;
         }
         public void ctrUp () {
@@ -113,20 +128,30 @@ public class App {
         }
     }
 
+    /*
+        Pair of an action transition (trAction) and its corresponding delay transition (trTime)
+    */
     static class TransPair {
-        Trans trEvent;
+        Trans trAction;
         Trans trTime;
     }
 
+    /*
+        Pair of an action and its corresponding paths
+        (each represents a possibility to be triggered after some delays) grouped by source states
+    */
     static class TransPossibility {
-        String event;
+        String action;
         Map <Integer, Set <ArrayList <Trans>>> transPathsDelay;
-        public TransPossibility(String event, Map <Integer, Set <ArrayList <Trans>>> transPathsDelay) {
-            this.event = event;
+        public TransPossibility(String action, Map <Integer, Set <ArrayList <Trans>>> transPathsDelay) {
+            this.action = action;
             this.transPathsDelay = transPathsDelay;
         }
     }
     
+    /*
+        Fractional number represented as up/down
+    */
     static class FractionNumber {
         long up;
         long down;
@@ -140,11 +165,9 @@ public class App {
         public Double getFloat() {
             return (double) up/down;
         }
-
         public long gcd(long a, long b) {
             return b == 0 ? a : gcd(b, a % b);
         }
-
         public void simplify() {
             long a  = up;
             long b = down;
@@ -160,12 +183,18 @@ public class App {
             System.out.println("Missing IF model name!");
             return;
         } else if (args[0].equals("-help")) {
-            System.out.println("> usage: java -cp ptsv.jar com.ptsv.app.App <IF model> [option] [<traces folder>]");
-            System.out.println("> option:");
+            System.out.println("> usage: java -cp ptsv.jar com.ptsv.app.App <IF model> [mode] [<traces folder>] [options]");
+            System.out.println("> mode:");
             System.out.println(" -trace: compute TPTS by injecting traces");
             System.out.println(" -numeric: (default) compute TPTS according to the specified distribution by solving the equations numerically (with SciPy)");
             System.out.println(" -symbolic: compute TPTS according to the specified distribution by solving the equations symbolically (with SymPy)");
+            System.out.println("> options:");
+            System.out.println(" --verbose: print computation log");
         } else if (args[0].equals("mapping")) {
+            /*
+                Additional feature to get mapping between states in global and local TLTSs;
+                this can be ignored since not used in the approach.
+            */
             if (args.length == 1) {
                 System.out.println("Missing IF model name! ");
             } else {
@@ -175,7 +204,6 @@ public class App {
                 } else {
                     ifModel = args[1];
                 }
-
                 bashCompileLTS(ifModel, "global");
                 modLTS(ifModel);
                 bashReduceLTS(ifModel, "global", "strong");
@@ -184,6 +212,13 @@ public class App {
                 computeMappingOfStates(ifModel + "-min", taNames);
             }
         } else if (args.length > 0) {
+            Boolean isVerbose = false;
+            for (String arg : args) {
+                if (arg.equals("--verbose")){
+                    isVerbose = true;
+                }
+            }
+
             String ifModel = "";
             if (args[0].split("\\.").length > 0) {
                 ifModel = args[0].split("\\.")[0];
@@ -215,15 +250,20 @@ public class App {
             Map <String, String> distribution = new HashMap<String, String>();
             ArrayList <String> chain = new ArrayList<String>();
             ArrayList <Integer> minMax = new ArrayList<Integer>();
-            
             System.out.println("\n!!!!---------------- Start analysis of IF model: " + ifModel + "----------------!!!!");
+            /* Read the specification to get delay distribution probabilities */
             String reduction = getModelInfo(distribution, chain, minMax, ifModel);
-            printDistribution(distribution);
-            
+            if (isVerbose) {
+                printDistribution(distribution);
+            }
+
             System.out.println("\n<<<<<<<<<< Start generating the global TLTS");
             long startTime = System.currentTimeMillis();
+            /* Call IF to compile specifification into (unprocessed) global TLTS */
             bashCompileLTS(ifModel, "global");
+            /* Rename irrelevant transition labels as tau */
             modLTS(ifModel);
+            /* Call CADP to remove tau transitions and determinise the TLTS */
             bashReduceLTS(ifModel, "global", reduction);
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
@@ -234,17 +274,21 @@ public class App {
                 ArrayList <String> taNames = new ArrayList<String>();
                 System.out.println("\n<<<<<<<<<< Start generating the local TLTSs");
                 startTime = System.currentTimeMillis();
+                /* Do the same processing for local TLTSs */
                 bashIndividualLTSs(ifModel, taNames);
                 stopTime = System.currentTimeMillis();
                 elapsedTime = stopTime - startTime;
                 System.out.println("\n>>>>>>>>>> Finish generating the local TLTSs (" + elapsedTime + "ms)");
-                computePTSbyDistribution(ifModel + "-min", taNames, distribution, option);
+                /* The main function to compute TPTS according to probabilistic delay distribution */
+                computePTSbyDistribution(ifModel + "-min", taNames, distribution, option, isVerbose);
             } else if (option.equals("trace")) {
                 System.out.println("\n!!!!!!!! Computing TPTS of " + ifModel + " according to traces in folder " + traceDir);
+                /* The main function to compute TPTS using traces */
                 computePTSbyTraces(ifModel + "-min", traceDir);
             }
 
             if (chain.size() > 0) {
+                /* Additional feature when a functional chain is given in the IF specification */
                 System.out.println("\n<<<<<<<<<< Start analysing reaction time probabilities");
                 startTime = System.currentTimeMillis();
                 System.out.print("Specified chain of actions: ");
@@ -269,15 +313,15 @@ public class App {
         String reduc = "";
         try (BufferedReader br = new BufferedReader(new FileReader(ifModel+".if"))) {
             String line;
-            String event;
+            String action;
             String disType;
             String chainStr[];
             String minMaxStr[];
             while ((line = br.readLine()) != null) {
                 if (line.contains("[") && (line.contains("custom") || line.contains("uniform") || line.contains("binomial"))) {
-                    event = StringUtils.substringBetween(line, "\"", "\"");
+                    action = StringUtils.substringBetween(line, "\"", "\"");
                     disType = StringUtils.substringBetween(line, "[", "]");
-                    distribution.put(event, disType);
+                    distribution.put(action, disType);
                 } else if (line.contains("[") && line.contains("chain")) {
                     chainStr = StringUtils.substringBetween(line, ":", ";").replace(" ", "").split(",");
                     minMaxStr = StringUtils.substringBetween(line, ";", "]").replace(" ", "").split("-");
@@ -377,7 +421,8 @@ public class App {
     }
 
     public static void computePTSbyDistribution(String ifModel,
-    ArrayList <String> taNames, Map <String, String> disTypes, String solverType)
+    ArrayList <String> taNames, Map <String, String> disTypes, String solverType,
+    Boolean isVerbose)
     throws FileNotFoundException, IOException, InterruptedException {
         System.out.println("\n<<<<<<<<<< Start collecting equations");
         Map <Integer, Set <Trans>> inLTS = new HashMap <Integer, Set <Trans>>();
@@ -385,29 +430,33 @@ public class App {
         ArrayList <Map <Integer, Set <Trans>>> taLTSs = new ArrayList<Map <Integer, Set <Trans>>>();
         Map <Integer, Set <Trans>> taLTS;
         Map <Integer, Set <Trans>> statesIns;
-        Map <String, Set <Integer>> allEvents;
-        Map <String, ArrayList<FractionNumber>> eventProbTriggerMap = new HashMap<String, ArrayList<FractionNumber>>();
-        Map <String, ArrayList<FractionNumber>> eventProbTimeMap = new HashMap<String, ArrayList<FractionNumber>>();
-        Map <String, FractionNumber> eventProbMap = new HashMap<String, FractionNumber>();
+        Map <String, Set <Integer>> allActions;
+        Map <String, ArrayList<FractionNumber>> actionProbTriggerMap = new HashMap<String, ArrayList<FractionNumber>>();
+        Map <String, ArrayList<FractionNumber>> actionProbTimeMap = new HashMap<String, ArrayList<FractionNumber>>();
+        Map <String, FractionNumber> actionProbMap = new HashMap<String, FractionNumber>();
         for (String taName : taNames) {
             taLTS = new HashMap <Integer, Set <Trans>>();
             statesIns = new HashMap <Integer, Set <Trans>>();
-            allEvents = new HashMap <String, Set <Integer>>();
+            allActions = new HashMap <String, Set <Integer>>();
             String header = buildLTS(taLTS, taName, statesIns);
-            getAllEvents(allEvents, eventProbMap, taLTS, statesIns);
-            // printAllEvents(allEvents, taName);
-            startAssignProbs(taLTS, eventProbTriggerMap, eventProbTimeMap, allEvents, disTypes);
+            getAllActions(allActions, actionProbMap, taLTS, statesIns);
+            if (isVerbose) {
+                printAllActions(allActions, taName);
+            }
+            startAssignProbs(taLTS, actionProbTriggerMap, actionProbTimeMap, allActions, disTypes);
             writePTS(taLTS, taName, header);
             bashCreatePDF(taName + "-pts");
             taLTSs.add(taLTS);
         }
-        simplifyMapFracs(eventProbTriggerMap);
-        simplifyMapFracs(eventProbTimeMap);
-        printEventProbMap(eventProbTriggerMap, eventProbMap);
-        printEventProbTimeMap(eventProbTimeMap);
+        simplifyMapFracs(actionProbTriggerMap);
+        simplifyMapFracs(actionProbTimeMap);
+        if (isVerbose) {
+            printActionProbMap(actionProbTriggerMap, actionProbMap);
+            printActionProbTimeMap(actionProbTimeMap);
+        }
         Map <Integer, Set <Trans>> statesInsAll = new HashMap <Integer, Set <Trans>>();
-        Map <String, Set <Integer>> eventStates = new HashMap <String, Set <Integer>>();
-        Map <String, Map <Integer, Set <Integer>>> eventStatesNets = new HashMap <String, Map <Integer, Set <Integer>>>();
+        Map <String, Set <Integer>> actionStates = new HashMap <String, Set <Integer>>();
+        Map <String, Map <Integer, Set <Integer>>> actionStatesNets = new HashMap <String, Map <Integer, Set <Integer>>>();
         Map <String, Map <Integer, Set <Set <Integer>>>> eqStartStates = new HashMap <String, Map <Integer, Set <Set <Integer>>>>();
         Map <Integer, Set <TransPossibility>> transPossibilities = new HashMap <Integer, Set <TransPossibility>>();
         Map <String, String> transVarMapping = new LinkedHashMap<String, String>();
@@ -419,24 +468,26 @@ public class App {
         Map <String, String> equationsPy = new HashMap <String, String>();
         String header = buildLTS(inLTS, ifModel, statesInsAll);
         annotateDelayTrans(inLTS);
-        getEventStates(eventStates, inLTS);
-        // printEventStates(eventStates);
-        getEventStatesNets(eventStatesNets, eventStates, inLTS, statesInsAll);
-        // printEventStateNets(eventStatesNets);
-        getEventDelayProb(eventStatesNets, inLTS, eventProbTriggerMap);
-        // printEventDelayProb(inLTS);
-        getEventStateEqStart(eqStartStates, eventStatesNets, inLTS, statesInsAll);
-        // printEqStarts(eqStartStates);
+        getActionStates(actionStates, inLTS);
+        if (isVerbose) { printActionStates(actionStates); }
+        getActionStatesNets(actionStatesNets, actionStates, inLTS, statesInsAll);
+        if (isVerbose) { printActionStateNets(actionStatesNets); }
+        getActionDelayProb(actionStatesNets, inLTS, actionProbTriggerMap);
+        if (isVerbose) {printActionDelayProb(inLTS); }
+        getActionStateEqStart(eqStartStates, actionStatesNets, inLTS, statesInsAll);
+        if (isVerbose) {printEqStarts(eqStartStates); }
         getTransPossibilities(transPossibilities, eqStartStates, inLTS);
-        // printTransNetPossibilities(transPossibilities);
-        // printDelayTrans(inLTS);
+        if (isVerbose) {
+            printTransNetPossibilities(transPossibilities);
+            printDelayTrans(inLTS);
+        }
         getTransVarMappingPy(transVarMapping, inLTS);
-        // printTransVarMapping(transVarMapping);
+        if (isVerbose) { printTransVarMapping(transVarMapping); }
         writeMappedLTS(inLTS, transVarMapping, ifModel, header);
         getEquations(equationsPy, equations, equationsUnmap, equationVars,
-            transPossibilities, eventProbTriggerMap,
-            eventProbMap, eventProbTimeMap, transVarMapping, inLTS);
-        // printEquations(equations, equationVars);
+            transPossibilities, actionProbTriggerMap,
+            actionProbMap, actionProbTimeMap, transVarMapping, inLTS);
+        if (isVerbose) {printEquations(equations, equationVars); }
         // printEquationsUnmap(equationsUnmap);
         System.out.println("Number of equations collected: " + equationsPy.size());
         long stopTime = System.currentTimeMillis();
@@ -677,41 +728,41 @@ public class App {
         }
     }
 
-    public static void getAllEvents (Map <String, Set <Integer>> allEvents, Map <String, FractionNumber> eventProbMap,
+    public static void getAllActions (Map <String, Set <Integer>> allActions, Map <String, FractionNumber> actionProbMap,
     Map <Integer, Set <Trans>> inLTS, Map <Integer, Set <Trans>> statesIns) {
         for (int st : inLTS.keySet()) {
             for (Trans tr : inLTS.get(st)) {
-                if (!tr.lbl.equals("Time") && !allEvents.containsKey(tr.lbl)) {
-                    allEvents.put(tr.lbl, new HashSet<Integer>());
-                    eventProbMap.put(tr.lbl, new FractionNumber(1, 1));
+                if (!tr.lbl.equals("Time") && !allActions.containsKey(tr.lbl)) {
+                    allActions.put(tr.lbl, new HashSet<Integer>());
+                    actionProbMap.put(tr.lbl, new FractionNumber(1, 1));
                 }
             }
         }
         Set <Integer> startingStates;
-        for (String event : allEvents.keySet()) {
+        for (String action : allActions.keySet()) {
             startingStates = new HashSet<Integer>();
-            getStartingStates(startingStates, event, inLTS, statesIns);
+            getStartingStates(startingStates, action, inLTS, statesIns);
             if (startingStates.size() == 0) {
                 for (Integer st : inLTS.keySet()) {
                     for (Trans tr : inLTS.get(st)) {
-                        if (tr.lbl.equals(event)) {
+                        if (tr.lbl.equals(action)) {
                             startingStates.add(st);
                         }
                     }
                 }
             }
-            allEvents.put(event, startingStates);
+            allActions.put(action, startingStates);
         }
     }
     
-    public static void getStartingStates (Set <Integer> startingStates, String event, Map <Integer, Set <Trans>> inLTS,
+    public static void getStartingStates (Set <Integer> startingStates, String action, Map <Integer, Set <Trans>> inLTS,
     Map <Integer, Set <Trans>> statesIns) {
         int cState = 0;
         Set <Integer> visited = new HashSet<Integer>();
-        traverseStartingStates(startingStates, cState, visited, event, inLTS, statesIns);
+        traverseStartingStates(startingStates, cState, visited, action, inLTS, statesIns);
     }
     
-    public static void getEventStates (Map <String, Set <Integer>> allEvents, Map <Integer, Set <Trans>> inLTS) {
+    public static void getActionStates (Map <String, Set <Integer>> allActions, Map <Integer, Set <Trans>> inLTS) {
         Queue <Integer> toVisit = new LinkedList<Integer>();
         Set <Integer> visited = new HashSet<Integer>();
         int visiting;
@@ -719,13 +770,13 @@ public class App {
 
         for (int st : inLTS.keySet()) {
             for (Trans tr : inLTS.get(st)) {
-                if (!tr.lbl.equals("Time") && !allEvents.containsKey(tr.lbl)) {
-                    allEvents.put(tr.lbl, new HashSet<Integer>());
+                if (!tr.lbl.equals("Time") && !allActions.containsKey(tr.lbl)) {
+                    allActions.put(tr.lbl, new HashSet<Integer>());
                 }
             }
         }
 
-        for (String event : allEvents.keySet()) {
+        for (String action : allActions.keySet()) {
             toVisit.add(0);
             while (!toVisit.isEmpty()) {
                 visiting = toVisit.poll();
@@ -734,11 +785,11 @@ public class App {
                         visited.add(tr.dst);
                         toVisit.add(tr.dst);
                     }
-                    if (tr.lbl.equals(event)) {
+                    if (tr.lbl.equals(action)) {
                         tmpStarts = new HashSet<Integer>();
-                        tmpStarts.addAll(allEvents.get(event));
+                        tmpStarts.addAll(allActions.get(action));
                         tmpStarts.add(visiting);
-                        allEvents.put(event, tmpStarts);
+                        allActions.put(action, tmpStarts);
                     }
                 }
             }
@@ -746,67 +797,67 @@ public class App {
         }
     }
 
-    public static void getEventStatesNets(Map <String, Map <Integer, Set <Integer>>> eventStatesNets,
-    Map <String, Set <Integer>> eventStates, Map <Integer, Set <Trans>> inLTS,
+    public static void getActionStatesNets(Map <String, Map <Integer, Set <Integer>>> actionStatesNets,
+    Map <String, Set <Integer>> actionStates, Map <Integer, Set <Trans>> inLTS,
     Map <Integer, Set <Trans>> statesInsAll) {
 
         Set <Integer> netRoots;
         Map <Integer, Set <Integer>> MapStateNet;
         Set <Integer> stateNet;
-        for (String event : eventStates.keySet()) {
+        for (String action : actionStates.keySet()) {
             netRoots = new HashSet<Integer>();
-            for (int st : eventStates.get(event)) {
-                if (checkNetRoot(st, statesInsAll, event)) {
+            for (int st : actionStates.get(action)) {
+                if (checkNetRoot(st, statesInsAll, action)) {
                     netRoots.add(st);
                 }
             }
             MapStateNet = new HashMap <Integer, Set <Integer>>();
             for (Integer stRoot : netRoots) {
                 stateNet = new HashSet<Integer>();
-                for (Integer stOther : eventStates.get(event)) {
-                    if (checkStateNetwork(stRoot, stOther, inLTS, event)) {
+                for (Integer stOther : actionStates.get(action)) {
+                    if (checkStateNetwork(stRoot, stOther, inLTS, action)) {
                         stateNet.add(stRoot);
                         stateNet.add(stOther);
                     }
                 }
                 MapStateNet.put(stRoot, stateNet);
             }
-            eventStatesNets.put(event, MapStateNet);
+            actionStatesNets.put(action, MapStateNet);
         }
     }
 
-    public static void getEventDelayProb(Map <String, Map <Integer, Set <Integer>>> eventStatesNets,
-    Map <Integer, Set <Trans>> inLTS, Map <String, ArrayList<FractionNumber>> eventProbTriggerMap) {
-        for (String ev : eventStatesNets.keySet()) {
-            for (int start : eventStatesNets.get(ev).keySet()) {
-                traverseToAssignEventDelayProb(start, 0, ev, new HashSet<Integer>(), inLTS, eventProbTriggerMap);
+    public static void getActionDelayProb(Map <String, Map <Integer, Set <Integer>>> actionStatesNets,
+    Map <Integer, Set <Trans>> inLTS, Map <String, ArrayList<FractionNumber>> actionProbTriggerMap) {
+        for (String ev : actionStatesNets.keySet()) {
+            for (int start : actionStatesNets.get(ev).keySet()) {
+                traverseToAssignActionDelayProb(start, 0, ev, new HashSet<Integer>(), inLTS, actionProbTriggerMap);
             }
         }
     }
 
-    public static void traverseToAssignEventDelayProb(int cState, int cTime, String cEvent, Set <Integer> visited,
-    Map <Integer, Set <Trans>> inLTS, Map <String, ArrayList<FractionNumber>> eventProbTriggerMap) {
+    public static void traverseToAssignActionDelayProb(int cState, int cTime, String cAction, Set <Integer> visited,
+    Map <Integer, Set <Trans>> inLTS, Map <String, ArrayList<FractionNumber>> actionProbTriggerMap) {
         if (visited.contains(cState)) {
             return;
         }
         visited.add(cState);
         for (Trans tr : inLTS.get(cState)) {
-            if (tr.lbl.equals(cEvent)) {
-                tr.eventDelayProb = eventProbTriggerMap.get(tr.lbl).get(cTime);
-            } else if (tr.delayForEvent.containsKey(cEvent)) {
+            if (tr.lbl.equals(cAction)) {
+                tr.actionDelayProb = actionProbTriggerMap.get(tr.lbl).get(cTime);
+            } else if (tr.delayForAction.containsKey(cAction)) {
                 cTime = cTime + 1;
-                traverseToAssignEventDelayProb(tr.dst, cTime, cEvent, visited, inLTS, eventProbTriggerMap);
+                traverseToAssignActionDelayProb(tr.dst, cTime, cAction, visited, inLTS, actionProbTriggerMap);
                 cTime = cTime - 1;
             } else {
-                traverseToAssignEventDelayProb(tr.dst, cTime, cEvent, visited, inLTS, eventProbTriggerMap);
+                traverseToAssignActionDelayProb(tr.dst, cTime, cAction, visited, inLTS, actionProbTriggerMap);
             }
         }
         visited.remove(cState);
     }
 
-    public static boolean checkNetRoot(int st, Map <Integer, Set <Trans>> statesInsAll, String event) {
+    public static boolean checkNetRoot(int st, Map <Integer, Set <Trans>> statesInsAll, String action) {
         for (Trans tr : statesInsAll.get(st)) {
-            if ((tr.delayForEvent.containsKey(event) || !tr.lbl.equals("Time")) && !tr.lbl.equals(event)) {
+            if ((tr.delayForAction.containsKey(action) || !tr.lbl.equals("Time")) && !tr.lbl.equals(action)) {
                 return false;
             }
         }
@@ -814,10 +865,10 @@ public class App {
     }
     
     public static boolean checkStateNetwork (int st1, int st2, Map <Integer, Set <Trans>> inLTS,
-    String event) {
+    String action) {
         Set <Integer> visited = new HashSet<Integer>();
         Set <Boolean> isNetwork = new HashSet<Boolean>();
-        traverseToCheckStateNetwork2(isNetwork, st1, st2, inLTS, event, visited);
+        traverseToCheckStateNetwork2(isNetwork, st1, st2, inLTS, action, visited);
         if (isNetwork.size() > 0) {
             return true;
         }
@@ -825,7 +876,7 @@ public class App {
     }
 
     public static void traverseToCheckStateNetwork2 (Set <Boolean> isNetwork, int cState, int tState,
-    Map <Integer, Set <Trans>> inLTS, String event, Set <Integer> visited) {
+    Map <Integer, Set <Trans>> inLTS, String action, Set <Integer> visited) {
         if (visited.contains(cState)) {
             return;
         }
@@ -837,35 +888,35 @@ public class App {
         }
 
         for (Trans tr : inLTS.get(cState)) {
-            if ((tr.delayForEvent.containsKey(event) || !tr.lbl.equals("Time")) && !tr.lbl.equals(event)) {
-                traverseToCheckStateNetwork2(isNetwork, tr.dst, tState, inLTS, event, visited);
+            if ((tr.delayForAction.containsKey(action) || !tr.lbl.equals("Time")) && !tr.lbl.equals(action)) {
+                traverseToCheckStateNetwork2(isNetwork, tr.dst, tState, inLTS, action, visited);
             }
         }
     }
     
-    public static void getEventStateEqStart (
+    public static void getActionStateEqStart (
     Map <String, Map <Integer,Set <Set <Integer>>>> eqStartStates,
-    Map <String, Map <Integer, Set <Integer>>> eventStatesNets,
+    Map <String, Map <Integer, Set <Integer>>> actionStatesNets,
     Map <Integer, Set <Trans>> inLTS, Map <Integer, Set <Trans>> statesInsAll) {
         int closest;
         Map <Integer, Set <Set <Integer>>> tmpStarts;
         Set <Set <Integer>> tmpEnds;
         Set <Integer> net;
-        for (String event : eventStatesNets.keySet()) {
-            for (int root : eventStatesNets.get(event).keySet()) {
-                net = eventStatesNets.get(event).get(root);
+        for (String action : actionStatesNets.keySet()) {
+            for (int root : actionStatesNets.get(action).keySet()) {
+                net = actionStatesNets.get(action).get(root);
                 closest = getClosestToNet(root, net, inLTS);
                 tmpStarts = new HashMap<Integer, Set <Set <Integer>>>();
                 tmpEnds = new HashSet<Set <Integer>>();
-                if (eqStartStates.containsKey(event)) {
-                    tmpStarts.putAll(eqStartStates.get(event));
-                    if (eqStartStates.get(event).containsKey(closest)) {
-                        tmpEnds.addAll(eqStartStates.get(event).get(closest));
+                if (eqStartStates.containsKey(action)) {
+                    tmpStarts.putAll(eqStartStates.get(action));
+                    if (eqStartStates.get(action).containsKey(closest)) {
+                        tmpEnds.addAll(eqStartStates.get(action).get(closest));
                     }
                 }
                 tmpEnds.add(net);
                 tmpStarts.put(closest, tmpEnds);
-                eqStartStates.put(event, tmpStarts);
+                eqStartStates.put(action, tmpStarts);
             }
         }
     }
@@ -916,15 +967,15 @@ public class App {
         Set <TransPossibility> tmpTransPossibilities;
         TransPossibility transPos;
         Set <Integer> visited;
-        for (String event : eqStartStates.keySet()) {
-            for (int start : eqStartStates.get(event).keySet()) {
-                for (Set <Integer> endStates : eqStartStates.get(event).get(start)) {
+        for (String action : eqStartStates.keySet()) {
+            for (int start : eqStartStates.get(action).keySet()) {
+                for (Set <Integer> endStates : eqStartStates.get(action).get(start)) {
                     transPaths = new HashMap <Integer, Set <ArrayList <Trans>>>();
                     tmpPath = new ArrayList<Trans>();
                     visited = new HashSet<Integer>();
-                    traverseStartToEvent(transPaths, tmpPath, start, endStates,
-                        visited, event, inLTS, 0);
-                    transPos = new TransPossibility(event, transPaths);
+                    traverseStartToAction(transPaths, tmpPath, start, endStates,
+                        visited, action, inLTS, 0);
+                    transPos = new TransPossibility(action, transPaths);
                     tmpTransPossibilities = new HashSet<TransPossibility>();
                     if (transNetPossibilities.containsKey(start)) {
                         tmpTransPossibilities.addAll(transNetPossibilities.get(start));
@@ -936,15 +987,15 @@ public class App {
         }
     }
 
-    public static void traverseStartToEvent(Map <Integer, Set <ArrayList <Trans>>> transPaths,
+    public static void traverseStartToAction(Map <Integer, Set <ArrayList <Trans>>> transPaths,
     ArrayList <Trans> tmpPath, int cState, Set <Integer> endStates, Set <Integer> visited,
-    String event, Map <Integer, Set <Trans>> inLTS, int delay) {
+    String action, Map <Integer, Set <Trans>> inLTS, int delay) {
         if (visited.contains(cState)) {
             return;
         }
         visited.add(cState);
         for (Trans tr : inLTS.get(cState)) {
-            if (tr.lbl.equals(event) && endStates.contains(cState)) {
+            if (tr.lbl.equals(action) && endStates.contains(cState)) {
                 tmpPath.add(tr);
                 ArrayList <Trans> newPath = new ArrayList<Trans>();
                 for (Trans trPath : tmpPath) {
@@ -958,21 +1009,21 @@ public class App {
                 tmpPaths.add(newPath);
                 transPaths.put(delay, tmpPaths);
             } else {
-                if (tr.delayForEvent.containsKey(event)) {
-                    tr.delayForEvent.put(event, delay);
+                if (tr.delayForAction.containsKey(action)) {
+                    tr.delayForAction.put(action, delay);
                     delay++;
                     tmpPath.add(tr);
-                    traverseStartToEvent(transPaths, tmpPath, tr.dst, endStates, visited, event, inLTS, delay);
+                    traverseStartToAction(transPaths, tmpPath, tr.dst, endStates, visited, action, inLTS, delay);
                     tmpPath.remove(tr);
                     delay--;
-                } else if (tr.lbl.equals(event)) {
+                } else if (tr.lbl.equals(action)) {
                     tmpPath.add(tr);
                     delay = 0;
-                    traverseStartToEvent(transPaths, tmpPath, tr.dst, endStates, visited, event, inLTS, delay);
+                    traverseStartToAction(transPaths, tmpPath, tr.dst, endStates, visited, action, inLTS, delay);
                     tmpPath.remove(tr);
                 } else {
                     tmpPath.add(tr);
-                    traverseStartToEvent(transPaths, tmpPath, tr.dst, endStates, visited, event, inLTS, delay);
+                    traverseStartToAction(transPaths, tmpPath, tr.dst, endStates, visited, action, inLTS, delay);
                     tmpPath.remove(tr);
                 }
             }
@@ -1016,8 +1067,8 @@ public class App {
     public static void getEquations(Map <String, String> equationsPy,
     Map <Integer, Set <String>> equations, Map <Integer, Set <String>> equationsUnmap,
     Map <Integer, Set <String>> equationVars, Map <Integer, Set <TransPossibility>> transPossibilities,
-    Map <String, ArrayList<FractionNumber>> eventProbTriggerMap, Map <String, FractionNumber> eventProbMap,
-    Map <String, ArrayList<FractionNumber>> eventProbTimeMap,
+    Map <String, ArrayList<FractionNumber>> actionProbTriggerMap, Map <String, FractionNumber> actionProbMap,
+    Map <String, ArrayList<FractionNumber>> actionProbTimeMap,
     Map <String, String> transVarMapping, Map <Integer, Set <Trans>> inLTS) {
         Map <Integer, Set <Integer>> statesInNets = new HashMap<Integer, Set <Integer>>();
         Set <String> tmpEqs;
@@ -1030,9 +1081,9 @@ public class App {
         String multi;
         String plus;
         Set <Integer> netStates;
-        int checkMinEvents;
+        int checkMinActions;
         FractionNumber multiForDelayProb;
-        String firstTransEvent;
+        String firstTransAction;
         Trans firstTrans = new Trans(0, "", 0, 0);
         for (int start : transPossibilities.keySet()) {
             tmpEqs = new HashSet<String>();
@@ -1057,10 +1108,10 @@ public class App {
                         }
                         plus = " + ";
                     }
-                    if (eventProbTriggerMap.get(tp.event) != null) {
-                        equationsPy.put(tmpEq, eventProbTriggerMap.get(tp.event).get(delay).getFractionString());
-                        tmpEq += " == " + eventProbTriggerMap.get(tp.event).get(delay).getFractionString();
-                        tmpEqUnmap += " == " + eventProbTriggerMap.get(tp.event).get(delay).getFractionString();
+                    if (actionProbTriggerMap.get(tp.action) != null) {
+                        equationsPy.put(tmpEq, actionProbTriggerMap.get(tp.action).get(delay).getFractionString());
+                        tmpEq += " == " + actionProbTriggerMap.get(tp.action).get(delay).getFractionString();
+                        tmpEqUnmap += " == " + actionProbTriggerMap.get(tp.action).get(delay).getFractionString();
                         tmpEqs.add(tmpEq);
                         tmpEqsUnmap.add(tmpEqUnmap);
                     }
@@ -1078,16 +1129,16 @@ public class App {
                 plus = "";
                 tmpEq = "";
                 tmpEqUnmap = "";
-                checkMinEvents = 0;
-                firstTransEvent = "";
+                checkMinActions = 0;
+                firstTransAction = "";
                 for (Trans tr : inLTS.get(state)) {
                     tmpEq += plus + transVarMapping.get(tr.asKey());
                     tmpEqUnmap += plus + tr.asKey();
                     plus = " + ";
                     if (!tr.lbl.equals("Time")) {
-                        checkMinEvents++;
-                        if (firstTransEvent.equals("")) {
-                            firstTransEvent = tr.asKey();
+                        checkMinActions++;
+                        if (firstTransAction.equals("")) {
+                            firstTransAction = tr.asKey();
                             firstTrans = tr;
                         }
                     }
@@ -1097,19 +1148,19 @@ public class App {
                 tmpEqs.add(tmpEq);
                 tmpEqUnmap += " == 1";
                 tmpEqsUnmap.add(tmpEqUnmap);
-                if (checkMinEvents > 1) {
+                if (checkMinActions > 1) {
                     for (Trans tr : inLTS.get(state)) {
-                        if (!tr.asKey().equals(firstTransEvent) && !tr.lbl.equals("Time")) {
-                            equationsPy.put(transVarMapping.get(firstTransEvent) + "/" + transVarMapping.get(tr.asKey()), fracDiv(firstTrans.eventDelayProb, tr.eventDelayProb).getFractionString());
-                            tmpEqs.add(transVarMapping.get(firstTransEvent) + "/" + transVarMapping.get(tr.asKey())
-                            + " == " + fracDiv(firstTrans.eventDelayProb, tr.eventDelayProb).getFractionString());
-                            tmpEqsUnmap.add(firstTransEvent + "/" + tr.asKey()
-                            + " == " + fracDiv(firstTrans.eventDelayProb, tr.eventDelayProb).getFractionString());
+                        if (!tr.asKey().equals(firstTransAction) && !tr.lbl.equals("Time")) {
+                            equationsPy.put(transVarMapping.get(firstTransAction) + "/" + transVarMapping.get(tr.asKey()), fracDiv(firstTrans.actionDelayProb, tr.actionDelayProb).getFractionString());
+                            tmpEqs.add(transVarMapping.get(firstTransAction) + "/" + transVarMapping.get(tr.asKey())
+                            + " == " + fracDiv(firstTrans.actionDelayProb, tr.actionDelayProb).getFractionString());
+                            tmpEqsUnmap.add(firstTransAction + "/" + tr.asKey()
+                            + " == " + fracDiv(firstTrans.actionDelayProb, tr.actionDelayProb).getFractionString());
                         }
                         if (tr.isDelayTrans) {
                             multiForDelayProb = new FractionNumber(1, 1);
-                            for (String event : tr.delayForEvent.keySet()) {
-                                multiForDelayProb = fracMultiply(multiForDelayProb, eventProbTimeMap.get(event).get(tr.delayForEvent.get(event)));
+                            for (String action : tr.delayForAction.keySet()) {
+                                multiForDelayProb = fracMultiply(multiForDelayProb, actionProbTimeMap.get(action).get(tr.delayForAction.get(action)));
                             }
                             equationsPy.put(transVarMapping.get(tr.asKey()), multiForDelayProb.getFractionString());
                             tmpEqs.add(transVarMapping.get(tr.asKey()) + " == " + multiForDelayProb.getFractionString());
@@ -1154,33 +1205,33 @@ public class App {
         solveEqs(eqString, varsString, solverRes);
     }
 
-    public static void getGlobalStartingStates (Set <Integer> startingStates, String event, Map <Integer, Set <Trans>> inLTS,
+    public static void getGlobalStartingStates (Set <Integer> startingStates, String action, Map <Integer, Set <Trans>> inLTS,
     Map <Integer, Set <Trans>> statesIns) {
-        boolean isEvent;
-        boolean isInEvent;
+        boolean isAction;
+        boolean isInAction;
         boolean isInTime;
         boolean isIn;
         for (int st : inLTS.keySet()) {
-            isEvent = false;
+            isAction = false;
             for (Trans tr : inLTS.get(st)) {
-                if (tr.lbl.equals(event)) {
-                    isEvent = true;
+                if (tr.lbl.equals(action)) {
+                    isAction = true;
                 }
             }
-            if (isEvent) {
+            if (isAction) {
                 isIn = false;
                 for (Trans tr : statesIns.get(st)) {
-                    isInEvent = false;
+                    isInAction = false;
                     isInTime = false;
                     if (tr.time == 1 && tr.lbl.equals("Time")) {
                         for (Trans tr2 : inLTS.get(tr.src)) {
-                            if (tr2.lbl.equals(event)) {
-                                isInEvent = true;
+                            if (tr2.lbl.equals(action)) {
+                                isInAction = true;
                             } else if (tr2.time == 1 && tr2.lbl.equals("Time")) {
                                 isInTime = true;
                             }
                         }
-                        if (isInEvent && isInTime) {
+                        if (isInAction && isInTime) {
                             isIn = true;
                             break;
                         }
@@ -1194,7 +1245,7 @@ public class App {
     }
     
     public static void checkStartingStatesAncestors (Set <Integer> startingStatesChecked, Set <Integer> startingStates,
-    String event, Map <Integer, Set <Trans>> inLTS, Map <Integer, Set <Trans>> statesIns) {
+    String action, Map <Integer, Set <Trans>> inLTS, Map <Integer, Set <Trans>> statesIns) {
         for (Integer stNow : startingStates) {
             for (Integer stOther : startingStates) {
                 if (stNow != stOther) {
@@ -1204,67 +1255,67 @@ public class App {
         }
     }
 
-    public static void traverseStartingStates (Set <Integer> startingStates, int cState, Set <Integer> visited, String event,
+    public static void traverseStartingStates (Set <Integer> startingStates, int cState, Set <Integer> visited, String action,
     Map <Integer, Set <Trans>> inLTS, Map <Integer, Set <Trans>> statesIns) {
         if (visited.contains(cState)) {
             return;
         }
         visited.add(cState);
-        if (checkStartingState(cState, event, inLTS, statesIns)) {
+        if (checkStartingState(cState, action, inLTS, statesIns)) {
             startingStates.add(cState);
         }
         for (Trans tr : inLTS.get(cState)) {
-            traverseStartingStates(startingStates, tr.dst, visited, event, inLTS, statesIns);
+            traverseStartingStates(startingStates, tr.dst, visited, action, inLTS, statesIns);
         }
         visited.remove(cState);
     }
     
-    public static boolean checkStartingState (int state, String event,
+    public static boolean checkStartingState (int state, String action,
     Map <Integer, Set <Trans>> inLTS, Map <Integer, Set <Trans>> statesIns) {
         boolean inCheckTime = true;
-        boolean inCheckEvent = true;
+        boolean inCheckAction = true;
         boolean outCheckTime = false;
-        boolean outCheckEvent = false;
+        boolean outCheckAction = false;
         for (Trans trIn : statesIns.get(state)) {
             for (Trans trInOut : inLTS.get(trIn.src)) {
-                if (trInOut.lbl.equals(event)) {
-                    inCheckEvent = false;
+                if (trInOut.lbl.equals(action)) {
+                    inCheckAction = false;
                 } else if (trInOut.time == 1) {
                     inCheckTime = false;
                 }
             }
         }
         for (Trans trOut : inLTS.get(state)) {
-            if (trOut.src == trOut.dst && trOut.lbl.equals(event)) {
+            if (trOut.src == trOut.dst && trOut.lbl.equals(action)) {
                 return true;
             } else if (trOut.time == 1) {
                 outCheckTime = true;
-            } else if (trOut.lbl.equals(event)) {
-                outCheckEvent = true;
+            } else if (trOut.lbl.equals(action)) {
+                outCheckAction = true;
             }
         }
-        if ((inCheckTime || inCheckEvent) && outCheckTime && outCheckEvent) {
+        if ((inCheckTime || inCheckAction) && outCheckTime && outCheckAction) {
             return true;
         }
         return false;
     }
     
-    public static void startAssignProbs (Map<Integer, Set<Trans>> taLTS, Map <String, ArrayList<FractionNumber>> eventProbSet,
-    Map <String, ArrayList<FractionNumber>> eventProbTimeMap, Map <String, Set <Integer>> allEvents, Map <String, String> disTypes) {
+    public static void startAssignProbs (Map<Integer, Set<Trans>> taLTS, Map <String, ArrayList<FractionNumber>> actionProbSet,
+    Map <String, ArrayList<FractionNumber>> actionProbTimeMap, Map <String, Set <Integer>> allActions, Map <String, String> disTypes) {
         ArrayList <TransPair> tPs;
         ArrayList <FractionNumber> delayProbs;
-        for (String event : allEvents.keySet()) {
-            for (int st : allEvents.get(event)) {
+        for (String action : allActions.keySet()) {
+            for (int st : allActions.get(action)) {
                 tPs = new ArrayList<TransPair>();
                 delayProbs = new ArrayList<FractionNumber>();
-                traverseToGetTransPairs(tPs, st, event, taLTS);
-                assignProbs(eventProbTimeMap, tPs, delayProbs, disTypes, event);
-                eventProbSet.put(event, delayProbs);
+                traverseToGetTransPairs(tPs, st, action, taLTS);
+                assignProbs(actionProbTimeMap, tPs, delayProbs, disTypes, action);
+                actionProbSet.put(action, delayProbs);
             }
         }
     }
     
-    public static void traverseToGetTransPairs(ArrayList <TransPair> tPs, int st, String event,
+    public static void traverseToGetTransPairs(ArrayList <TransPair> tPs, int st, String action,
     Map<Integer, Set<Trans>> taLTS) {
         boolean cnt[] = {false, false};
         TransPair tP = new TransPair();
@@ -1272,8 +1323,8 @@ public class App {
             if (tr.lbl.equals("Time") && tr.time == 1) {
                 tP.trTime = tr;
                 cnt[0] = true;
-            } else if (tr.lbl.equals(event)) {
-                tP.trEvent = tr;
+            } else if (tr.lbl.equals(action)) {
+                tP.trAction = tr;
                 cnt[1] = true;
             }
         }
@@ -1289,24 +1340,24 @@ public class App {
 
         for (Trans tr : taLTS.get(st)) {
             if (tr.lbl.equals("Time") && tr.time == 1) {
-                traverseToGetTransPairs(tPs, tr.dst, event, taLTS);
+                traverseToGetTransPairs(tPs, tr.dst, action, taLTS);
             }
         }
     }
     
-    public static void assignProbs (Map <String, ArrayList<FractionNumber>> eventProbTimeMap,
+    public static void assignProbs (Map <String, ArrayList<FractionNumber>> actionProbTimeMap,
     ArrayList <TransPair> tPs, ArrayList <FractionNumber> delayProbs, Map <String, String> disTypes,
-    String event) {
+    String action) {
         DecimalFormat df = new DecimalFormat("#.#######");
         df.setRoundingMode(RoundingMode.HALF_UP);
         int range = tPs.size();
         ArrayList <FractionNumber> distProbTransList = new ArrayList<FractionNumber>();
         ArrayList <FractionNumber> newTimeProbList;
-        if (!disTypes.containsKey(event)) {
+        if (!disTypes.containsKey(action)) {
             distProbTransList.add(new FractionNumber(1, 1));
             delayProbs.add(new FractionNumber(1, 1));
         }
-        else if (disTypes.get(event).equals("binomial")) {
+        else if (disTypes.get(action).equals("binomial")) {
             int n = range;
             double[][] binomial = new double[n+1][];
             binomial[1] = new double[1 + 2];
@@ -1320,13 +1371,13 @@ public class App {
                 delayProbs.add(floatToFraction(binomial[n][k]));
             }
             computeDist(distProbTransList, delayProbs);
-        } else if (disTypes.get(event).equals("uniform")) {
+        } else if (disTypes.get(action).equals("uniform")) {
             for (int i = 0; i < range; i++) {
                 delayProbs.add(new FractionNumber(1 , range));
             }
             computeDist(distProbTransList, delayProbs);
-        } else if (disTypes.get(event).contains("custom")) {
-            String [] arrCustom = disTypes.get(event).split(":")[1].replace(" ", "").split(",");
+        } else if (disTypes.get(action).contains("custom")) {
+            String [] arrCustom = disTypes.get(action).split(":")[1].replace(" ", "").split(",");
             for (int i = 0; i < range; i++) {
                 delayProbs.add(new FractionNumber(Integer.parseInt(arrCustom[i].split("/")[0]), Integer.parseInt(arrCustom[i].split("/")[1])));
             }
@@ -1336,18 +1387,18 @@ public class App {
             System.out.println("uniform/binomial/custom");
         }
 
-        if (disTypes.containsKey(event)) {
+        if (disTypes.containsKey(action)) {
             int idxTransPair = 0;
             for (FractionNumber prob : distProbTransList) {
-                tPs.get(idxTransPair).trEvent.prb = prob;
+                tPs.get(idxTransPair).trAction.prb = prob;
                 if (tPs.get(idxTransPair).trTime != null){
                     tPs.get(idxTransPair).trTime.prb = fracMin(new FractionNumber(1, 1), prob);
                     newTimeProbList = new ArrayList<FractionNumber>();
-                    if (eventProbTimeMap.containsKey(tPs.get(idxTransPair).trEvent.lbl)) {
-                        newTimeProbList.addAll(eventProbTimeMap.get(tPs.get(idxTransPair).trEvent.lbl));
+                    if (actionProbTimeMap.containsKey(tPs.get(idxTransPair).trAction.lbl)) {
+                        newTimeProbList.addAll(actionProbTimeMap.get(tPs.get(idxTransPair).trAction.lbl));
                     }
                     newTimeProbList.add(tPs.get(idxTransPair).trTime.prb);
-                    eventProbTimeMap.put(tPs.get(idxTransPair).trEvent.lbl, newTimeProbList);
+                    actionProbTimeMap.put(tPs.get(idxTransPair).trAction.lbl, newTimeProbList);
                 }
                 idxTransPair++;
             }
@@ -2011,7 +2062,11 @@ public class App {
                     }
                     tmpLblAct = tmpLbl.replace("!", "_").split("_")[0];
                     if (tmpLblAct.equals("Time")) {
-                        tmpLblTime = Integer.parseInt(tmpLbl.replace("!", "_").split("_")[1]);
+                        if (!tmpLbl.replace("!", "_").split("_")[1].equals("oo")) {
+                            tmpLblTime = Integer.parseInt(tmpLbl.replace("!", "_").split("_")[1]);
+                        } else {
+                            tmpLblTime = 1;
+                        }
                         tmpLbl = tmpLblAct;
                     } else {
                         tmpLblTime = 0;
@@ -2045,7 +2100,7 @@ public class App {
                     for (Trans tr2 : inLTS.get(st)) {
                         if (!tr2.lbl.equals("Time")) {
                             tr.isDelayTrans = true;
-                            tr.delayForEvent.put(tr2.lbl, 0);
+                            tr.delayForAction.put(tr2.lbl, 0);
                         }
                     }
                 }
@@ -2193,50 +2248,50 @@ public class App {
         return tempScript;
     }
 
-    public static void printAllEvents (Map <String, Set <Integer>> allEvents, String name) {
-        System.out.println("\n----- Start printing all events in LTS " + name + " -----");
+    public static void printAllActions (Map <String, Set <Integer>> allActions, String name) {
+        System.out.println("\n----- Start printing all actions in LTS " + name + " -----");
         String delim;
-        for (String event : allEvents.keySet()) {
-            System.out.print(event);
+        for (String action : allActions.keySet()) {
+            System.out.print(action);
             System.out.print(", starting states: {");
             delim = "";
-            for (int st : allEvents.get(event)) {
+            for (int st : allActions.get(action)) {
                 System.out.print(delim + st);
                 delim = ", ";
             }
             System.out.println("}");
         }
-        System.out.println("----- End printing all events in LTS " + name + " -----");
+        System.out.println("----- End printing all actions in LTS " + name + " -----");
     }
     
-    public static void printEventProbMap (Map <String, ArrayList<FractionNumber>> eventProbSet,
-    Map <String, FractionNumber> eventProb) {
-        System.out.println("\n----- Start printing event probabilities -----");
+    public static void printActionProbMap (Map <String, ArrayList<FractionNumber>> actionProbSet,
+    Map <String, FractionNumber> actionProb) {
+        System.out.println("\n----- Start printing action probabilities -----");
         int idxp = 0;
         String delimComma;
-        for (String event : eventProbSet.keySet()) {
-            System.out.println(event + ": " + eventProb.get(event).up + "/" + eventProb.get(event).down);
+        for (String action : actionProbSet.keySet()) {
+            System.out.println(action + ": " + actionProb.get(action).up + "/" + actionProb.get(action).down);
             idxp = 0;
             delimComma = "";
-            for (FractionNumber prob : eventProbSet.get(event)) {
+            for (FractionNumber prob : actionProbSet.get(action)) {
                 System.out.print(delimComma + idxp + ": " + prob.up + "/" + prob.down);
                 delimComma = ", ";
                 idxp++;
             }
             System.out.println();
         }
-        System.out.println("----- End printing event probabilities -----");
+        System.out.println("----- End printing action probabilities -----");
     }
 
-    public static void printEventProbTimeMap (Map <String, ArrayList<FractionNumber>> eventProbTimeMap) {
+    public static void printActionProbTimeMap (Map <String, ArrayList<FractionNumber>> actionProbTimeMap) {
         System.out.println("\n----- Start printing transition delay probabilities -----");
         int idxp = 0;
         String delimComma;
-        for (String event : eventProbTimeMap.keySet()) {
-            System.out.println(event + ": ");
+        for (String action : actionProbTimeMap.keySet()) {
+            System.out.println(action + ": ");
             idxp = 0;
             delimComma = "";
-            for (FractionNumber prob : eventProbTimeMap.get(event)) {
+            for (FractionNumber prob : actionProbTimeMap.get(action)) {
                 System.out.print(delimComma + idxp + ": " + prob.up + "/" + prob.down);
                 delimComma = ", ";
                 idxp++;
@@ -2307,8 +2362,8 @@ public class App {
                 if (tr.isDelayTrans) {
                     System.out.print(tr.asKey() + ", delay for: " );
                     delim = "";
-                    for (String event : tr.delayForEvent.keySet()) {
-                        System.out.print(delim + event + " (" + tr.delayForEvent.get(event) + ")");
+                    for (String action : tr.delayForAction.keySet()) {
+                        System.out.print(delim + action + " (" + tr.delayForAction.get(action) + ")");
                         delim = ", ";
                     }
                     System.out.println();
@@ -2318,36 +2373,36 @@ public class App {
         System.out.println("----- End printing delay transitions -----");
     }
 
-    public static void printEventStates (Map <String, Set <Integer>> allEvents) {
-        System.out.println("\n----- Start printing event states -----");
+    public static void printActionStates (Map <String, Set <Integer>> allActions) {
+        System.out.println("\n----- Start printing action states -----");
         String delim;
-        for (String event : allEvents.keySet()) {
-            System.out.print(event);
+        for (String action : allActions.keySet()) {
+            System.out.print(action);
             System.out.print(", source states: {");
             delim = "";
-            for (int st : allEvents.get(event)) {
+            for (int st : allActions.get(action)) {
                 System.out.print(delim + st);
                 delim = ", ";
             }
             System.out.println("}");
         }
-        System.out.println("----- End printing event states -----");
+        System.out.println("----- End printing action states -----");
     }
 
-    public static void printEventStateNets (Map <String, Map <Integer, Set <Integer>>> eventStateNets) {
-        System.out.println("\n----- Start printing event state networks -----");
+    public static void printActionStateNets (Map <String, Map <Integer, Set <Integer>>> actionStateNets) {
+        System.out.println("\n----- Start printing action state networks -----");
         String delim;
         String delim2;
-        for (String event : eventStateNets.keySet()) {
-            System.out.print(event);
+        for (String action : actionStateNets.keySet()) {
+            System.out.print(action);
             System.out.print(", state networks: {");
             delim = "";
-            for (int root : eventStateNets.get(event).keySet()) {
+            for (int root : actionStateNets.get(action).keySet()) {
                 System.out.print(delim);
                 System.out.print("[" + root + "] ");
                 System.out.print("{");
                 delim2 = "";
-                for (Integer st : eventStateNets.get(event).get(root)) {
+                for (Integer st : actionStateNets.get(action).get(root)) {
                     System.out.print(delim2 + st);
                     delim2 = ", ";
                 }
@@ -2356,31 +2411,31 @@ public class App {
             }
             System.out.println("}");
         }
-        System.out.println("----- End printing event state networks -----");
+        System.out.println("----- End printing action state networks -----");
     }
 
-    public static void printEventDelayProb(Map <Integer, Set <Trans>> inLTS) {
-        System.out.println("\n----- Start printing transition event delay probabilities -----");
+    public static void printActionDelayProb(Map <Integer, Set <Trans>> inLTS) {
+        System.out.println("\n----- Start printing transition action delay probabilities -----");
         for (int st : inLTS.keySet()) {
             for (Trans tr : inLTS.get(st)) {
                 if (!tr.lbl.equals("Time")) {
-                    System.out.println(tr.asKey() + ": " + tr.eventDelayProb.getFractionString());
+                    System.out.println(tr.asKey() + ": " + tr.actionDelayProb.getFractionString());
                 }
             }
         }
-        System.out.println("----- End printing transition event delay probabilities -----");
+        System.out.println("----- End printing transition action delay probabilities -----");
     }
 
-    public static void printEqStarts (Map <String, Map <Integer, Set <Set <Integer>>>> allEvents) {
+    public static void printEqStarts (Map <String, Map <Integer, Set <Set <Integer>>>> allActions) {
         System.out.println("\n----- Start printing equation starting states -----");
         String delim;
         int endingIdx;
-        for (String event : allEvents.keySet()) {
-            System.out.println("> Event: " + event);
-            for (int st1 : allEvents.get(event).keySet()) {
+        for (String action : allActions.keySet()) {
+            System.out.println("> Action: " + action);
+            for (int st1 : allActions.get(action).keySet()) {
                 System.out.println("Starting: " + st1);
                 endingIdx = 1;
-                for (Set <Integer> states : allEvents.get(event).get(st1)) {
+                for (Set <Integer> states : allActions.get(action).get(st1)) {
                     delim = "";
                     System.out.print("Ending " + endingIdx + ": ");
                     endingIdx++;
@@ -2400,7 +2455,7 @@ public class App {
         for (int start : transNetPossibilities.keySet()) {
             System.out.println("> Start state: " + start);
             for (TransPossibility tp : transNetPossibilities.get(start)) {
-                System.out.println(">> Event: " + tp.event);
+                System.out.println(">> Action: " + tp.action);
                 for (int delay : tp.transPathsDelay.keySet()) {
                     System.out.println(">>> Delay: " + delay);
                     for (List <Trans> paths : tp.transPathsDelay.get(delay)) {
@@ -2489,15 +2544,14 @@ public class App {
                 delimEq = ",\n";
             }
             myWriter.write("\n]\nsol = sp.solve(eqs, vars_all, dict=True)\n");
-            myWriter.write("print(\"Solution:\")\n" + //
-                                "for s in sol:\n" + //
-                                "\tprint(s)\n");
             myWriter.write("text_file = open(sys.argv[1] + \"-sympy.txt\", \"w\")\n" + //
                                 "for s in sol:\n" + //
                                 "    for key, value in s.items():\n" + //
                                 "        text_file.write(str(key) + \":\" + str(value) + \"\\n" + //
                                 "\")\n" + //
-                                "text_file.close()");
+                                "text_file.close()\n" + //
+                                "print(\"Solution: \" + sys.argv[1] + \"-sympy.txt\")");
+            
             myWriter.close();
             executeCommands("python3 " + fileName + "-solver.py " + fileName);
 
@@ -2656,8 +2710,8 @@ public class App {
     public static void printDistribution (Map <String, String> distribution) {
         if (distribution.size() > 0) {
             System.out.println("Detected probabilistic distribution: ");
-            for (String event : distribution.keySet()) {
-                System.out.println(event + ": " + distribution.get(event));
+            for (String action : distribution.keySet()) {
+                System.out.println(action + ": " + distribution.get(action));
             }
         }
     }
@@ -2700,8 +2754,12 @@ public class App {
                     if (itrs.time > 0) {
                         tmpTime = " !" + itrs.time;
                     }
-                    myWriter.write("(" + st + ", \"" + itrs.lbl + tmpTime + "; " + itrs.prb.up + "/" + itrs.prb.down
+                    if (itrs.prb.up == itrs.prb.down) {
+                        myWriter.write("(" + st + ", \"" + itrs.lbl + tmpTime + "; 1\", " + itrs.dst + ")\n");
+                    } else {
+                        myWriter.write("(" + st + ", \"" + itrs.lbl + tmpTime + "; " + itrs.prb.up + "/" + itrs.prb.down
                         + "\", " + itrs.dst + ")\n");
+                    }
                 }
             }
             myWriter.close();
