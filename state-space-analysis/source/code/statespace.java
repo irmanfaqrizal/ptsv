@@ -27,6 +27,7 @@ public class statespace {
         int dst;
         Map <String, Integer> delayForAction;
         boolean isDelayTrans;
+        boolean isBlue;
         public Trans(int src, String lbl, int tm, int dst) {
             this.src = src;
             this.lbl = lbl;
@@ -38,6 +39,7 @@ public class statespace {
             this.dst = dst;
             this.delayForAction = new HashMap<String, Integer>();
             this.isDelayTrans = false;
+            this.isBlue = false;
         }
         public Trans(int src, String lbl, int tm, int dst, FractionNumber prb) {
             this.src = src;
@@ -50,6 +52,7 @@ public class statespace {
             this.dst = dst;
             this.delayForAction = new HashMap<String, Integer>();
             this.isDelayTrans = false;
+            this.isBlue = false;
         }
         public Trans(int src, String lbl, int tm, int dst, int ctr, FractionNumber prb) {
             this.src = src;
@@ -62,6 +65,7 @@ public class statespace {
             this.dst = dst;
             this.delayForAction = new HashMap<String, Integer>();
             this.isDelayTrans = false;
+            this.isBlue = false;
         }
         public Trans(int src, String lbl, int tm, int dst, Double prbFinal) {
             this.src = src;
@@ -74,6 +78,7 @@ public class statespace {
             this.dst = dst;
             this.delayForAction = new HashMap<String, Integer>();
             this.isDelayTrans = false;
+            this.isBlue = false;
         }
         public void ctrUp () {
             ctr++;
@@ -135,6 +140,9 @@ public class statespace {
         }
         Map <Integer, Set <Trans>> inTPTS = new HashMap <Integer, Set <Trans>>();
         String fileTPTS = args[0];
+        if (fileTPTS.split("\\.").length > 1) {
+            fileTPTS = fileTPTS.split("\\.")[0];
+        }
         Double prbMin = Double.parseDouble(args[1].split(",")[0]);
         Double prbMax = Double.parseDouble(args[1].split(",")[1]);
         int maxPaths = Integer.parseInt(args[2]);
@@ -143,6 +151,9 @@ public class statespace {
         Map <Integer, Set <Trans>> outTPTS = new HashMap <Integer, Set <Trans>>();
         ArrayList <Map <Integer, Set <Trans>>> resultTPTSsOut = new ArrayList<Map <Integer, Set <Trans>>>();
         String fileTPTSOut = args[3];
+        if (fileTPTSOut.split("\\.").length > 1) {
+            fileTPTSOut = fileTPTSOut.split("\\.")[0];
+        }
         buildTPTS(inTPTS, fileTPTS);
         extractPaths(paths, inTPTS, prbMin, prbMax, maxPaths);
         getTPTSs(resultTPTSsIn, paths, inTPTS);
@@ -242,16 +253,26 @@ public class statespace {
     }
 
     public static void getTPTSs (ArrayList <Map <Integer, Set <Trans>>> resultTPTSs,
-    ArrayList <ArrayList <Trans>> paths, Map <Integer, Set <Trans>> outTPTS) {
+    ArrayList <ArrayList <Trans>> paths, Map <Integer, Set <Trans>> TPTS) {
         Map <Integer, Set <Trans>> tmpResultTPTS;
         int cState;
+        Set <Trans> newTrans;
+        Trans newTran;
         for (ArrayList<Trans> path : paths) {
             tmpResultTPTS = new HashMap<Integer, Set <Trans>>();
             cState = 0;
             for (Trans trPath : path) {
-                for (Trans trTPTS : outTPTS.get(cState)) {
+                for (Trans trTPTS : TPTS.get(cState)) {
                     if (trPath.lbl.equals(trTPTS.lbl) && trPath.time == trTPTS.time) {
-                        tmpResultTPTS.put(cState, outTPTS.get(cState));
+                        newTrans = new HashSet<Trans>();
+                        for (Trans trTPTS2 : TPTS.get(cState)) {
+                            newTran = new Trans(trTPTS2.src, trTPTS2.lbl, trTPTS2.time, trTPTS2.dst, trTPTS2.prbFinal);
+                            if (newTran.lbl.equals(trTPTS.lbl)) {
+                                newTran.isBlue = true;
+                            }
+                            newTrans.add(newTran);
+                        }
+                        tmpResultTPTS.put(cState, newTrans);
                         cState = trTPTS.dst;
                         break;
                     }
@@ -261,7 +282,8 @@ public class statespace {
         }
     }
 
-    public static void writeTPTSDots(ArrayList <Map <Integer, Set <Trans>>> resultTPTSs, String fileName) throws InterruptedException {
+    public static void writeTPTSDots(ArrayList <Map <Integer, Set <Trans>>> resultTPTSs,
+    String fileName) throws InterruptedException {
         new File("results").mkdirs();
         int idx = 1;
         for (Map<Integer,Set<Trans>> tpts : resultTPTSs) {
@@ -274,10 +296,18 @@ public class statespace {
                                 "0 [peripheries = 2];\n");
                 for (int st : tpts.keySet()) {
                     for (Trans tr : tpts.get(st)) {
-                        if (tr.time > 0) {
-                            myWriter.write(tr.src + " -> " + tr.dst + "  [label = \"" + tr.lbl + " !" + tr.time + "; prob " + tr.prbFinal + "\"];\n");
+                        if (!tr.isBlue) {
+                            if (tr.time > 0) {
+                                myWriter.write(tr.src + " -> " + tr.dst + "  [label = \"" + tr.lbl + " !" + tr.time + "; prob " + tr.prbFinal + "\"];\n");
+                            } else {
+                                myWriter.write(tr.src + " -> " + tr.dst + "  [label = \"" + tr.lbl + "; prob " + tr.prbFinal + "\"];\n");
+                            }
                         } else {
-                            myWriter.write(tr.src + " -> " + tr.dst + "  [label = \"" + tr.lbl + "; prob " + tr.prbFinal + "\"];\n");
+                            if (tr.time > 0) {
+                                myWriter.write(tr.src + " -> " + tr.dst + "  [label = \"" + tr.lbl + " !" + tr.time + "; prob " + tr.prbFinal + "\", color = \"blue\", penwidth=3];\n");
+                            } else {
+                                myWriter.write(tr.src + " -> " + tr.dst + "  [label = \"" + tr.lbl + "; prob " + tr.prbFinal + "\", color = \"blue\", penwidth=3];\n");
+                            }
                         }
                     }
                 }
