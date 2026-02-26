@@ -40,18 +40,26 @@ public class App {
 
     /* 
         Transition in a TLTS/TPTS
-        - src: source state
-        - lbl: action, assigned as "Time" for non-action transitions
-        - time: number of ticks, 0 for action transitions
-        - ctr: times visited, for TPTS computation using traces
-        - prb: probability
-        - prbFinal: probability in float
-        - actionDelayProb: probability of action according to the distribution,
-            for generating equations based on ratios of action probabilities
-        - dst: target state
-        - delayForAction: names of delayed action,
-            for generating equations based on products of delay probabilities
-        - isDelayTrans: boolean flag for delay transitions
+        > Attributes
+            - src: source state
+            - lbl: action, assigned as "Time" for non-action transitions
+            - time: number of ticks, 0 for action transitions
+            - ctr: times visited, for TPTS computation using traces
+            - prb: probability
+            - prbFinal: probability in float
+            - actionDelayProb: probability of action according to the distribution,
+                for generating equations based on ratios of action probabilities
+            - dst: target state
+            - delayForAction: names of delayed action,
+                for generating equations based on products of delay probabilities
+            - isDelayTrans: boolean flag for delay transitions
+        > Functions
+            - ctrUp: increment the transition counter
+            - prbComp: convert to fractional number
+            - printTrans: return transition as a string (including probability)
+            - asKey: return transition as a a string (excluding probability)
+            - compareTrans: return true if this transition is identical with another transition in the parameter
+            - getTimeLabel: get label as an action or an encoded clock tick
     */
     static class Trans {
         int src;
@@ -193,7 +201,7 @@ public class App {
         } else if (args[0].equals("mapping")) {
             /*
                 Additional feature to get mapping between states in global and local TLTSs;
-                this can be ignored since not used in the approach.
+                this CAN BE IGNORED since not used in the approach.
             */
             if (args.length == 1) {
                 System.out.println("Missing IF model name! ");
@@ -242,13 +250,15 @@ public class App {
                         traceDir = args[2];
                     }
                 } else {
-                    System.out.println("unknown option");
-                    return;
+                    option = "numeric";
                 }
             }
             
+            /* Mapping of actions and their probabilistic distributions */
             Map <String, String> distribution = new HashMap<String, String>();
+            /* Functional chain */
             ArrayList <String> chain = new ArrayList<String>();
+            /* Min and max delays to be checked by the model checker */
             ArrayList <Integer> minMax = new ArrayList<Integer>();
             System.out.println("\n!!!!---------------- Start analysis of IF model: " + ifModel + "----------------!!!!");
             /* Read the specification to get delay distribution probabilities */
@@ -288,7 +298,7 @@ public class App {
             }
 
             if (chain.size() > 0) {
-                /* Additional feature when a functional chain is given in the IF specification */
+                /* Additional feature when a functional chain is given in the IF specification (see experiments/aebs/specification/C1/aebs.if) */
                 System.out.println("\n<<<<<<<<<< Start analysing reaction time probabilities");
                 startTime = System.currentTimeMillis();
                 System.out.print("Specified chain of actions: ");
@@ -307,6 +317,11 @@ public class App {
         }
     }
 
+    /*
+        Iterate through specification lines to find every probabilistic distribution associated with an action.
+        Then, a new specification file (<filename>-stripped.if) is created after removing the annotations.
+        This file is later used to generate the TLTS.
+    */
     public static String getModelInfo (Map <String, String> distribution, ArrayList <String> chain,
     ArrayList <Integer> minMax, String ifModel)
     throws FileNotFoundException, IOException, InterruptedException {
@@ -341,6 +356,7 @@ public class App {
         return reduc;
     }
     
+    /* (NOT USED IN THE APPROACH !!!) Additional function to compute mapping between the states in global and local TLTSs */
     public static void computeMappingOfStates (String ifModel, ArrayList <String> taNames) throws FileNotFoundException, IOException, InterruptedException {
         ArrayList <Map <Integer, Set <Trans>>> taLTSs = new ArrayList<Map <Integer, Set <Trans>>>();
         Map <Integer, Set <Trans>> taLTS;
@@ -361,6 +377,7 @@ public class App {
         writeMapping(taLTSs, mapping, ifModel);
     }
 
+    /* (NOT USED IN THE APPROACH !!!) Traverse both global and local TLTSs while mapping the states */
     public static void traverseToGetMapping (Map <Integer, ArrayList<Set <Integer>>> mapping,
     ArrayList <ArrayList <Trans>> paths, ArrayList <Map <Integer, Set <Trans>>> taLTSs,
     Map <Integer, Set <Trans>> inLTS) {
@@ -420,75 +437,141 @@ public class App {
         }
     }
 
+    /* Main function to compute TPTS according to probabilistic delay distributions */
     public static void computePTSbyDistribution(String ifModel,
     ArrayList <String> taNames, Map <String, String> disTypes, String solverType,
     Boolean isVerbose)
     throws FileNotFoundException, IOException, InterruptedException {
         System.out.println("\n<<<<<<<<<< Start collecting equations");
+        /* Mapping of states and transitions in the initial global TLTS, which is then become TPTS at the end of the computation */
         Map <Integer, Set <Trans>> inLTS = new HashMap <Integer, Set <Trans>>();
         long startTime = System.currentTimeMillis();
-        ArrayList <Map <Integer, Set <Trans>>> taLTSs = new ArrayList<Map <Integer, Set <Trans>>>();
+        /* Temporary variable for a local TLTS */
         Map <Integer, Set <Trans>> taLTS;
+        /* Temporary variable for a local TLTS, but with target states mapped to incomming transitions */
         Map <Integer, Set <Trans>> statesIns;
+        /* Temporary variable for all actions in a local TLTS mapped to the state where it is possible to trigger the action for the first time */
         Map <String, Set <Integer>> allActions;
+        /* Mapping of actions and probabilistic distributions */
         Map <String, ArrayList<FractionNumber>> actionProbTriggerMap = new HashMap<String, ArrayList<FractionNumber>>();
+        /* Mapping of actions and probabilities to delay the action after some time (known as 1 - phi in the paper) */
         Map <String, ArrayList<FractionNumber>> actionProbTimeMap = new HashMap<String, ArrayList<FractionNumber>>();
+        /* Mapping of actions and their probabilities, which are always 1 for now because we consider only 1 edge outgoing from each location in the DSTA */
         Map <String, FractionNumber> actionProbMap = new HashMap<String, FractionNumber>();
+        /* Iterates through all local TLTSs */
         for (String taName : taNames) {
             taLTS = new HashMap <Integer, Set <Trans>>();
             statesIns = new HashMap <Integer, Set <Trans>>();
             allActions = new HashMap <String, Set <Integer>>();
             String header = buildLTS(taLTS, taName, statesIns);
+            /*
+                Get all actions by iterating through the mapping of states and transitions in the local TLTS
+            */
             getAllActions(allActions, actionProbMap, taLTS, statesIns);
             if (isVerbose) {
                 printAllActions(allActions, taName);
             }
+            /*
+                Assign probabilities in the local TLTS while getting the probabilistic distribution
+                and probabilities to delay the action after some time
+            */
             startAssignProbs(taLTS, actionProbTriggerMap, actionProbTimeMap, allActions, disTypes);
+            /* Write the local TPTS file and create a PDF file */
             writePTS(taLTS, taName, header);
             bashCreatePDF(taName + "-pts");
-            taLTSs.add(taLTS);
         }
+        /* Simplify fractional numbers */
         simplifyMapFracs(actionProbTriggerMap);
         simplifyMapFracs(actionProbTimeMap);
         if (isVerbose) {
             printActionProbMap(actionProbTriggerMap, actionProbMap);
             printActionProbTimeMap(actionProbTimeMap);
         }
+        /* Mapping of target states with incomming transitions in global TLTS */
         Map <Integer, Set <Trans>> statesInsAll = new HashMap <Integer, Set <Trans>>();
+        /* All actions in the global TLTS mapped to the states where it is possible to trigger the action */
         Map <String, Set <Integer>> actionStates = new HashMap <String, Set <Integer>>();
+        /*
+            All actions in the global TLTS mapped to the states where it is possible to trigger the action for the first 
+            (starting states), each of these starting states are mapped to other states that are connected through delay transitions
+            and transitions labelled by other actions
+        */
         Map <String, Map <Integer, Set <Integer>>> actionStatesNets = new HashMap <String, Map <Integer, Set <Integer>>>();
+        /*
+            All actions in the global TLTS mapped to the states where it is possible to trigger the action for the first time
+            (starting states), each of these starting states are mapped to the states where it is possible to eventually trigger the action after some
+            delay and/or other actions.
+        */
         Map <String, Map <Integer, Set <Set <Integer>>>> eqStartStates = new HashMap <String, Map <Integer, Set <Set <Integer>>>>();
+        /* Starting states mapped to sets of possibilities (see TransPossibility class) to trigger actions after some delay and/or other actions */
         Map <Integer, Set <TransPossibility>> transPossibilities = new HashMap <Integer, Set <TransPossibility>>();
+        /* Mapping of transitions and variable names */
         Map <String, String> transVarMapping = new LinkedHashMap<String, String>();
-        Map <Integer, Set <String>> equations = new HashMap<Integer, Set <String>>();
-        Map <Integer, Set <String>> equationsUnmap = new HashMap<Integer, Set <String>>();
+        /* Mapping of starting states and variables in the equations associated with the states */
         Map <Integer, Set <String>> equationVars = new HashMap<Integer, Set <String>>();
+        /* Mapping of variables and their values after solving the equations symbolically */
         Map <String, FractionNumber> solverResults = new HashMap<String, FractionNumber>();
+        /* Mapping of variables and their values after solving the equations numerically */
         Map <String, Double> solverResultsSci = new HashMap<String, Double>();
+        /* Equations expressed in python (left side mapped to right side) */
         Map <String, String> equationsPy = new HashMap <String, String>();
+        /*
+            Iterates through the .aut file of the TLTS while
+            building the mapping of states and transitions in inLTS and statesInsAll
+        */
         String header = buildLTS(inLTS, ifModel, statesInsAll);
+        /*
+            Find transitions labelled by "Time !1"
+            outgoing from a state with transitions labelled by some actions
+         */
         annotateDelayTrans(inLTS);
+        /*
+            Iterate through states to find all actions,
+            then, for every action, iterate through the states again to find states with outgoing transitions
+            labelled by the action.
+        */
         getActionStates(actionStates, inLTS);
         if (isVerbose) { printActionStates(actionStates); }
+        /* 
+            Group states in the mapping if they are connected by transitions labelled by delay transitions
+            or labelled by other actions.
+        */
         getActionStatesNets(actionStatesNets, actionStates, inLTS, statesInsAll);
         if (isVerbose) { printActionStateNets(actionStatesNets); }
+        /*
+            Assign probabilities to each action transitions according to probabilistic distributions
+            for generating equations based on ratios of action probabilities later on
+        */
         getActionDelayProb(actionStatesNets, inLTS, actionProbTriggerMap);
         if (isVerbose) {printActionDelayProb(inLTS); }
+        /*
+            For every action, find the starts and the endings of paths that represent the possibilities
+            to trigger that action after some clock ticks.
+        */
         getActionStateEqStart(eqStartStates, actionStatesNets, inLTS, statesInsAll);
         if (isVerbose) {printEqStarts(eqStartStates); }
+        /*
+            Traverse each starting state until the ending states to get paths that represent the possibilities
+            to trigger that action after some clock ticks.
+        */
         getTransPossibilities(transPossibilities, eqStartStates, inLTS);
         if (isVerbose) {
             printTransNetPossibilities(transPossibilities);
             printDelayTrans(inLTS);
         }
+        /*
+            Create variables to represent transition probabilities in the system of equations
+        */
         getTransVarMappingPy(transVarMapping, inLTS);
         if (isVerbose) { printTransVarMapping(transVarMapping); }
-        writeMappedLTS(inLTS, transVarMapping, ifModel, header);
-        getEquations(equationsPy, equations, equationsUnmap, equationVars,
+        /*
+            Create equations based on the paths that represent possibilities and other constraints equations,
+            see inside the function for more details
+        */
+        getEquations(equationsPy, equationVars,
             transPossibilities, actionProbTriggerMap,
             actionProbMap, actionProbTimeMap, transVarMapping, inLTS);
-        if (isVerbose) {printEquations(equations, equationVars); }
-        // printEquationsUnmap(equationsUnmap);
+        if (isVerbose) {printEquationsPy(equationsPy); }
         System.out.println("Number of equations collected: " + equationsPy.size());
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
@@ -497,25 +580,52 @@ public class App {
         startTime = System.currentTimeMillis();
         
         if (solverType.equals("symbolic")) {
+            /*
+                Create a python code from the system equations,
+                described according to SymPy equation solver,
+                then execute the to get values of the variables.
+            */
             solveEquationsWithSympy(solverResults, ifModel, equationsPy, equationVars);
             stopTime = System.currentTimeMillis();
             elapsedTime = stopTime - startTime;
             System.out.println("\n>>>>>>>>>> Finish solving (" + elapsedTime + "ms)");
+            /*
+                Assign the probabilities according to the mapping of variables and
+                transitions; thus, TPTS is produced
+            */
             assignProbsToLTS(inLTS, transVarMapping, solverResults);
+            /* Create .aut and .pdf files of the TPTS */
             writePTS(inLTS, ifModel, header);
             bashCreatePDF(ifModel +"-pts");
+            /* Create DTMC for verification purposes */
             writeDTMC(inLTS, ifModel +"-pts", header);
+            /*
+                Create .aut and .pdf files of the TPTS with probabilities described as fractional numbers,
+                this is only used for visualization because CADP does not recognize fractional numbers
+            */
             writePTSSymbolic(inLTS, ifModel, header);
             bashCreatePDF(ifModel +"-pts-fractional");
         } else if (solverType.equals("numeric")) {
+            /*
+                Create a python code from the system equations,
+                described according to SciPy equation solver,
+                then execute the to get values of the variables.
+            */
             solveEquationsWithScipy(solverResultsSci, ifModel, equationsPy, equationVars);
             stopTime = System.currentTimeMillis();
             elapsedTime = stopTime - startTime;
             System.out.println("\n>>>>>>>>>> Finish solving (" + elapsedTime + "ms)");
+            /*
+                Assign the probabilities according to the mapping of variables and
+                transitions; then normalize to make sure transitions probabilities
+                outgoing from the same state sum to 1
+            */
             assignProbsToLTSSci(inLTS, transVarMapping, solverResultsSci);
             normalize(inLTS);
+            /* Create .aut and .pdf files of the TPTS */
             writePTSSci(inLTS, ifModel, header);
             bashCreatePDF(ifModel +"-pts");
+            /* Create DTMC for verification purposes */
             writeDTMCSci(inLTS, ifModel +"-pts", header);
         }
     }
@@ -1065,19 +1175,14 @@ public class App {
     }
 
     public static void getEquations(Map <String, String> equationsPy,
-    Map <Integer, Set <String>> equations, Map <Integer, Set <String>> equationsUnmap,
     Map <Integer, Set <String>> equationVars, Map <Integer, Set <TransPossibility>> transPossibilities,
     Map <String, ArrayList<FractionNumber>> actionProbTriggerMap, Map <String, FractionNumber> actionProbMap,
     Map <String, ArrayList<FractionNumber>> actionProbTimeMap,
     Map <String, String> transVarMapping, Map <Integer, Set <Trans>> inLTS) {
         Map <Integer, Set <Integer>> statesInNets = new HashMap<Integer, Set <Integer>>();
-        Set <String> tmpEqs;
-        Set <String> tmpEqsUnmap;
+        /* Temporary variables to store variables, equation, etc. */
         Set <String> tmpVars;
-        Set <String> combinedEqs;
-        Set <String> combinedEqsUnmap;
         String tmpEq;
-        String tmpEqUnmap;
         String multi;
         String plus;
         Set <Integer> netStates;
@@ -1085,23 +1190,19 @@ public class App {
         FractionNumber multiForDelayProb;
         String firstTransAction;
         Trans firstTrans = new Trans(0, "", 0, 0);
+        /* Iterates through possibilities and create equations based on the sum of path probabilities */
         for (int start : transPossibilities.keySet()) {
-            tmpEqs = new HashSet<String>();
-            tmpEqsUnmap = new HashSet<String>();
             tmpVars = new HashSet<String>();
             netStates = new HashSet<Integer>();
             for (TransPossibility tp : transPossibilities.get(start)) {
                 for (int delay : tp.transPathsDelay.keySet()) {
                     plus = "";
                     tmpEq = "";
-                    tmpEqUnmap = "";
                     for (List <Trans> path : tp.transPathsDelay.get(delay)) {
                         tmpEq += plus;
-                        tmpEqUnmap += plus;
                         multi = "";
                         for (Trans tr : path) {
                             tmpEq += multi + transVarMapping.get(tr.asKey());
-                            tmpEqUnmap += multi + tr.asKey();
                             multi = "*";
                             tmpVars.add(transVarMapping.get(tr.asKey()));
                             netStates.add(tr.src);
@@ -1110,30 +1211,22 @@ public class App {
                     }
                     if (actionProbTriggerMap.get(tp.action) != null) {
                         equationsPy.put(tmpEq, actionProbTriggerMap.get(tp.action).get(delay).getFractionString());
-                        tmpEq += " == " + actionProbTriggerMap.get(tp.action).get(delay).getFractionString();
-                        tmpEqUnmap += " == " + actionProbTriggerMap.get(tp.action).get(delay).getFractionString();
-                        tmpEqs.add(tmpEq);
-                        tmpEqsUnmap.add(tmpEqUnmap);
                     }
                 }
             }
-            equations.put(start, tmpEqs);
-            equationsUnmap.put(start, tmpEqsUnmap);
             equationVars.put(start, tmpVars);
             statesInNets.put(start, netStates);
         }
+        /* Iterate through the group of states to create "constraining" equations */
         for (Integer start : statesInNets.keySet()) {
-            tmpEqs = new HashSet<String>();
-            tmpEqsUnmap = new HashSet<String>();
             for (Integer state : statesInNets.get(start)) {
                 plus = "";
                 tmpEq = "";
-                tmpEqUnmap = "";
                 checkMinActions = 0;
                 firstTransAction = "";
+                /* Equations to ensure transitions probabilities from the same state sum to 1 */
                 for (Trans tr : inLTS.get(state)) {
                     tmpEq += plus + transVarMapping.get(tr.asKey());
-                    tmpEqUnmap += plus + tr.asKey();
                     plus = " + ";
                     if (!tr.lbl.equals("Time")) {
                         checkMinActions++;
@@ -1144,39 +1237,24 @@ public class App {
                     }
                 }
                 equationsPy.put(tmpEq, "1");
-                tmpEq += " == 1";
-                tmpEqs.add(tmpEq);
-                tmpEqUnmap += " == 1";
-                tmpEqsUnmap.add(tmpEqUnmap);
+                /* The next two types of equations (ratio and delay probabilities) only created when there are more than 1 action transitions */
                 if (checkMinActions > 1) {
                     for (Trans tr : inLTS.get(state)) {
+                        /* Equations based on ratio of action probabilities */
                         if (!tr.asKey().equals(firstTransAction) && !tr.lbl.equals("Time")) {
                             equationsPy.put(transVarMapping.get(firstTransAction) + "/" + transVarMapping.get(tr.asKey()), fracDiv(firstTrans.actionDelayProb, tr.actionDelayProb).getFractionString());
-                            tmpEqs.add(transVarMapping.get(firstTransAction) + "/" + transVarMapping.get(tr.asKey())
-                            + " == " + fracDiv(firstTrans.actionDelayProb, tr.actionDelayProb).getFractionString());
-                            tmpEqsUnmap.add(firstTransAction + "/" + tr.asKey()
-                            + " == " + fracDiv(firstTrans.actionDelayProb, tr.actionDelayProb).getFractionString());
                         }
+                        /* Equations based on delay probabilities */
                         if (tr.isDelayTrans) {
                             multiForDelayProb = new FractionNumber(1, 1);
                             for (String action : tr.delayForAction.keySet()) {
                                 multiForDelayProb = fracMultiply(multiForDelayProb, actionProbTimeMap.get(action).get(tr.delayForAction.get(action)));
                             }
                             equationsPy.put(transVarMapping.get(tr.asKey()), multiForDelayProb.getFractionString());
-                            tmpEqs.add(transVarMapping.get(tr.asKey()) + " == " + multiForDelayProb.getFractionString());
-                            tmpEqsUnmap.add(tr.asKey() + " == " + multiForDelayProb.getFractionString());
                         }
                     }
                 }
             }
-            combinedEqs = new HashSet<String>();
-            combinedEqs.addAll(equations.get(start));
-            combinedEqs.addAll(tmpEqs);
-            equations.put(start, combinedEqs);
-            combinedEqsUnmap = new HashSet<String>();
-            combinedEqsUnmap.addAll(equationsUnmap.get(start));
-            combinedEqsUnmap.addAll(tmpEqsUnmap);
-            equationsUnmap.put(start, combinedEqsUnmap);
         }
     }
 
@@ -1636,26 +1714,35 @@ public class App {
         Map <Integer, Double> mapSteadyOri = new HashMap <Integer, Double>();
         Map <Integer, Double> mapSteadyRem = new HashMap <Integer, Double>();
 
+        /* Create mappings between states and transitions in the TLTS */
         String propMeta = buildLTS(inLTS, ifModel, statesInsAll);
+        /* Iterate through set of traces, see inside the the function for more details */
         computePTSfromAllTraces(inLTS, numTrace, tracesName, mapCtr);
+        /* Compute steady states based on numbers of times the states are visited */
         computeSteadyStates(mapCtr, mapSteadyOri);
+        /* Create a cut TPTS with 0 probabilities removed */
         removeTrans(inLTS, cutLTS);
         renumStates(cutLTS, cutLTSRenum, mapCtr, mapCtrSteady);
+        /* Check if there is a state with all outgoing transition have 0 probabilities */
         checkDead(cutLTSRenum);
+        /* Compute steady states of the cut TPTS */
         computeSteadyStates(mapCtrSteady, mapSteadyRem);
+        /* Create the aut file header */
         propRemMeta = computeMeta(cutLTSRenum);
+        /* Create the aut and PDF files for the original and the cut TPTSs */
         writePTS(inLTS, ifModel + "-" + tracesName, propMeta);
         bashCreatePDF(ifModel + "-" + tracesName + "-pts");
         writePTS(cutLTSRenum, ifModel + "-" + tracesName + "-rem", propRemMeta);
         bashCreatePDF(ifModel + "-" + tracesName + "-rem" + "-pts");
+        /* Create the text files of steady-state probabilities according to traversal */
         writeSteady(mapSteadyOri, ifModel + "-ori");
         writeSteady(mapSteadyRem, ifModel + "-rem");
+        /* Create DTMC according to traversal */
         writeDTMC(cutLTSRenum, ifModel + "-" + tracesName + "-rem-pts", propRemMeta);
-
+        /* Compute and print the state coverage */
         double roundOff = (double) cutLTS.size() / (double) inLTS.size();
         DecimalFormat df = new DecimalFormat("#.000");
         System.out.println("State coverage: " + (df.format(roundOff)));
-
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
         System.out.println("PTS computation time: " + elapsedTime + "ms");
@@ -1671,10 +1758,12 @@ public class App {
     }
     
     public static void computePTSfromAllTraces (Map<Integer, Set<Trans>> inLTS, int numTrace, String dirTrace, Map <Integer, Integer> mapCtr) throws IOException {
+        /* Initiate state counters */
         for (int stmap : inLTS.keySet()) {
             mapCtr.put(stmap, 0);
         }
         mapCtr.put(0, 0);
+        /* Iterate through the set of traces */
         for (int t = 1; t <= numTrace; t++) {
             String traceNow = dirTrace + "/T" + t + ".txt";
             BufferedReader brTest = new BufferedReader(new FileReader(traceNow));
@@ -1690,15 +1779,16 @@ public class App {
             }
             writer.close();
             System.out.println("computing: " + dirTrace + "/T" + t + ".txt");
+            /* Traverse the TLTS for each trace see the function for more details */
             computePTS(inLTS, mapCtr, traceNow);
         }
 
+        /* Compute probabilities based on visited states and traversed transitions */
         for (int st : inLTS.keySet()) {
             for (Trans trs : inLTS.get(st)) {
                 trs.prbComp(mapCtr.get(st));
             }
         }
-
         int tmpTrCtr = 0;
         FractionNumber tmpProb;
         for (int state : inLTS.keySet()) {
@@ -1713,10 +1803,9 @@ public class App {
             }
             if (tmpTrCtr == 0) {
                 for (Trans tr : inLTS.get(state)) {
-                    tr.prb = new FractionNumber(1, inLTS.get(state).size()) ;
+                    tr.prb = new FractionNumber(0, 1) ;
                 }
-            }
-            if (fracLess(tmpProb, new FractionNumber(1, 1))) {
+            } else if (fracLess(tmpProb, new FractionNumber(1, 1))) {
                 for (Trans tr : inLTS.get(state)) {
                     tr.prb = fracMultiply(tr.prb, fracFlip(tmpProb));
                 }
@@ -1736,6 +1825,7 @@ public class App {
         boolean skipNext = false;
         int actNum = 0;
         ArrayList <String> traversedActs = new ArrayList<String>();
+        /* Iterate through actions */
         for (String actx : trace) {
             traversedActs.add(actx);
             actNum++;
@@ -1744,10 +1834,12 @@ public class App {
             } else {
                 String act = actx.split(" ")[0];
                 int timeInt = 0;
+                /* Identify clock ticks */
                 if (actx.split(" ").length > 1) {
                     String time = actx.split(" ")[1];
                     timeInt = Integer.parseInt(time);
                 }
+                /* If there is no time is passing then simply traverse the transition according to the action */
                 if (timeInt == 0) {
                     tmpCState = cState;
                     isFound = false;
@@ -1760,6 +1852,7 @@ public class App {
                             mapCtr.put(cState, mapCtr.get(cState) + 1);
                             break inner;
                         } else {
+                            /* If it is a communication action then skip the next action in the trace */
                             if (trs.lbl.split("->").length > 1) {
                                 if (compareLabels(trs.lbl.split("->")[0], act)) {
                                     isFound = true;
@@ -1779,6 +1872,10 @@ public class App {
                 } else {
                     ArrayList <Trans> timeTrace = new ArrayList<>();
                     int tmpCstate = cState;
+                    /*
+                        If time is passing then traverse the TLTS starting from the current state
+                        to find the correct path according to the number of clock ticks and the action
+                    */
                     findTimeTrace(inLTS, tmpCstate, act, timeInt, timeTrace);
                     if (timeTrace.size() == 0) {
                         System.out.println("Time does not match on the transitions from state " + cState + ", act: " + act + " (" + actNum + ")");
@@ -2139,7 +2236,6 @@ public class App {
                         "bcg_open \"" + ifModel + "-min.bcg\" reductor -weaktrace \"" + ifModel + "-min.bcg\"\n" + //
                         "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.aut\"\n" + //
                         "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.dot\"\n" + //
-                        // "graphviz2drawio \"" + ifModel + "-min.dot\"\n" + //
                         "dot -Tpdf -Gdpi=300 \"" + ifModel + "-min.dot\" > \"" + ifModel + "-min.pdf\"";
         if (reduction.equals("strong")) {
             command = "printf \"\\n" + //
@@ -2151,7 +2247,6 @@ public class App {
                         "bcg_min \"" + ifModel + "-min.bcg\"\n" + //
                         "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.aut\"\n" + //
                         "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.dot\"\n" + //
-                        // "graphviz2drawio \"" + ifModel + "-min.dot\"\n" + //
                         "dot -Tpdf -Gdpi=300 \"" + ifModel + "-min.dot\" > \"" + ifModel + "-min.pdf\"";
         }
         
@@ -2168,7 +2263,6 @@ public class App {
                         "bcg_min \"" + ifModel + "-min.bcg\"\n" + //
                         "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.aut\"\n" + //
                         "bcg_io \"" + ifModel + "-min.bcg\" \"" + ifModel + "-min.dot\"\n" + //
-                        // "graphviz2drawio \"" + ifModel + "-min.dot\"\n" + //
                         "dot -Tpdf -Gdpi=300 \"" + ifModel + "-min.dot\" > \"" + ifModel + "-min.pdf\"";
         executeCommands(command);
     }
@@ -2220,7 +2314,6 @@ public class App {
     
     public static void bashCreatePDF(String ifModel) throws IOException, InterruptedException {
         String command = "bcg_io \"" + ifModel + ".aut\" \"" + ifModel + ".dot\"\n" + //
-                        // "graphviz2drawio \"" + ifModel + ".dot\"\n" + //
                         "dot -Tpdf -Gdpi=300 \"" + ifModel + ".dot\" > \"" + ifModel + ".pdf\"";
         executeCommands(command);
         System.out.println("PDF created: " + ifModel + ".pdf");
@@ -2499,6 +2592,14 @@ public class App {
         System.out.println("----- End printing equations -----");
     }
 
+    public static void printEquationsPy (Map <String, String> equationsPy) {
+        System.out.println("\n----- Start printing equations -----");
+        for (String left : equationsPy.keySet()) {
+            System.out.println(left + " == " + equationsPy.get(left));
+        }
+        System.out.println("----- End printing equations -----");
+    }
+
     public static void solveEquationsWithSympy (Map <String, FractionNumber> solverResult, String fileName,
     Map <String, String> equationsPy,
     Map <Integer, Set <String>> eqVars) throws InterruptedException {
@@ -2642,18 +2743,6 @@ public class App {
             System.out.println("Python code creation error!");
             e.printStackTrace();
         }
-    }
-
-    public static void printEquationsUnmap (Map <Integer, Set <String>> equationsUnmap) {
-        System.out.println("\n----- Start printing equations (unmap) -----");
-        for (int start : equationsUnmap.keySet()) {
-            System.out.println("Statenet starts at: " + start);
-            for (String eq : equationsUnmap.get(start)) {
-                System.out.println(eq);
-            }
-            System.out.println();
-        }
-        System.out.println("----- End printing equations (unmap) -----");
     }
 
     public static void printLTSs (ArrayList <Map <Integer, Set <Trans>>> LTSs) {
