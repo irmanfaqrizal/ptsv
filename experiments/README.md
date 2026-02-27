@@ -22,6 +22,7 @@
 #### State-space analysis
 - The script [checkzero.sh](aebs/checkzero.sh) can be executed to return sequences leading to 0 probabilities in simulated TPTS (according to configuration C1 in this example).
 - This requires the simulated TPTS to be first generated (e.g., by running [test.sh](aebs/test.sh)).
+- Optionally, the extraction and comparisons of sequences leading to 0 probabilities can be done using the tool in [state-space-analysis](../state-space-analysis/).
 
 ## Simple
 - This experiment contains a [simple](simple/simple.if) example of a DSTA network consisting of two automata with different periodicites and delays.
